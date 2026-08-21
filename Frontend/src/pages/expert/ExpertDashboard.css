@@ -1,0 +1,64 @@
+.expert-dashboard {
+  padding: 20px;
+}
+.loading, .error, .empty {
+  text-align: center;
+  margin-top: 50px;
+  color: #666;
+}
+
+.solution-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.solution-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background: #fff;
+  transition: box-shadow 0.3s ease;
+}
+
+.solution-card:hover {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.solution-card h2 {
+  margin-bottom: 10px;
+}
+
+.status-badge {
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.status-approved {
+  background-color: #4caf50;
+}
+
+.status-needsimprovement {
+  background-color: #ff9800;
+}
+
+.status-rejected {
+  background-color: #f44336;
+}
+
+button {
+  margin-top: 10px;
+  cursor: pointer;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #1565c0;
+}
