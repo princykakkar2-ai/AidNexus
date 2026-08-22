@@ -12,15 +12,16 @@ function ExpertDashboard() {
   useEffect(() => {
     fetchExpertSolutions()
       .then((data) => {
+        console.log("EXPERT SOLUTIONS:", data);
         setSolutions(data);
         setLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("EXPERT API ERROR:", error);
         setError(true);
         setLoading(false);
       });
   }, []);
-
   if (loading) return <p className="loading">Loading solutions...</p>;
   if (error)
     return (
