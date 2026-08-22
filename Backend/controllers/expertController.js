@@ -1,5 +1,5 @@
-const Solution = require("../models/Solution");
-const Review = require("../models/Review");
+import Solution from "../models/Solution.js";
+import Review from "../models/review.js";
 
 // ==========================================
 // GET ALL SOLUTIONS
@@ -201,7 +201,7 @@ const submitReview = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getExpertSolutions,
   getSolutionDetails,
   getSolutionReviews,

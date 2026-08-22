@@ -1,24 +1,20 @@
-const express = require("express");
+import { Router } from "express";
 
-const router = express.Router();
-
-const {
+import {
   getExpertSolutions,
   getSolutionDetails,
   getSolutionReviews,
   submitReview,
-} = require("../controllers/expertController");
+} from "../controllers/expertController.js";
 
-// Get all solutions for expert dashboard
+const router = Router();
+
 router.get("/solutions", getExpertSolutions);
 
-// Get one solution
 router.get("/solutions/:id", getSolutionDetails);
 
-// Get reviews for a solution
 router.get("/solutions/:id/reviews", getSolutionReviews);
 
-// Submit expert review
 router.post("/solutions/:id/reviews", submitReview);
 
-module.exports = router;
+export default router;

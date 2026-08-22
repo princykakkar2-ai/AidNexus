@@ -100,3 +100,47 @@ export const deleteProblem = async (problemId) => {
 
   return response.data;
 };
+
+// ==========================================
+// SIH26043 ECOSYSTEM COLLABORATION APIs
+// ==========================================
+
+export const fetchProjects = async () => {
+  const response = await axios.get(`${API_BASE_URL}/projects`);
+  return response.data.data;
+};
+
+export const createProject = async (problemId, title, teamName, supportNeeded = []) => {
+  const response = await axios.post(`${API_BASE_URL}/projects`, {
+    problemId,
+    title,
+    teamName,
+    supportNeeded,
+  });
+  return response.data.data;
+};
+
+export const updateProjectProgress = async (projectId, progress, status) => {
+  const response = await axios.put(`${API_BASE_URL}/projects/${projectId}/progress`, {
+    progress,
+    status,
+  });
+  return response.data.data;
+};
+
+export const offerProjectSupport = async (projectId, industryPartner, industrySupport) => {
+  const response = await axios.put(`${API_BASE_URL}/projects/${projectId}/support`, {
+    industryPartner,
+    industrySupport,
+  });
+  return response.data.data;
+};
+
+export const updateProblemStatus = async (problemId, status, priority) => {
+  const response = await axios.put(`${API_BASE_URL}/problems/${problemId}/status`, {
+    status,
+    priority,
+  });
+  return response.data.data;
+};
+
