@@ -5,7 +5,7 @@ import {
   fetchFeedback,
   submitFeedback,
 } from "../../services/api";
-import FeedbackForm from "../../components/expert/FeedbackForm";
+import FeedbackForm from ".././components/expert/FeedbackForm";
 import "./ReviewSolution.css";
 
 function ReviewSolution() {
