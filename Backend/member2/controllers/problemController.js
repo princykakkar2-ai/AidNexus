@@ -2,22 +2,42 @@ import Problem from "../models/Problem.js";
 
 export async function createProblem(req, res) {
   try {
-    const { title, description, category, location, createdBy } = req.body;
+    const { title, description, location, createdBy } = req.body;
 
-    if (!title || !description || !category || !location) {
+    if (!title || !description || !location) {
       return res.status(400).json({
         success: false,
-        message: "title, description, category and location are required",
+        message: "title, description and location are required",
       });
     }
+
+    // Send problem to AI service
+    const aiResponse = await fetch("http://127.0.0.1:8000/analyze", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        description,
+      }),
+    });
+
+    if (!aiResponse.ok) {
+      throw new Error("AI service failed");
+    }
+
+    const aiData = await aiResponse.json();
 
     const problem = await Problem.create({
       title,
       description,
-      category,
+      category: aiData.category,
       location,
       image: req.file ? `/uploads/problems/${req.file.filename}` : null,
-      priority: "MEDIUM",
+      priority: aiData.priority.toUpperCase(),
+      summary: aiData.summary,
+      duplicate: aiData.duplicate,
       status: "SUBMITTED",
       createdBy: createdBy || "anonymous",
     });
@@ -26,9 +46,16 @@ export async function createProblem(req, res) {
       success: true,
       message: "Problem submitted successfully",
       data: problem,
+      ai: {
+        summary: aiData.summary,
+        duplicate: aiData.duplicate,
+      },
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 }
 
