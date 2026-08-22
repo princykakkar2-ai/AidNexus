@@ -1,4 +1,4 @@
- from datetime import datetime
+from datetime import datetime
 from . import db  # Assuming you have a 'db' instance in __init__.py or config
 
 class Feedback(db.Model):

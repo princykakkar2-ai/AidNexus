@@ -14,7 +14,7 @@ import ExpertDashboard from "./pages/expert/ExpertDashboard";
 import ReviewSolution from "./pages/expert/ReviewSolution";
 
 // Other pages
-import SubmitProblem from "./pages/SubmitProblem";
+import SubmitProblem from "./pages/citizen/SubmitProblem";
 import ProblemDetails from "./pages/ProblemDetails";
 
 import "./index.css";
@@ -38,7 +38,6 @@ function App() {
 
         {/* Problem Module */}
         <Route path="/submit-problem" element={<SubmitProblem />} />
-        <Route path="/problems/:id" element={<ProblemDetails />} />
 
         {/* Expert / Industry Module */}
         <Route path="/expert" element={<ExpertDashboard />} />
