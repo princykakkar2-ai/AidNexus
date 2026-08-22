@@ -33,6 +33,15 @@ const problemSchema = new mongoose.Schema(
       enum: ["LOW", "MEDIUM", "HIGH", "CRITICAL"],
       default: "MEDIUM",
     },
+    summary: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    duplicate: {
+      type: Boolean,
+      default: false,
+    },
     status: {
       type: String,
       enum: ["SUBMITTED", "UNDER_REVIEW", "IN_PROGRESS", "RESOLVED", "REJECTED"],
