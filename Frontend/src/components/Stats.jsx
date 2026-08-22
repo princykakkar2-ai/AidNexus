@@ -14,15 +14,13 @@ function Stat({ number, label }) {
 
 export default function Stats() {
     return (
-        <section className="border-b border-slate-200 bg-slate-100/70">
-            <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-y md:divide-y-0 divide-slate-200 border-x border-slate-200 md:grid-cols-4">
-
-                <Stat number="1,248" label="Logged Issues" />
-                <Stat number="586" label="Deployed Solutions" />
-                <Stat number="240" label="Institutional Partners" />
-                <Stat number="85" label="Municipal Bodies" />
-
-            </div>
-        </section>
+       <section className="border-y border-slate-200 bg-white shadow-sm">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 py-10 md:grid-cols-4">
+          <Stat number="1,248" label="Issues Reported" />
+          <Stat number="586" label="Solutions Developed" />
+          <Stat number="240" label="Academic Teams" />
+          <Stat number="85" label="Industry Partners" />
+        </div>
+      </section>
     );
 }
