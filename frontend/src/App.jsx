@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ExpertDashboard from "./pages/expert/ExpertDashboard";
 import ReviewSolution from "./pages/expert/ReviewSolution";
 import Home from "./pages/Home";
+import SubmitProblem from "./pages/SubmitProblem";
+import ProblemDetails from "./pages/ProblemDetails";
 
 import "./index.css";
 
@@ -12,6 +14,8 @@ function App() {
       <Routes>
         {/* Home */}
         <Route path="/" element={<Home />} />
+        <Route path="/submit-problem" element={<SubmitProblem />} />
+        <Route path="/problems/:id" element={<ProblemDetails />} />
 
         {/* Expert / Industry Module */}
         <Route path="/expert" element={<ExpertDashboard />} />

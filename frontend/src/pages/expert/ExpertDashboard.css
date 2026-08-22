@@ -1,0 +1,272 @@
+/* =========================================
+   EXPERT DASHBOARD - CIVICCONNECT THEME
+   ========================================= */
+
+.expert-dashboard {
+  min-height: 100vh;
+  padding: 45px 6%;
+  background: #f8f9f7;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1f2937;
+}
+
+/* Page Heading */
+
+.expert-dashboard h1 {
+  margin: 0 0 35px;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #173f46;
+}
+
+.expert-dashboard h1::after {
+  content: "";
+  display: block;
+  width: 55px;
+  height: 4px;
+  margin: 12px auto 0;
+  border-radius: 10px;
+  background: #f28c28;
+}
+
+
+/* =========================================
+   SOLUTION GRID
+   ========================================= */
+
+.solution-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+/* =========================================
+   SOLUTION CARD
+   ========================================= */
+
+.solution-card {
+  position: relative;
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid #e5e9e7;
+  border-radius: 18px;
+
+  box-shadow: 0 5px 20px rgba(20, 65, 70, 0.08);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+
+  overflow: hidden;
+}
+
+/* Small teal top accent */
+
+.solution-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #20a6a0;
+}
+
+.solution-card:hover {
+  transform: translateY(-5px);
+  border-color: #b9dedb;
+  box-shadow: 0 12px 30px rgba(20, 65, 70, 0.14);
+}
+
+
+/* =========================================
+   PROJECT TITLE
+   ========================================= */
+
+.solution-card h2 {
+  margin: 5px 0 18px;
+  color: #173f46;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+
+/* =========================================
+   CARD CONTENT
+   ========================================= */
+
+.solution-card p {
+  margin: 10px 0;
+  color: #667579;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.solution-card strong {
+  color: #294b50;
+  font-weight: 600;
+}
+
+
+/* =========================================
+   STATUS BADGES
+   ========================================= */
+
+.status-badge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 5px 11px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+
+  color: #ffffff;
+}
+
+/* Approved */
+
+.status-approved {
+  background: #20a67f;
+}
+
+/* Needs Improvement */
+
+.status-needsimprovement {
+  background: #f28c28;
+}
+
+/* Rejected */
+
+.status-rejected {
+  background: #d9534f;
+}
+
+
+/* =========================================
+   TECHNOLOGIES
+   ========================================= */
+
+.solution-card p:last-of-type {
+  color: #65777a;
+}
+
+
+/* =========================================
+   REVIEW BUTTON
+   ========================================= */
+
+.solution-card button {
+  width: 100%;
+  margin-top: 18px;
+  padding: 12px 20px;
+
+  border: none;
+  border-radius: 25px;
+
+  background: #20a6a0;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+}
+
+.solution-card button:hover {
+  background: #178d89;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(32, 166, 160, 0.25);
+}
+
+.solution-card button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================
+   LOADING / ERROR / EMPTY STATES
+   ========================================= */
+
+.loading,
+.error,
+.empty {
+  min-height: 60vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  font-size: 16px;
+  font-weight: 500;
+  color: #667579;
+}
+
+
+/* Error */
+
+.error {
+  color: #d9534f;
+}
+
+
+/* Empty */
+
+.empty {
+  color: #718083;
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+
+@media (max-width: 768px) {
+  .expert-dashboard {
+    padding: 30px 20px;
+  }
+
+  .expert-dashboard h1 {
+    font-size: 26px;
+    margin-bottom: 28px;
+  }
+
+  .solution-list {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .solution-card {
+    padding: 22px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .expert-dashboard {
+    padding: 25px 15px;
+  }
+
+  .expert-dashboard h1 {
+    font-size: 23px;
+  }
+
+  .solution-card h2 {
+    font-size: 19px;
+  }
+}
