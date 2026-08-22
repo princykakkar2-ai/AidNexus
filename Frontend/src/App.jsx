@@ -8,6 +8,8 @@ import ProblemDetails from "./pages/ProblemDetails";
 import CitizenDashboard from "./pages/citizen/CitizenDashboard";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 import "./index.css";
 
@@ -20,11 +22,16 @@ function App() {
         <Route path="/submit-problem" element={<SubmitProblem />} />
         <Route path="/problems/:id" element={<ProblemDetails />} />
 
+        {/* Authentication */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
         {/* Role-based Dashboards */}
         <Route path="/citizen" element={<CitizenDashboard />} />
         <Route path="/student" element={<StudentDashboard />} />
         <Route path="/industry" element={<ExpertDashboard />} />
         <Route path="/admin" element={<AdminDashboard />} />
+
 
         {/* Legacy Redirections / Fallbacks */}
         <Route path="/problems" element={<CitizenDashboard />} />
