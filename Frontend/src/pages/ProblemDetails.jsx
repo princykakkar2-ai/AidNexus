@@ -14,13 +14,19 @@ export default function ProblemDetails() {
   }, [id]);
 
   return (
-    <>
+    <div className="min-h-screen bg-[#F8FAFC]">
       <Navbar />
       <main className="mx-auto max-w-3xl px-6 py-12">
-        {error && <p className="rounded-lg bg-red-50 p-4 text-red-700">{error}</p>}
+        {error && (
+          <p className="rounded-[4px] bg-red-50 p-4 text-xs font-bold text-red-700 border border-red-200 mb-6">
+            {error}
+          </p>
+        )}
         {problem && <ProblemCard problem={problem} />}
-        <Link to="/submit-problem" className="mt-6 inline-block text-sm font-semibold text-teal-700">← Back to submit problem</Link>
+        <Link to="/citizen" className="mt-6 inline-block text-xs font-bold text-[#D97706] hover:underline uppercase tracking-wider">
+          ← BACK TO REPORT ARCHIVE
+        </Link>
       </main>
-    </>
+    </div>
   );
 }

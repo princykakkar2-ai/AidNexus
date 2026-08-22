@@ -4,6 +4,7 @@ import cors from "cors";
 import path from "node:path";
 import { connectDB } from "./config/db.js";
 import problemRoutes from "./routes/problemRoutes.js";
+import projectRoutes from "./routes/projectRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,6 +23,8 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api/problems", problemRoutes);
+app.use("/api/projects", projectRoutes);
+
 
 app.use((err, _req, res, _next) => {
   console.error(err);
@@ -36,5 +39,9 @@ connectDB()
   })
   .catch((error) => {
     console.error("MongoDB connection failed:", error.message);
-    process.exit(1);
+    console.log("Starting server in FALLBACK (offline in-memory) mode...");
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT} (FALLBACK MODE)`);
+    });
   });
+

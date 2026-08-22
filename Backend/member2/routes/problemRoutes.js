@@ -7,6 +7,7 @@ import {
   getProblems,
   getProblemById,
   deleteProblem,
+  updateProblemStatus,
 } from "../controllers/problemController.js";
 
 const router = Router();
@@ -30,5 +31,7 @@ router.post("/", upload.single("image"), createProblem);
 router.get("/", getProblems);
 router.get("/:id", getProblemById);
 router.delete("/:id", deleteProblem);
+router.put("/:id/status", updateProblemStatus);
 
 export default router;
+

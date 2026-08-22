@@ -2,11 +2,12 @@ import { useState } from "react";
 import { createProblem } from "../services/api";
 
 const categories = [
+  "Infrastructure",
   "Environment",
   "Transportation",
   "Education",
   "Healthcare",
-  "Infrastructure",
+  "Waste Management",
   "Sanitation",
   "Safety",
   "Other",
@@ -40,7 +41,7 @@ export default function ProblemForm() {
       ({ coords }) => {
         setForm((current) => ({
           ...current,
-          location: `${coords.latitude}, ${coords.longitude}`,
+          location: `${coords.latitude.toFixed(4)}, ${coords.longitude.toFixed(4)}`,
         }));
       },
       () => setError("Unable to get your location. Please enter it manually."),
@@ -65,55 +66,55 @@ export default function ProblemForm() {
     try {
       setLoading(true);
       await createProblem(form, file);
-      setMessage("Problem submitted successfully.");
+      setMessage("Grievance registered successfully in national system database.");
       setForm({ title: "", description: "", category: "", location: "", createdBy: "anonymous" });
       setFile(null);
       event.target.reset();
     } catch (err) {
-      setError(err.response?.data?.message || "Unable to submit the problem.");
+      setError(err.response?.data?.message || "Unable to submit report.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={submit} className="space-y-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <form onSubmit={submit} className="space-y-5 bg-white">
       <div>
-        <label className="mb-2 block text-sm font-semibold text-slate-700">Problem title</label>
-        <input name="title" value={form.title} onChange={update} className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-teal-500" placeholder="Enter problem title" required />
+        <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">Problem Title / Heading</label>
+        <input name="title" value={form.title} onChange={update} className="w-full rounded-[4px] border border-slate-300 px-4 py-3 text-xs outline-none focus:border-[#D97706]" placeholder="Enter clear summary" required />
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-semibold text-slate-700">Problem description</label>
-        <textarea name="description" value={form.description} onChange={update} rows="5" className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-teal-500" placeholder="Describe the problem" required />
+        <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">Detailed Description</label>
+        <textarea name="description" value={form.description} onChange={update} rows="5" className="w-full rounded-[4px] border border-slate-300 px-4 py-3 text-xs outline-none focus:border-[#D97706] leading-relaxed" placeholder="Please describe details of the problem..." required />
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-semibold text-slate-700">Category</label>
-        <select name="category" value={form.category} onChange={update} className="w-full rounded-lg border border-slate-300 px-4 py-3" required>
-          <option value="">Select category</option>
+        <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">Department / Category</label>
+        <select name="category" value={form.category} onChange={update} className="w-full rounded-[4px] border border-slate-300 px-4 py-3 text-xs" required>
+          <option value="">Select Department</option>
           {categories.map((category) => <option key={category} value={category}>{category}</option>)}
         </select>
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-semibold text-slate-700">Location</label>
+        <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">Coordinates / Location Address</label>
         <div className="flex gap-2">
-          <input name="location" value={form.location} onChange={update} className="min-w-0 flex-1 rounded-lg border border-slate-300 px-4 py-3" placeholder="Enter location or coordinates" required />
-          <button type="button" onClick={useLocation} className="rounded-lg border border-teal-600 px-4 py-2 text-sm font-semibold text-teal-700">Use my location</button>
+          <input name="location" value={form.location} onChange={update} className="min-w-0 flex-1 rounded-[4px] border border-slate-300 px-4 py-3 text-xs outline-none focus:border-[#D97706]" placeholder="Address or GPS coordinates" required />
+          <button type="button" onClick={useLocation} className="rounded-[4px] border border-[#D97706] px-4 py-2 text-xs font-bold text-[#D97706] hover:bg-amber-50 uppercase tracking-wider">Use Current GPS</button>
         </div>
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-semibold text-slate-700">Image/File upload</label>
-        <input type="file" name="image" accept="image/*,.pdf" onChange={(event) => setFile(event.target.files?.[0] || null)} className="w-full rounded-lg border border-slate-300 p-3" />
+        <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">Upload Photo Evidence (PDF or Image)</label>
+        <input type="file" name="image" accept="image/*,.pdf" onChange={(event) => setFile(event.target.files?.[0] || null)} className="w-full rounded-[4px] border border-slate-300 p-2.5 text-xs text-slate-500" />
       </div>
 
-      {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
-      {message && <p className="rounded-lg bg-green-50 p-3 text-sm text-green-700">{message}</p>}
+      {error && <p className="rounded-[4px] bg-red-50 p-3 text-xs font-bold text-red-700 border border-red-200">{error}</p>}
+      {message && <p className="rounded-[4px] bg-green-50 p-3 text-xs font-bold text-green-700 border border-green-200">{message}</p>}
 
-      <button disabled={loading} className="w-full rounded-lg bg-teal-600 px-5 py-3 font-semibold text-white hover:bg-teal-700 disabled:opacity-60">
-        {loading ? "Submitting..." : "Submit Problem"}
+      <button disabled={loading} className="w-full rounded-[4px] bg-[#D97706] px-5 py-3 text-xs font-bold text-white hover:bg-[#B45309] disabled:opacity-60 uppercase tracking-widest transition-all">
+        {loading ? "REGISTERING GRIEVANCE..." : "REGISTER CIVIC GRIEVANCE"}
       </button>
     </form>
   );

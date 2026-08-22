@@ -71,3 +71,29 @@ export async function deleteProblem(req, res) {
     return res.status(400).json({ success: false, message: "Invalid problem id" });
   }
 }
+
+export async function updateProblemStatus(req, res) {
+  try {
+    const { status, priority } = req.body;
+    const { id } = req.params;
+
+    const updates = {};
+    if (status) updates.status = status;
+    if (priority) updates.priority = priority;
+
+    const problem = await Problem.findByIdAndUpdate(id, updates);
+
+    if (!problem) {
+      return res.status(404).json({ success: false, message: "Problem not found" });
+    }
+
+    return res.json({
+      success: true,
+      message: "Problem updated successfully",
+      data: problem,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: "Invalid problem id or data" });
+  }
+}
+
