@@ -1,0 +1,57 @@
+.review-solution {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.solution-details p,
+.existing-feedback p {
+  margin: 10px 0;
+}
+
+.status-badge {
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.status-approved {
+  background-color: #4caf50;
+}
+
+.status-needsimprovement {
+  background-color: #ff9800;
+}
+
+.status-rejected {
+  background-color: #f44336;
+}
+
+.existing-feedback {
+  margin-top: 30px;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.feedback-card {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.feedback-card p {
+  margin: 5px 0;
+}
+
+.loading, .error, .empty {
+  text-align: center;
+  margin-top: 50px;
+  color: #666;
+}
+
+.feedback-form-section {
+  margin-top: 30px;
+}
