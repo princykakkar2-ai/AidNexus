@@ -2,9 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import ExpertDashboard from "./pages/expert/ExpertDashboard";
 import ReviewSolution from "./pages/expert/ReviewSolution";
-import Home from "./pages/Home";
 import SubmitProblem from "./pages/SubmitProblem";
 import ProblemDetails from "./pages/ProblemDetails";
+import Home from "./pages/Home";
 
 import "./index.css";
 
