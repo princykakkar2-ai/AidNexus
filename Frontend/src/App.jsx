@@ -17,7 +17,6 @@ import ReviewSolution from "./pages/expert/ReviewSolution";
 import SubmitProblem from "./pages/SubmitProblem";
 import ProblemDetails from "./pages/ProblemDetails";
 import CitizenDashboard from "./pages/citizen/CitizenDashboard";
-import StudentDashboard from "./pages/student/StudentDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";

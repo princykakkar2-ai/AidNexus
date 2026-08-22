@@ -12,22 +12,31 @@ export async function createProblem(req, res) {
     }
 
     // Send problem to AI service
-    const aiResponse = await fetch("http://127.0.0.1:8000/analyze", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title,
-        description,
-      }),
-    });
+    let aiData = {
+      category: "Other",
+      priority: "MEDIUM",
+      summary: description.slice(0, 100) + "...",
+      duplicate: false
+    };
 
-    if (!aiResponse.ok) {
-      throw new Error("AI service failed");
+    try {
+      const aiResponse = await fetch("http://127.0.0.1:8000/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          description,
+        }),
+      });
+
+      if (aiResponse.ok) {
+        aiData = await aiResponse.json();
+      }
+    } catch (err) {
+      console.warn("AI service not reachable, utilizing fallback classification.");
     }
-
-    const aiData = await aiResponse.json();
 
     const problem = await Problem.create({
       title,
@@ -123,4 +132,3 @@ export async function updateProblemStatus(req, res) {
     return res.status(400).json({ success: false, message: "Invalid problem id or data" });
   }
 }
-
