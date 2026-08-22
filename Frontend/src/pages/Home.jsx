@@ -30,7 +30,7 @@ export default function Home() {
         </h1>
 
         <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-700">
-          CivicConnect acts as a high-trust platform matching local community problems reported by citizens 
+          AidNexus acts as a high-trust platform matching local community problems reported by citizens 
           with innovation capabilities of student teams, funded and sponsored by official NGO and Industry partners.
         </p>
 
