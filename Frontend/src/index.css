@@ -1,10 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
+@theme {
+  --color-gov-navy: #0B2545;
+  --color-gov-navy-light: #134074;
+  --color-gov-saffron: #E65C00;
+  --color-gov-saffron-light: #FF9933;
+  --color-gov-emerald: #138808;
+  --color-gov-bg: #F8FAFC;
+  --color-gov-border: #E2E8F0;
+}
+
 :root {
-  --gov-navy: #0F172A;
-  --gov-navy-light: #1E293B;
-  --gov-saffron: #D97706;
-  --gov-emerald: #059669;
+  --gov-navy: #0B2545;
+  --gov-navy-light: #134074;
+  --gov-saffron: #E65C00;
+  --gov-emerald: #138808;
   --gov-bg: #F8FAFC;
   --gov-border: #E2E8F0;
 }
@@ -12,19 +23,26 @@
 body {
   background-color: var(--gov-bg) !important;
   color: var(--gov-navy);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Noto Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* Government Portal Style Utility Buttons */
 .btn-gov-primary {
   background-color: var(--gov-navy);
   color: white;
   border-radius: 4px !important;
   border: 1px solid var(--gov-navy);
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
+
 .btn-gov-primary:hover {
   background-color: var(--gov-navy-light);
+  border-color: var(--gov-navy-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(11, 37, 69, 0.2);
 }
 
 .btn-gov-accent {
@@ -33,10 +51,15 @@ body {
   border-radius: 4px !important;
   border: 1px solid var(--gov-saffron);
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
+
 .btn-gov-accent:hover {
-  background-color: #B45309;
+  background-color: #C24E00;
+  border-color: #C24E00;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(230, 92, 0, 0.25);
 }
 
 .btn-gov-outline {
@@ -47,6 +70,7 @@ body {
   font-weight: 600;
   transition: all 0.2s ease;
 }
+
 .btn-gov-outline:hover {
   background-color: #F1F5F9;
   border-color: #CBD5E1;
@@ -56,12 +80,13 @@ body {
   background-color: white;
   border: 1px solid var(--gov-border);
   border-radius: 6px !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .card-gov:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
 }
 
 .badge-gov {

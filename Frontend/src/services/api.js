@@ -145,3 +145,8 @@ export const updateProblemStatus = async (problemId, status, priority) => {
   return response.data.data;
 };
 
+export const fetchStats = async () => {
+  const response = await axios.get(`${API_BASE_URL}/stats`);
+  return response.data.data;
+};
+

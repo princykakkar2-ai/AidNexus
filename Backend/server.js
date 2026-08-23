@@ -6,6 +6,7 @@ import { connectDB } from "./config/db.js";
 import problemRoutes from "./routes/problemRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import feedbackRoutes from "./routes/feedbackRoutes.js";
+import statsRoutes from "./routes/statsRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -33,6 +34,7 @@ app.get("/", (_req, res) => {
 app.use("/api/problems", problemRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/feedback", feedbackRoutes);
+app.use("/api/stats", statsRoutes);
 
 // Error Handling Middleware
 app.use((err, _req, res, _next) => {
