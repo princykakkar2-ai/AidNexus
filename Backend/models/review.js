@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -6,12 +6,6 @@ const reviewSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Solution",
       required: true,
-    },
-
-    expertId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: false,
     },
 
     rating: {
@@ -35,8 +29,8 @@ const reviewSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["Approved", "Needs Improvement", "Rejected"],
       required: true,
+      enum: ["APPROVED", "REJECTED", "NEEDS_IMPROVEMENT"],
     },
   },
   {
@@ -44,4 +38,6 @@ const reviewSchema = new mongoose.Schema(
   },
 );
 
-export default mongoose.model("Review", reviewSchema);
+const Review = mongoose.model("Review", reviewSchema);
+
+export default Review;
