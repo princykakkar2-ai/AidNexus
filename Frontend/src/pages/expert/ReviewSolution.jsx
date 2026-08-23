@@ -5,9 +5,8 @@ import {
   fetchFeedback,
   submitFeedback,
 } from "../../services/api";
-import FeedbackForm from "../../components/expert/FeedbackForm";
+import FeedbackForm from "../../components/expert/FeedbackForm.jsx";
 import "./ReviewSolution.css";
-
 function ReviewSolution() {
   const { id } = useParams();
   const [solution, setSolution] = useState(null);
