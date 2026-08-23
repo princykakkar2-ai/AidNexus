@@ -1,4 +1,75 @@
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;  
+
+:root {
+  --gov-navy: #0F172A;
+  --gov-navy-light: #1E293B;
+  --gov-saffron: #D97706;
+  --gov-emerald: #059669;
+  --gov-bg: #F8FAFC;
+  --gov-border: #E2E8F0;
+}
+
+body {
+  background-color: var(--gov-bg) !important;
+  color: var(--gov-navy);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.btn-gov-primary {
+  background-color: var(--gov-navy);
+  color: white;
+  border-radius: 4px !important;
+  border: 1px solid var(--gov-navy);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn-gov-primary:hover {
+  background-color: var(--gov-navy-light);
+}
+
+.btn-gov-accent {
+  background-color: var(--gov-saffron);
+  color: white;
+  border-radius: 4px !important;
+  border: 1px solid var(--gov-saffron);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn-gov-accent:hover {
+  background-color: #B45309;
+}
+
+.btn-gov-outline {
+  background-color: white;
+  color: var(--gov-navy);
+  border-radius: 4px !important;
+  border: 1px solid var(--gov-border);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn-gov-outline:hover {
+  background-color: #F1F5F9;
+  border-color: #CBD5E1;
+}
+
+.card-gov {
+  background-color: white;
+  border: 1px solid var(--gov-border);
+  border-radius: 6px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-gov:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+}
+
+.badge-gov {
+  border-radius: 4px !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 0.125rem 0.625rem;
+  border-width: 1px;
+}

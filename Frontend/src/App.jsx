@@ -16,6 +16,10 @@ import ReviewSolution from "./pages/expert/ReviewSolution";
 // Other pages
 import SubmitProblem from "./pages/citizen/SubmitProblem";
 import ProblemDetails from "./pages/ProblemDetails";
+import CitizenDashboard from "./pages/citizen/CitizenDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 import "./index.css";
 
@@ -39,8 +43,24 @@ function App() {
         {/* Problem Module */}
         <Route path="/submit-problem" element={<SubmitProblem />} />
 
-        {/* Expert / Industry Module */}
+        {/* Authentication */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Role-based Dashboards */}
+        <Route path="/citizen" element={<CitizenDashboard />} />
+        <Route path="/student" element={<StudentDashboard />} />
+        <Route path="/industry" element={<ExpertDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+
+
+        {/* Legacy Redirections / Fallbacks */}
+        <Route path="/problems" element={<CitizenDashboard />} />
+        <Route path="/solutions" element={<StudentDashboard />} />
+
+        {/* Legacy Expert / Industry Module */}
         <Route path="/expert" element={<ExpertDashboard />} />
+
         <Route path="/expert/review/:id" element={<ReviewSolution />} />
       </Routes>
     </BrowserRouter>

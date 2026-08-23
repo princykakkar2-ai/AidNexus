@@ -1,197 +1,157 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import background from "../assets/bg2.png";
 import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import Stats from "../components/Stats";
+import Step from "../components/Step";
+import Footer from "../components/Footer";
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [selectedDomain, setSelectedDomain] = useState("All");
+
+  const domains = [
+    { title: "Infrastructure", icon: "🏢", count: 94, desc: "Road work, public facilities, and civil building reports." },
+    { title: "Environment", icon: "🌱", count: 120, desc: "Pollution monitoring, tree preservation, and ecosystem protection." },
+    { title: "Transportation", icon: "🚗", count: 83, desc: "Traffic grids, public transit routing, and parking concerns." },
+    { title: "Education", icon: "📖", count: 45, desc: "School facilities, digital infrastructure, and vocational support." },
+    { title: "Healthcare", icon: "🏥", count: 54, desc: "Community clinics, sanitation outreach, and medical facility access." },
+    { title: "Waste Management", icon: "🗑️", count: 130, desc: "Waste collection, local landfills, recycling, and sewage." }
+  ];
 
   return (
-    <div 
-    >
-      <div className="absolute inset-0 bg-white/90 z-0 pointer-events-none"></div>
-      <div className="relative z-10">
-        <Navbar />
-        <section className="mx-auto max-w-4xl px-6 py-20 flex flex-col items-center justify-center text-center">
-          <div className="mb-6 inline-flex rounded-full border border-teal-200 bg-teal-50 px-4 py-2 text-sm text-teal-700 font-medium">
-            🛡️ Smart Civic Problem-Solving Platform
-          </div>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <Navbar />
+      <Hero />
+      <Stats />
 
-          <h1 className="text-5xl font-bold leading-tight md:text-6xl text-slate-900">
-            Turn
-            <span className="text-teal-600"> Problems </span>
-            Into
-            <span className="text-amber-600"> Solutions.</span>
-          </h1>
-
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-            CivicConnect brings you closer to your city's heart. Collaborate with 
-            neighbors, students, and officials to co-create a better, brighter, more 
-            sustainable future for your community.
+      {/* INTERACTIVE DOMAIN GRID */}
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="text-center mb-10">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#D97706]">
+            OFFICIAL CLASSIFICATION
           </p>
+          <h2 className="mt-2 text-3xl font-extrabold text-[#0F172A] tracking-tight">
+            Explore Problem Domains
+          </h2>
+          <p className="mt-2 text-slate-600 text-sm max-w-md mx-auto">
+            Intelligently classified problem categories monitored by administrative departments.
+          </p>
+        </div>
 
-          <div className="mt-8 flex flex-wrap gap-4 justify-center">
-            <Link
-              to="/submit-problem"
-              className="rounded-full bg-teal-600 px-6 py-3 font-semibold text-white hover:bg-teal-700 shadow-sm transition-all"
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {domains.map((dom) => (
+            <div
+              key={dom.title}
+              onClick={() => setSelectedDomain(dom.title)}
+              className={`card-gov p-6 cursor-pointer border-2 transition-all flex flex-col justify-between ${
+                selectedDomain === dom.title
+                  ? "border-[#D97706] bg-[#FFFBEB]"
+                  : "border-slate-200 bg-white"
+              }`}
             >
-              Report a Problem →
-            </Link>
-
-            <Link
-              to="/problems"
-              className="rounded-full border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:bg-slate-50 shadow-sm transition-all"
-            >
-              Explore Problems
-            </Link>
-          </div>
-        </section>
-
-        {/* Stats Bar */}
-        <section className="border-y border-slate-200 bg-slate-50/70 backdrop-blur-sm">
-          <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 py-12 md:grid-cols-4">
-            <Stat number="1,248+" label="Problems Reported" />
-            <Stat number="586+" label="Solutions Created" />
-            <Stat number="240+" label="Students & Experts" />
-            <Stat number="85+" label="Organizations" />
-          </div>
-        </section>
-
-        {/* NEW FEATURE 1: Category Explorer */}
-        <section className="mx-auto max-w-7xl px-6 py-16">
-          <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-wider text-teal-600">
-              Explore Domains
-            </p>
-            <h2 className="mt-2 text-3xl font-bold text-slate-900">
-              Explore Domains
-            </h2>
-          </div>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            {["All", "Environment", "Transportation", "Education", "Healthcare", "Infrastructure"].map(
-              (cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`rounded-full px-6 py-2.5 text-sm font-medium transition-all ${
-                    activeCategory === cat
-                      ? "bg-amber-500 text-slate-900 font-semibold shadow-sm"
-                      : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-100 shadow-sm"
-                  }`}
-                >
-                  {cat}
-                </button>
-              )
-            )}
-          </div>
-        </section>
-
-        {/* NEW FEATURE 2: Trending & Most Upvoted Problems */}
-        <section className="mx-auto max-w-7xl px-6 py-8">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-2xl font-bold text-slate-900">Top Voted Civic Issues</h2>
-              <p className="text-slate-500 text-sm">Issues needing urgent innovation teams</p>
+              <div>
+                <div className="flex justify-between items-start">
+                  <span className="text-3xl">{dom.icon}</span>
+                  <span className="bg-slate-100 text-[#0F172A] text-xs font-bold px-2 py-0.5 rounded-[4px] border border-slate-200">
+                    {dom.count} Active
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-[#0F172A] mt-4">{dom.title}</h3>
+                <p className="text-xs text-slate-600 mt-2 leading-relaxed">{dom.desc}</p>
+              </div>
+              <div className="mt-6 text-right text-xs font-bold text-[#D97706]">
+                View Category Issues →
+              </div>
             </div>
-            <Link to="/problems" className="text-sm font-semibold text-teal-600 hover:underline">
-              View all →
-            </Link>
-          </div>
+          ))}
+        </div>
+      </section>
 
-          <div className="grid gap-6 md:grid-cols-3">
-            <TrendingCard
-              title="Pothole Detection & Rapid Patch System"
-              category="Infrastructure"
-              votes={342}
-              location="Ward 12, Delhi"
-              status="Solutions Open"
-            />
-            <TrendingCard
-              title="Solar Micro-Grid for Rural Schools"
-              category="Clean Energy"
-              votes={289}
-              location="Solar Energy"
-              status="Under Review"
-            />
-            <TrendingCard
-              title="AI Water Leak Detection Network"
-              category="Environment"
-              votes={210}
-              location="AI Water Leak Detection Network"
-              status="Solutions Open"
-            />
+      {/* TOP VOTED CIVIC ISSUES */}
+      <section className="mx-auto max-w-7xl px-6 py-8 border-t border-slate-200">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-2xl font-bold text-[#0F172A] tracking-tight">Top Priority Civic Demands</h2>
+            <p className="text-slate-500 text-sm">Issues flagged for urgent academic team matching</p>
           </div>
-        </section>
+          <Link to="/citizen" className="text-xs font-bold text-[#D97706] hover:underline uppercase tracking-wider">
+            View All Reports
+          </Link>
+        </div>
 
-        {/* How It Works */}
-        <section className="mx-auto max-w-7xl px-6 py-20">
-          <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-wider text-teal-600">
-              HOW IT WORKS
-            </p>
-            <h2 className="mt-3 text-3xl font-bold md:text-4xl text-slate-900">
-              HOW IT WORKS
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-slate-600">
-              A simple platform that transforms real-world challenges into collaborative solutions.
-            </p>
-          </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          <TrendingCard
+            title="Pothole Detection & Rapid Patch System"
+            category="Infrastructure"
+            votes={342}
+            location="Ward 12, Delhi"
+            status="Solutions Open"
+          />
+          <TrendingCard
+            title="Solar Micro-Grid for Rural Schools"
+            category="Electricity"
+            votes={289}
+            location="Ward 3, Jaipur"
+            status="Under Review"
+          />
+          <TrendingCard
+            title="AI Water Leak Detection Network"
+            category="Environment"
+            votes={210}
+            location="Zone B, Chennai"
+            status="Solutions Open"
+          />
+        </div>
+      </section>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-4">
-            <Step number="01" icon="📝" title="Report" text="Citizens submit real-world problems." />
-            <Step number="02" icon="🤖" title="Analyze" text="AI categorizes and prioritizes the problem." />
-            <Step number="03" icon="💡" title="Innovate" text="Students and experts propose solutions." />
-            <Step number="04" icon="🚀" title="Implement" text="Organizations evaluate and implement solutions." />
-          </div>
-        </section>
+      {/* WORKFLOW ROADMAP */}
+      <section className="mx-auto max-w-7xl px-6 py-20 border-t border-slate-200">
+        <div className="text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#D97706]">
+            OPERATIONAL ARCHITECTURE
+          </p>
+          <h2 className="mt-3 text-3xl font-extrabold text-[#0F172A] tracking-tight">
+            How The Ecosystem Solves Problems
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-slate-600 text-sm">
+            Intelligently linking community demands with capabilities and resource sponsorships.
+          </p>
+        </div>
 
-        {/* Footer */}
-        <footer className="border-t border-slate-200 bg-white/80 backdrop-blur-md">
-          <div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 px-6 py-8 text-sm text-slate-500 md:flex-row">
-            <p>© 2026 CivicConnect Platform. All rights reserved.</p>
-            <div className="flex gap-6">
-              <Link to="/privacy" className="hover:text-slate-800">Privacy</Link>
-              <Link to="/contact" className="hover:text-slate-800">Contact</Link>
-            </div>
-          </div>
-        </footer>
-
-      </div>
+        <div className="mt-12 grid gap-6 md:grid-cols-4">
+          <Step number="01" icon="📝" title="Citizen Report" text="Issues are logged with descriptions, GPS geolocations, and photos." />
+          <Step number="02" icon="🤖" title="AI Verification" text="FastAPI model reviews, categorizes, detects duplicates, and assigns priority." />
+          <Step number="03" icon="💡" title="Academic Match" text="Capability-based algorithms assign student innovation teams to build prototypes." />
+          <Step number="04" icon="🚀" title="Sponsor Support" text="NGOs and industry partners sponsor teams with funding, tools, and tech." />
+        </div>
+      </section>
+      <Footer />
     </div>
   );
 }
 
 /* ---------- Sub-components ---------- */
 
-function ProblemCard({ title, category, priority, badgeBg }) {
-  return (
-    <div className={`rounded-2xl p-4 flex items-center justify-between gap-4 border border-slate-200 shadow-sm ${badgeBg}`}>
-      <div>
-        <h3 className="font-semibold text-slate-900">{title}</h3>
-        {category && <p className="text-xs text-slate-500 mt-0.5">{category}</p>}
-      </div>
-      <span className="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-700">
-        {priority}
-      </span>
-    </div>
-  );
-}
-
 function TrendingCard({ title, category, votes, location, status }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:border-teal-300 transition-all">
-      <div className="flex justify-between items-center text-xs text-slate-500 mb-2">
+    <div className="rounded-[6px] border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md transition-all">
+      <div className="flex justify-between items-center text-xs text-slate-500 mb-3">
         <span>📍 {location}</span>
-        <span className="text-teal-600 font-semibold">{status}</span>
+        <span className={`badge-gov ${
+          status === "Solutions Open" 
+            ? "bg-emerald-50 text-emerald-700 border-emerald-200" 
+            : "bg-amber-50 text-amber-700 border-amber-200"
+        }`}>
+          {status}
+        </span>
       </div>
-      <h3 className="font-bold text-slate-900 text-base">{title}</h3>
-      <div className="mt-4 flex items-center justify-between">
-        <span className="rounded-full bg-slate-100 border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600">
+      <h3 className="font-bold text-[#0F172A] text-sm line-clamp-2 min-h-[40px]">{title}</h3>
+      <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+        <span className="bg-slate-100 border border-slate-200 rounded-[4px] px-2 py-0.5 text-[10px] font-bold text-slate-700 uppercase">
           {category}
         </span>
-        <div className="flex items-center gap-1 text-sm font-semibold text-teal-600">
-          ▲ {votes} <span className="text-xs text-slate-400">votes</span>
+        <div className="text-xs font-bold text-[#D97706]">
+          ▲ {votes} Upvotes
         </div>
       </div>
     </div>
@@ -201,21 +161,9 @@ function TrendingCard({ title, category, votes, location, status }) {
 function Stat({ number, label }) {
   return (
     <div className="text-center">
-      <h3 className="text-4xl font-extrabold text-amber-600">{number}</h3>
-      <p className="mt-2 text-sm text-slate-600">{label}</p>
+      <h3 className="text-4xl font-extrabold text-[#D97706] tracking-tight">{number}</h3>
+      <p className="mt-2 text-xs font-bold text-[#0F172A] uppercase tracking-wide">{label}</p>
     </div>
   );
 }
 
-function Step({ number, icon, title, text }) {
-  return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-all">
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-bold text-teal-600">{number}</span>
-        <span className="text-3xl">{icon}</span>
-      </div>
-      <h3 className="mt-6 text-xl font-semibold text-slate-900">{title}</h3>
-      <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
-    </div>
-  );
-}

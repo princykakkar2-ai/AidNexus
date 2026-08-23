@@ -1,54 +1,36 @@
-const express = require("express");
-const Problem = require("../models/Problem");
+import { Router } from "express";
+import multer from "multer";
+import path from "node:path";
+import fs from "node:fs";
+import {
+  createProblem,
+  getProblems,
+  getProblemById,
+  deleteProblem,
+  updateProblemStatus,
+} from "../controllers/problemController.js";
 
-const router = express.Router();
+const router = Router();
+const uploadDir = path.resolve("uploads/problems");
+fs.mkdirSync(uploadDir, { recursive: true });
 
-// Get all problems
-router.get("/", async (req, res) => {
-    try {
-        const problems = await Problem.find();
-
-        res.status(200).json(problems);
-    } catch (error) {
-        res.status(500).json({
-            message: "Failed to fetch problems",
-            error: error.message
-        });
-    }
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, uploadDir),
+  filename: (_req, file, cb) => {
+    const safeName = file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_");
+    cb(null, `${Date.now()}-${safeName}`);
+  },
 });
 
-// Get one problem
-router.get("/:id", async (req, res) => {
-    try {
-        const problem = await Problem.findById(req.params.id);
-
-        if (!problem) {
-            return res.status(404).json({
-                message: "Problem not found"
-            });
-        }
-
-        res.status(200).json(problem);
-    } catch (error) {
-        res.status(500).json({
-            message: "Failed to fetch problem",
-            error: error.message
-        });
-    }
+const upload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
 });
 
-// Create problem
-router.post("/", async (req, res) => {
-    try {
-        const problem = await Problem.create(req.body);
+router.post("/", upload.single("image"), createProblem);
+router.get("/", getProblems);
+router.get("/:id", getProblemById);
+router.delete("/:id", deleteProblem);
+router.put("/:id/status", updateProblemStatus);
 
-        res.status(201).json(problem);
-    } catch (error) {
-        res.status(400).json({
-            message: "Failed to create problem",
-            error: error.message
-        });
-    }
-});
-
-module.exports = router;
+export default router;
