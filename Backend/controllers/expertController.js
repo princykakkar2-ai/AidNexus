@@ -1,38 +1,21 @@
 import Solution from "../models/Solution.js";
 import Review from "../models/review.js";
 
-// ==========================================
-// GET ALL SOLUTIONS
-// ==========================================
-
 const getExpertSolutions = async (req, res) => {
   try {
-    const solutions = await Solution.find()
-      .populate("submittedBy", "name email")
-      .sort({ createdAt: -1 });
+    const solutions = await Solution.find().sort({ createdAt: -1 });
 
     const result = solutions.map((solution) => ({
       id: solution._id,
-      project_title: solution.title,
-
-      student_name: solution.submittedBy
-        ? solution.submittedBy.name
-        : "Unknown",
-
-      student_email: solution.submittedBy ? solution.submittedBy.email : "",
-
-      problem_id: solution.problemId,
-
-      problem_description: solution.description,
-
-      solution_description: solution.description,
-
-      technologies: solution.technology,
-
-      impact: solution.impact,
-
+      project_title: solution.project_title,
+      student_name: solution.student_name,
+      student_email: solution.student_email,
+      problem_description: solution.problem_description,
+      solution_description: solution.solution_description,
+      technologies: solution.technologies,
+      github_link: solution.github_link,
+      demo_link: solution.demo_link,
       status: solution.status,
-
       created_at: solution.createdAt,
     }));
 
@@ -47,16 +30,9 @@ const getExpertSolutions = async (req, res) => {
   }
 };
 
-// ==========================================
-// GET SINGLE SOLUTION
-// ==========================================
-
 const getSolutionDetails = async (req, res) => {
   try {
-    const solution = await Solution.findById(req.params.id).populate(
-      "submittedBy",
-      "name email",
-    );
+    const solution = await Solution.findById(req.params.id);
 
     if (!solution) {
       return res.status(404).json({
@@ -66,31 +42,15 @@ const getSolutionDetails = async (req, res) => {
 
     res.status(200).json({
       id: solution._id,
-
-      project_title: solution.title,
-
-      problem_id: solution.problemId,
-
-      problem_statement: solution.description,
-
-      student_name: solution.submittedBy
-        ? solution.submittedBy.name
-        : "Unknown",
-
-      student_email: solution.submittedBy ? solution.submittedBy.email : "",
-
-      solution_description: solution.description,
-
-      technologies: solution.technology,
-
-      impact: solution.impact,
-
-      github_link: null,
-
-      demo_link: null,
-
+      project_title: solution.project_title,
+      problem_description: solution.problem_description,
+      student_name: solution.student_name,
+      student_email: solution.student_email,
+      solution_description: solution.solution_description,
+      technologies: solution.technologies,
+      github_link: solution.github_link,
+      demo_link: solution.demo_link,
       status: solution.status,
-
       created_at: solution.createdAt,
     });
   } catch (error) {
@@ -103,10 +63,6 @@ const getSolutionDetails = async (req, res) => {
   }
 };
 
-// ==========================================
-// GET REVIEWS
-// ==========================================
-
 const getSolutionReviews = async (req, res) => {
   try {
     const reviews = await Review.find({
@@ -115,15 +71,10 @@ const getSolutionReviews = async (req, res) => {
 
     const result = reviews.map((review) => ({
       id: review._id,
-
       rating: review.rating,
-
       feedback_text: review.feedback,
-
       suggestions: review.suggestions,
-
       status: review.status,
-
       created_at: review.createdAt,
     }));
 
@@ -137,10 +88,6 @@ const getSolutionReviews = async (req, res) => {
     });
   }
 };
-
-// ==========================================
-// SUBMIT REVIEW
-// ==========================================
 
 const submitReview = async (req, res) => {
   try {
@@ -168,27 +115,19 @@ const submitReview = async (req, res) => {
 
     const review = new Review({
       solutionId: solution._id,
-
       rating,
-
       feedback,
-
       suggestions,
-
       status,
     });
 
     await review.save();
 
-    // Update solution status
-
     solution.status = status;
-
     await solution.save();
 
     res.status(201).json({
       message: "Review submitted successfully",
-
       review,
     });
   } catch (error) {
