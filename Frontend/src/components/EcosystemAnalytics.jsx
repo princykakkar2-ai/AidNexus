@@ -48,12 +48,12 @@ export default function EcosystemAnalytics() {
             1. Classification by Department
           </h4>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-[11px] border-collapse">
+            <table className="w-full text-left text-[11px] border-collapse border border-slate-300">
               <thead>
-                <tr className="bg-slate-200 border-b border-[#CCCCCC] text-slate-800 font-bold">
-                  <th className="p-2 border border-[#CCCCCC]">Domain / Category</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Cases</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Share</th>
+                <tr className="bg-[#1E293B] text-white font-bold">
+                  <th className="p-2 border border-slate-300">Domain / Category</th>
+                  <th className="p-2 border border-slate-300 text-center w-14">Cases</th>
+                  <th className="p-2 border border-slate-300 text-center w-14">Share</th>
                 </tr>
               </thead>
               <tbody>
@@ -78,12 +78,12 @@ export default function EcosystemAnalytics() {
             2. Priority & Severity Distribution
           </h4>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-[11px] border-collapse">
+            <table className="w-full text-left text-[11px] border-collapse border border-slate-300">
               <thead>
-                <tr className="bg-slate-200 border-b border-[#CCCCCC] text-slate-800 font-bold">
-                  <th className="p-2 border border-[#CCCCCC]">Severity Level</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Cases</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Share</th>
+                <tr className="bg-[#1E293B] text-white font-bold">
+                  <th className="p-2 border border-slate-300">Severity Level</th>
+                  <th className="p-2 border border-slate-300 text-center w-14">Cases</th>
+                  <th className="p-2 border border-slate-300 text-center w-14">Share</th>
                 </tr>
               </thead>
               <tbody>
@@ -125,12 +125,12 @@ export default function EcosystemAnalytics() {
             3. Case Lifecycle & Resolution Log
           </h4>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-[11px] border-collapse">
+            <table className="w-full text-left text-[11px] border-collapse border border-slate-300">
               <thead>
-                <tr className="bg-slate-200 border-b border-[#CCCCCC] text-slate-800 font-bold">
-                  <th className="p-2 border border-[#CCCCCC]">Resolution Stage</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Cases</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Share</th>
+                <tr className="bg-[#1E293B] text-white font-bold">
+                  <th className="p-2 border border-slate-300">Resolution Stage</th>
+                  <th className="p-2 border border-slate-300 text-center w-14">Cases</th>
+                  <th className="p-2 border border-slate-300 text-center w-14">Share</th>
                 </tr>
               </thead>
               <tbody>

@@ -31,6 +31,55 @@ export default function ExpertDashboard() {
     Equipment: false,
   });
 
+  // Sponsorship Filtering states
+  const [sponCategory, setSponCategory] = useState("All");
+  const [sponStatus, setSponStatus] = useState("All");
+  const [sponSearch, setSponSearch] = useState("");
+
+  const defaultProjects = useMemo(() => [
+    {
+      _id: "default-proj-1",
+      title: "Automated Municipal Water Quality Monitor",
+      teamName: "HydroVigil (IIT Kanpur)",
+      status: "SEEKING_FUNDING",
+      progress: 75,
+      category: "Sanitation",
+      supportNeeded: ["Funding", "Equipment"],
+      description: "A compact IoT monitoring node that continuously tracks municipal water pH, chlorine, and turbidity. Seeking grants for field trial sensor arrays.",
+      fundingTarget: 500000,
+      fundingAllocated: 150000,
+      industryPartner: null
+    },
+    {
+      _id: "default-proj-2",
+      title: "Solar Off-Grid Classroom Power Hub",
+      teamName: "Team Surya (BITS Pilani)",
+      status: "IN_PROGRESS",
+      progress: 40,
+      category: "Technology",
+      supportNeeded: ["Equipment", "Mentorship"],
+      description: "Developing custom micro-grid solar battery arrays to support digital learning terminals in remote rural primary schools lacking grid power.",
+      fundingTarget: 600000,
+      fundingAllocated: 600000,
+      industryPartner: "Reliance Digital Foundation",
+      industrySupport: ["Equipment", "Mentorship"]
+    },
+    {
+      _id: "default-proj-3",
+      title: "Smart Traffic Density Light System",
+      teamName: "CodeCrafters (BITS Pilani)",
+      status: "COMPLETED",
+      progress: 100,
+      category: "Infrastructure",
+      supportNeeded: ["Funding"],
+      description: "Completed pilot testing of computer-vision cameras that adjust traffic signal timings dynamically, reducing wait times at urban intersections.",
+      fundingTarget: 300000,
+      fundingAllocated: 300000,
+      industryPartner: "Tata Utilities Group",
+      industrySupport: ["Funding"]
+    }
+  ], []);
+
   const loadProjects = async () => {
     try {
       setLoading(true);
@@ -92,6 +141,35 @@ export default function ExpertDashboard() {
       setError("Failed to submit support offer.");
     }
   };
+
+  // Combine database projects with defaults & map clean parameters
+  const combinedProjects = useMemo(() => {
+    const formattedProjects = projects.map(p => ({
+      ...p,
+      description: p.description || "Developing a prototype solution addressing the logged public service grievance using regional student innovation resources.",
+      category: p.category || "Infrastructure",
+      fundingTarget: p.fundingTarget || 500000,
+      fundingAllocated: p.fundingAllocated || (p.industryPartner ? 500000 : 0),
+      status: p.status || "SEEKING_FUNDING"
+    }));
+    return [...formattedProjects, ...defaultProjects];
+  }, [projects, defaultProjects]);
+
+  // Apply filters
+  const filteredProjects = useMemo(() => {
+    return combinedProjects.filter(p => {
+      const matchesSearch = sponSearch === "" || 
+        p.title.toLowerCase().includes(sponSearch.toLowerCase()) ||
+        p.teamName.toLowerCase().includes(sponSearch.toLowerCase()) ||
+        p.description.toLowerCase().includes(sponSearch.toLowerCase());
+      
+      const matchesCategory = sponCategory === "All" || p.category === sponCategory;
+      
+      const matchesStatus = sponStatus === "All" || p.status === sponStatus;
+      
+      return matchesSearch && matchesCategory && matchesStatus;
+    });
+  }, [combinedProjects, sponSearch, sponCategory, sponStatus]);
 
   // ==========================================
   // 2. STATE FOR EXPERT SOLUTION REVIEW
@@ -197,50 +275,127 @@ export default function ExpertDashboard() {
         )}
 
         {isIndustry ? (
-          /* =======================================================
-             INDUSTRY & NGO SPONSORSHIP PORTAL VIEW
-             ======================================================= */
           <div>
-            <div className="border-b-2 border-[#0A192F] pb-4 mb-6">
-              <h1 className="text-2xl font-black text-[#0A192F] uppercase tracking-wide">
+            <div className="border-b border-slate-200 pb-6 mb-8">
+              <h1 className="text-3xl font-extrabold text-slate-950 tracking-tight">
                 Industry & NGO Sponsorship Hub
               </h1>
-              <p className="text-xs text-slate-600 mt-1 font-semibold">
+              <p className="text-sm text-slate-500 mt-2 font-medium">
                 Review active student project initiatives and allocate sponsorship support.
               </p>
             </div>
 
+            {/* Platform Impact Header Banner */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+              <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-4 text-center">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Active Initiatives</span>
+                <p className="text-2xl font-black text-slate-800 mt-1">{combinedProjects.length}</p>
+              </div>
+              <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-4 text-center">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Corporate Sponsors</span>
+                <p className="text-2xl font-black text-blue-600 mt-1">8 Partners</p>
+              </div>
+              <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-4 text-center">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Funds Allocated</span>
+                <p className="text-2xl font-black text-emerald-600 mt-1">₹24.5 Lakhs</p>
+              </div>
+              <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-4 text-center">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Mentors Registered</span>
+                <p className="text-2xl font-black text-amber-600 mt-1">14 Experts</p>
+              </div>
+            </div>
+
+            {/* Search & Filter Bar */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-5 mb-8 flex flex-col md:flex-row gap-4">
+              <div className="flex-1">
+                <label className="block text-[10px] font-bold text-slate-600 uppercase mb-1">Search Initiatives</label>
+                <input
+                  type="text"
+                  placeholder="Search by keywords, team name..."
+                  value={sponSearch}
+                  onChange={(e) => setSponSearch(e.target.value)}
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs outline-none focus:border-blue-600"
+                />
+              </div>
+              <div className="w-full md:w-48">
+                <label className="block text-[10px] font-bold text-slate-600 uppercase mb-1">Category</label>
+                <select
+                  value={sponCategory}
+                  onChange={(e) => setSponCategory(e.target.value)}
+                  className="w-full rounded-lg border border-slate-200 px-2 py-2 text-xs text-slate-700 bg-white"
+                >
+                  <option value="All">All Categories</option>
+                  <option value="Sanitation">Sanitation</option>
+                  <option value="Technology">Technology</option>
+                  <option value="Infrastructure">Infrastructure</option>
+                </select>
+              </div>
+              <div className="w-full md:w-48">
+                <label className="block text-[10px] font-bold text-slate-600 uppercase mb-1">Status</label>
+                <select
+                  value={sponStatus}
+                  onChange={(e) => setSponStatus(e.target.value)}
+                  className="w-full rounded-lg border border-slate-200 px-2 py-2 text-xs text-slate-700 bg-white"
+                >
+                  <option value="All">All Statuses</option>
+                  <option value="SEEKING_FUNDING">Seeking Funding</option>
+                  <option value="IN_PROGRESS">In Progress</option>
+                  <option value="COMPLETED">Completed</option>
+                </select>
+              </div>
+            </div>
+
             {loading ? (
               <div className="text-center py-12 text-slate-600 text-sm font-semibold">Loading initiatives data...</div>
-            ) : projects.length === 0 ? (
-              <div className="border border-[#CCCCCC] rounded-[2px] p-12 text-center text-slate-500 font-semibold bg-white">
-                🤝 No active student project initiatives awaiting sponsorship.
+            ) : filteredProjects.length === 0 ? (
+              <div className="border border-slate-100 rounded-xl p-12 text-center text-slate-500 font-semibold bg-white shadow-sm">
+                🤝 No active student project initiatives matches the filter criteria.
               </div>
             ) : (
-              <div className="grid gap-4 md:grid-cols-2">
-                {projects.map((project) => (
-                  <div key={project._id} className="card-gov p-5 flex flex-col justify-between">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProjects.map((project) => (
+                  <div key={project._id} className="bg-white rounded-xl shadow-md border border-slate-100 p-6 flex flex-col justify-between">
                     <div>
-                      <div className="flex justify-between items-center text-[10px] font-bold text-slate-500 mb-3 uppercase">
-                        <span className="bg-slate-100 border border-[#CCCCCC] text-slate-700 px-2 py-0.5 rounded-[2px]">
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="rounded-full bg-blue-50 text-blue-700 px-3 py-1 text-xs font-semibold border border-blue-100">
                           {project.status.replace("_", " ")}
                         </span>
-                        <span>Progress: {project.progress}%</span>
                       </div>
                       
-                      <h3 className="font-extrabold text-[#0A192F] text-sm uppercase tracking-wide">{project.title}</h3>
-                      <p className="text-[10px] text-slate-600 mt-1">
-                        Student Team: <strong className="font-bold text-slate-800 uppercase">{project.teamName}</strong>
+                      <h3 className="text-lg font-bold text-slate-800 uppercase tracking-tight">{project.title}</h3>
+                      <p className="text-sm text-slate-500 mt-1.5">
+                        Student Team: <strong className="font-semibold text-slate-700 uppercase">{project.teamName}</strong>
                       </p>
 
-                      <div className="mt-4 bg-slate-50 border border-[#CCCCCC] rounded-[2px] p-3">
-                        <span className="text-[9px] font-black text-slate-500 uppercase tracking-wide">Support Items Required</span>
-                        <div className="mt-2 flex flex-wrap gap-1.5">
+                      <p className="text-xs text-slate-600 mt-3 leading-relaxed font-semibold">
+                        {project.description}
+                      </p>
+
+                      {/* Modern Progress Bar Segment */}
+                      <div className="mt-4 space-y-1.5">
+                        <div className="flex justify-between text-xs font-semibold text-slate-600">
+                          <span>Project Progress</span>
+                          <span>{project.progress}%</span>
+                        </div>
+                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                          <div className="bg-blue-600 h-full transition-all duration-300" style={{ width: `${project.progress}%` }}></div>
+                        </div>
+                      </div>
+
+                      {/* Budget Tracker Segment */}
+                      <div className="mt-4 flex justify-between text-xs font-bold border-t border-slate-100 pt-3">
+                        <span className="text-slate-500 uppercase">Allocated Budget:</span>
+                        <span className="text-slate-800">₹{project.fundingAllocated?.toLocaleString()} / ₹{project.fundingTarget?.toLocaleString()}</span>
+                      </div>
+
+                      <div className="mt-5 bg-slate-50 rounded-xl p-4 border border-slate-100">
+                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2">Support Items Required</span>
+                        <div className="flex flex-wrap gap-1.5">
                           {project.supportNeeded.length === 0 ? (
-                            <span className="text-[10px] text-slate-500 font-semibold italic">No custom requests</span>
+                            <span className="text-xs text-slate-400 italic font-medium">No custom requests</span>
                           ) : (
                             project.supportNeeded.map((item) => (
-                              <span key={item} className="text-[9px] font-bold uppercase bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded-[2px]">
+                              <span key={item} className="rounded-full bg-amber-50 text-amber-700 border border-amber-100 px-2.5 py-0.5 text-xs font-semibold uppercase">
                                 {item}
                               </span>
                             ))
@@ -250,13 +405,13 @@ export default function ExpertDashboard() {
                     </div>
 
                     {project.industryPartner ? (
-                      <div className="mt-5 bg-emerald-50 border border-emerald-300 text-emerald-800 p-3 rounded-[2px] text-[10px] font-bold uppercase">
-                        🤝 Sponsored by <span className="text-[#0A192F]">{project.industryPartner}</span>: Allocated {project.industrySupport.join(", ")}
+                      <div className="mt-6 bg-emerald-50 border border-emerald-100 text-emerald-800 p-3 rounded-lg text-xs font-semibold uppercase text-center">
+                        🤝 Sponsored by <span className="font-bold text-slate-900">{project.industryPartner}</span>: Allocated {project.industrySupport.join(", ")}
                       </div>
                     ) : (
                       <button
                         onClick={() => handleOpenSupportModal(project)}
-                        className="mt-5 w-full bg-[#E65C00] text-white py-2 text-xs font-bold rounded-[2px] uppercase tracking-wider hover:bg-[#B34700] transition-colors cursor-pointer"
+                        className="mt-6 w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition shadow-sm uppercase tracking-wider text-xs cursor-pointer text-center"
                       >
                         Allocate Sponsorship Support
                       </button>

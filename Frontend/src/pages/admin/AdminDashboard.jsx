@@ -59,53 +59,64 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Navbar />
-      <main className="mx-auto max-w-7xl px-6 py-12">
-        <div className="border-b border-[#CCCCCC] pb-6">
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#0B2545]">Central Grievance Dashboard</h1>
-          <p className="mt-1 text-xs font-semibold text-slate-600 uppercase tracking-wider">SIH26043 National Monitoring & Administrative Hub</p>
+
+      <main className="mx-auto max-w-7xl px-4 py-8" id="main-content">
+        <div className="border-b-2 border-[#0B2545] pb-4 mb-6">
+          <h1 className="text-2xl font-black text-[#0B2545] uppercase tracking-wide">
+            Central Grievance Dashboard
+          </h1>
+          <p className="text-xs text-slate-600 mt-1 font-semibold">
+            SIH26043 National Monitoring & Administrative Hub
+          </p>
         </div>
 
         {error && (
-          <div className="mt-6 rounded-[2px] bg-red-50 p-4 text-xs font-bold text-red-700 border border-red-200">{error}</div>
+          <div className="mb-6 rounded-[2px] bg-red-50 p-4 text-xs font-bold text-red-700 border border-red-200">
+            ⚠️ {error}
+          </div>
         )}
 
         {loading ? (
-          <div className="mt-12 text-center text-slate-600 text-sm font-semibold">Loading system logs...</div>
+          <div className="text-center py-12 text-slate-600 text-sm font-semibold">Loading system logs...</div>
         ) : (
-          <div className="mt-8 space-y-8">
-            
+          <div className="space-y-6">
+
             {/* Stats Cards */}
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-[2px] border border-[#CCCCCC] bg-white p-6 shadow-none text-center border-t-4 border-t-[#0B2545]">
-                <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Registered</h3>
-                <p className="mt-2 text-3xl font-black text-[#0B2545]">{totalProblems}</p>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+              <div className="rounded-[2px] border border-slate-300 bg-white p-4 shadow-none text-center border-t-4 border-t-[#0B2545]">
+                <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total Registered</h3>
+                <p className="mt-1 text-2xl font-black text-[#0B2545]">{totalProblems}</p>
               </div>
-              <div className="rounded-[2px] border border-[#CCCCCC] bg-white p-6 shadow-none text-center border-t-4 border-t-[#E65C00]">
-                <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Awaiting Review</h3>
-                <p className="mt-2 text-3xl font-black text-[#E65C00]">{pendingCount}</p>
+              <div className="rounded-[2px] border border-slate-300 bg-white p-4 shadow-none text-center border-t-4 border-t-[#E65C00]">
+                <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Awaiting Review</h3>
+                <p className="mt-1 text-2xl font-black text-[#E65C00]">{pendingCount}</p>
               </div>
-              <div className="rounded-[2px] border border-[#CCCCCC] bg-white p-6 shadow-none text-center border-t-4 border-t-indigo-600">
-                <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Active Projects</h3>
-                <p className="mt-2 text-3xl font-black text-indigo-600">{activeCount}</p>
+              <div className="rounded-[2px] border border-slate-300 bg-white p-4 shadow-none text-center border-t-4 border-t-blue-600">
+                <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Active Projects</h3>
+                <p className="mt-1 text-2xl font-black text-blue-600">{activeCount}</p>
               </div>
-              <div className="rounded-[2px] border border-[#CCCCCC] bg-white p-6 shadow-none text-center border-t-4 border-t-[#059669]">
-                <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Resolved Issues</h3>
-                <p className="mt-2 text-3xl font-black text-[#059669]">{resolvedCount}</p>
+              <div className="rounded-[2px] border border-slate-300 bg-white p-4 shadow-none text-center border-t-4 border-t-[#059669]">
+                <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Resolved Issues</h3>
+                <p className="mt-1 text-2xl font-black text-[#059669]">{resolvedCount}</p>
               </div>
             </div>
 
             {/* Ecosystem Analytics */}
-            <EcosystemAnalytics />
+            <div className="mb-6">
+              <EcosystemAnalytics />
+            </div>
 
             {/* Map and domains */}
-            <div className="grid gap-8 lg:grid-cols-3">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
               {/* Interactive SVG map with rectangular tags */}
-              <div className="lg:col-span-2 bg-white border border-[#CCCCCC] rounded-[2px] p-6 shadow-none">
-                <h2 className="text-base font-bold text-[#0B2545] border-b border-[#CCCCCC] pb-3 uppercase tracking-wider">National Geolocated Map Visualization</h2>
-                
-                <div className="relative mt-6 h-80 rounded-[2px] border border-[#CCCCCC] bg-[#E2E8F0] overflow-hidden flex items-center justify-center">
+              <div className="lg:col-span-2 bg-white border border-slate-300 rounded-[2px] p-6 shadow-none">
+                <h2 className="text-sm font-black text-[#0B2545] border-b border-[#CCCCCC] pb-3 uppercase tracking-wide">
+                  National Geolocated Map Visualization
+                </h2>
+
+                <div className="relative mt-6 h-80 rounded-[2px] border border-slate-300 bg-[#E2E8F0] overflow-hidden flex items-center justify-center">
                   <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#0B2545_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                  
+
                   <svg className="absolute w-full h-full text-slate-300" viewBox="0 0 100 100" preserveAspectRatio="none">
                     <path d="M10,20 Q30,10 50,25 T90,20 T80,80 T40,90 Z" fill="currentColor" />
                     <path d="M5,40 Q25,30 45,55 T85,50" fill="none" stroke="currentColor" strokeWidth="0.5" />
@@ -128,7 +139,7 @@ export default function AdminDashboard() {
                         className="absolute group -translate-x-1/2 -translate-y-1/2 cursor-pointer"
                       >
                         <div className={`h-4.5 w-4.5 rounded-[2px] border-2 border-white shadow-none ${markerColor}`}></div>
-                        
+
                         <div className="absolute left-1/2 bottom-full mb-2 hidden group-hover:block -translate-x-1/2 bg-[#0B2545] text-white text-[9px] font-bold rounded-[2px] p-2 z-10 w-28 text-center pointer-events-none border border-slate-700">
                           <p className="truncate uppercase">{prob.title}</p>
                           <p className="text-[8px] text-[#E65C00] mt-0.5">{prob.status}</p>
@@ -136,24 +147,26 @@ export default function AdminDashboard() {
                       </div>
                     );
                   })}
-                  <p className="absolute bottom-4 left-4 bg-white/90 border border-[#CCCCCC] rounded-[2px] px-2.5 py-1 text-[9px] text-slate-800 font-bold uppercase tracking-wide shadow-none">
+                  <p className="absolute bottom-4 left-4 bg-white/90 border border-slate-300 rounded-[2px] px-2.5 py-1 text-[9px] text-slate-800 font-bold uppercase tracking-wide shadow-none">
                     🌐 Administrative Reports Grid (Simulation)
                   </p>
                 </div>
               </div>
 
               {/* Categories */}
-              <div className="lg:col-span-1 bg-white border border-[#CCCCCC] rounded-[2px] p-6 shadow-none">
-                <h2 className="text-base font-bold text-[#0B2545] border-b border-[#CCCCCC] pb-3 uppercase tracking-wider">Reports by Department</h2>
-                
-                <div className="mt-6 space-y-4">
+              <div className="lg:col-span-1 bg-white border border-slate-300 rounded-[2px] p-6 shadow-none">
+                <h2 className="text-sm font-black text-[#0B2545] border-b border-[#CCCCCC] pb-3 uppercase tracking-wide font-bold">
+                  Reports by Department
+                </h2>
+
+                <div className="mt-6 space-y-3">
                   {Object.entries(categories).length === 0 ? (
                     <p className="text-xs text-slate-500 text-center py-6 font-semibold">No issues currently registered.</p>
                   ) : (
                     Object.entries(categories).map(([cat, count]) => (
-                      <div key={cat} className="flex justify-between items-center text-xs border-b border-[#CCCCCC] pb-2">
-                        <span className="font-bold text-slate-700 uppercase">{cat}</span>
-                        <span className="rounded-[2px] bg-[#FFFBEB] px-2 py-0.5 font-bold text-[#E65C00] border border-amber-200">
+                      <div key={cat} className="flex justify-between items-center text-xs border-b border-slate-200 pb-2">
+                        <span className="font-bold text-slate-700 uppercase tracking-tight">{cat}</span>
+                        <span className="rounded-[2px] bg-amber-50 px-2 py-0.5 font-bold text-[#E65C00] border border-amber-200 text-[10px]">
                           {count}
                         </span>
                       </div>
@@ -164,44 +177,51 @@ export default function AdminDashboard() {
             </div>
 
             {/* Verification console table */}
-            <div className="bg-white border border-[#CCCCCC] rounded-[2px] p-6 shadow-none">
-              <h2 className="text-base font-bold text-[#0B2545] border-b border-[#CCCCCC] pb-3 uppercase tracking-wider">System Grievance verification queue</h2>
-              
-              <div className="mt-6 overflow-x-auto">
-                <table className="w-full text-left text-xs text-slate-600">
-                  <thead className="bg-slate-50 text-[10px] font-bold text-slate-700 uppercase border-b border-[#CCCCCC]">
+            <div className="bg-white border border-slate-300 rounded-[2px] p-6 shadow-none">
+              <h2 className="text-sm font-black text-[#0B2545] border-b border-[#CCCCCC] pb-3 mb-4 uppercase tracking-wide">
+                System Grievance Verification Queue
+              </h2>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse border border-slate-300">
+                  <thead className="bg-[#1E293B] text-[10px] font-bold text-white uppercase">
                     <tr>
-                      <th className="px-6 py-3">Title</th>
-                      <th className="px-6 py-3">Department</th>
-                      <th className="px-6 py-3">Priority</th>
-                      <th className="px-6 py-3">Status</th>
-                      <th className="px-6 py-3">Coordinates</th>
-                      <th className="px-6 py-3 text-right">Actions</th>
+                      <th className="px-4 py-3 border border-slate-300">Title</th>
+                      <th className="px-4 py-3 border border-slate-300">Department</th>
+                      <th className="px-4 py-3 border border-slate-300">Priority</th>
+                      <th className="px-4 py-3 border border-slate-300">Status</th>
+                      <th className="px-4 py-3 border border-slate-300">Coordinates</th>
+                      <th className="px-4 py-3 border border-slate-300 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-slate-300 bg-white">
                     {problems.map((prob) => (
-                      <tr key={prob._id} className="bg-white hover:bg-slate-50">
-                        <td className="px-6 py-4 font-bold text-[#0B2545] uppercase">{prob.title}</td>
-                        <td className="px-6 py-4 uppercase font-semibold text-slate-500">{prob.category}</td>
-                        <td className="px-6 py-4">
-                          <span className={`px-2 py-0.5 rounded-[2px] text-[9px] font-bold border ${
-                            prob.priority === "CRITICAL" ? "bg-red-50 text-red-700 border-red-200" :
+                      <tr key={prob._id} className="hover:bg-slate-50/70">
+                        <td className="px-4 py-3 border border-slate-300 font-bold text-[#0B2545] uppercase tracking-tight max-w-[240px] break-words">
+                          {prob.title}
+                        </td>
+                        <td className="px-4 py-3 border border-slate-300 uppercase font-bold text-slate-600 whitespace-nowrap">
+                          {prob.category}
+                        </td>
+                        <td className="px-4 py-3 border border-slate-300 whitespace-nowrap">
+                          <span className={`px-2 py-0.5 rounded-[2px] text-[9px] font-bold border ${prob.priority === "CRITICAL" ? "bg-red-50 text-red-700 border-red-200" :
                             prob.priority === "HIGH" ? "bg-amber-50 text-amber-700 border-amber-200" :
-                            prob.priority === "MEDIUM" ? "bg-blue-50 text-blue-700 border-blue-200" :
-                            "bg-slate-50 text-slate-700 border-[#CCCCCC]"
-                          }`}>
-                            {prob.priority}
+                              prob.priority === "MEDIUM" ? "bg-blue-50 text-blue-700 border-blue-200" :
+                                "bg-slate-50 text-slate-700 border-[#CCCCCC]"
+                            }`}>
+                            {prob.priority || "NOT GRADED"}
                           </span>
                         </td>
-                        <td className="px-6 py-4 font-semibold">
-                          <span className="uppercase text-[10px]">{prob.status.replace("_", " ")}</span>
+                        <td className="px-4 py-3 border border-slate-300 font-bold uppercase text-[10px] text-slate-700 whitespace-nowrap">
+                          {prob.status.replace("_", " ")}
                         </td>
-                        <td className="px-6 py-4 font-mono text-slate-400">{prob.location}</td>
-                        <td className="px-6 py-4 text-right">
+                        <td className="px-4 py-3 border border-slate-300 font-mono text-slate-500 whitespace-nowrap">
+                          {prob.location}
+                        </td>
+                        <td className="px-4 py-3 border border-slate-300 text-right whitespace-nowrap">
                           <button
                             onClick={() => handleOpenActionModal(prob)}
-                            className="rounded-[2px] border border-[#0B2545] bg-white px-3 py-1 font-bold text-[#0B2545] hover:bg-slate-50 uppercase tracking-wider text-[10px]"
+                            className="rounded-[2px] border border-[#0B2545] bg-white px-3 py-1 font-bold text-[#0B2545] hover:bg-slate-100 uppercase tracking-wider text-[10px] cursor-pointer"
                           >
                             Verify & Update
                           </button>
