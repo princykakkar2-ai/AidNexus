@@ -2,48 +2,36 @@ import { Link } from "react-router-dom";
 
 export default function Hero() {
     return (
-        <section className="relative border-b border-slate-200 bg-white py-20">
-            <div className="mx-auto max-w-5xl px-6 text-center">
+              <section className="mx-auto max-w-5xl px-6 py-20 flex flex-col items-center justify-center text-center">
+        <div className="mb-6 inline-flex items-center gap-2 rounded-[4px] border border-slate-300 bg-slate-100 px-4 py-1.5 text-xs text-[#0F172A] font-bold uppercase tracking-wider">
+          🛡️ NATIONAL COLLABORATION HUB
+        </div>
 
-                <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-700 shadow-sm">
-                    <span>🏛️</span>
-                    Citizen-State Collaboration Framework
-                </div>
+        <h1 className="text-4xl font-extrabold leading-tight md:text-5xl text-[#0F172A] tracking-tight">
+          Co-creating India's Smart Solutions For
+          <span className="text-[#D97706]"> Civic Challenges</span>
+        </h1>
 
-                <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
-                    Empowering Citizens.
-                    <br className="hidden sm:inline" />
+        <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-700">
+          AidNexus acts as a high-trust platform matching local community problems reported by citizens 
+          with innovation capabilities of student teams, funded and sponsored by official NGO and Industry partners.
+        </p>
 
-                    <span className="text-slate-700">
-                        {" "}Engineering Solutions.
-                    </span>
-                </h1>
+        <div className="mt-8 flex flex-wrap gap-4 justify-center">
+          <Link
+            to="/submit-problem"
+            className="rounded-[4px] bg-[#D97706] px-6 py-3 text-sm font-bold text-white hover:bg-[#B45309] shadow-sm transition-all"
+          >
+            REPORT A CIVIC ISSUE
+          </Link>
 
-                <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
-                    A unified platform connecting public administration,
-                    academic institutions, and citizen bodies to systematically
-                    address infrastructure and civic challenges.
-                </p>
-
-                <div className="mt-8 flex flex-wrap gap-4 justify-center">
-
-                    <Link
-                        to="/submit-problem"
-                        className="rounded-md bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-slate-800 transition-all"
-                    >
-                        Lodge a Civic Grievance →
-                    </Link>
-
-                    <Link
-                        to="/problems"
-                        className="rounded-md border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-all"
-                    >
-                        Browse Open Repositories
-                    </Link>
-
-                </div>
-
-            </div>
-        </section>
+          <Link
+            to="/citizen"
+            className="rounded-[4px] border-2 border-[#0F172A] bg-white px-6 py-3 text-sm font-bold text-[#0F172A] hover:bg-slate-50 shadow-sm transition-all"
+          >
+            VIEW REPORT ARCHIVE
+          </Link>
+        </div>
+      </section>
     );
 }

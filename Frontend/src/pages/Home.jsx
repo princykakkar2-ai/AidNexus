@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import Stats from "../components/Stats";
+import Step from "../components/Step";
+import Footer from "../components/Footer";
 
 export default function Home() {
   const [selectedDomain, setSelectedDomain] = useState("All");
@@ -17,49 +21,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Navbar />
-      
-      {/* AUTHORITATIVE HERO SECTION */}
-      <section className="mx-auto max-w-5xl px-6 py-20 flex flex-col items-center justify-center text-center">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-[4px] border border-slate-300 bg-slate-100 px-4 py-1.5 text-xs text-[#0F172A] font-bold uppercase tracking-wider">
-          🛡️ NATIONAL COLLABORATION HUB
-        </div>
-
-        <h1 className="text-4xl font-extrabold leading-tight md:text-5xl text-[#0F172A] tracking-tight">
-          Co-creating India's Smart Solutions For
-          <span className="text-[#D97706]"> Civic Challenges</span>
-        </h1>
-
-        <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-700">
-          CivicConnect acts as a high-trust platform matching local community problems reported by citizens 
-          with innovation capabilities of student teams, funded and sponsored by official NGO and Industry partners.
-        </p>
-
-        <div className="mt-8 flex flex-wrap gap-4 justify-center">
-          <Link
-            to="/submit-problem"
-            className="rounded-[4px] bg-[#D97706] px-6 py-3 text-sm font-bold text-white hover:bg-[#B45309] shadow-sm transition-all"
-          >
-            REPORT A CIVIC ISSUE
-          </Link>
-
-          <Link
-            to="/citizen"
-            className="rounded-[4px] border-2 border-[#0F172A] bg-white px-6 py-3 text-sm font-bold text-[#0F172A] hover:bg-slate-50 shadow-sm transition-all"
-          >
-            VIEW REPORT ARCHIVE
-          </Link>
-        </div>
-      </section>
-
-      {/* STATS SECTION */}
-      <section className="border-y border-slate-200 bg-white shadow-sm">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 py-10 md:grid-cols-4">
-          <Stat number="1,248" label="Issues Reported" />
-          <Stat number="586" label="Solutions Developed" />
-          <Stat number="240" label="Academic Teams" />
-          <Stat number="85" label="Industry Partners" />
-        </div>
-      </section>
+      <Hero />
+      <Stats />
 
       {/* INTERACTIVE DOMAIN GRID */}
       <section className="mx-auto max-w-7xl px-6 py-16">
@@ -162,21 +125,7 @@ export default function Home() {
           <Step number="04" icon="🚀" title="Sponsor Support" text="NGOs and industry partners sponsor teams with funding, tools, and tech." />
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-[#0F172A] text-white py-12">
-        <div className="mx-auto max-w-7xl px-6 flex flex-col justify-between gap-6 md:flex-row text-xs text-slate-400">
-          <div>
-            <p className="font-bold text-slate-200 text-sm mb-2">CivicConnect AidNexus Portal</p>
-            <p>© 2026 Smart India Hackathon Project. National Civic Solutions Network.</p>
-          </div>
-          <div className="flex gap-6">
-            <Link to="/" className="hover:text-white">Privacy Protocol</Link>
-            <Link to="/" className="hover:text-white">Official Contact</Link>
-            <Link to="/" className="hover:text-white">Disclaimer</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
@@ -218,15 +167,3 @@ function Stat({ number, label }) {
   );
 }
 
-function Step({ number, icon, title, text }) {
-  return (
-    <div className="rounded-[6px] border border-slate-200 bg-white p-6 shadow-sm">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-bold text-[#D97706] bg-[#FFFBEB] border border-amber-200 px-2 py-0.5 rounded-[4px]">{number}</span>
-        <span className="text-3xl">{icon}</span>
-      </div>
-      <h3 className="mt-6 text-base font-bold text-[#0F172A]">{title}</h3>
-      <p className="mt-2 text-xs leading-relaxed text-slate-600">{text}</p>
-    </div>
-  );
-}
