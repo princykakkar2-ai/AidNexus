@@ -1,9 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-import SubmitProblem from "./pages/SubmitProblem";
+import SubmitProblem from "./pages/citizen/SubmitProblem";
 import ProblemDetails from "./pages/ProblemDetails";
-
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -42,7 +41,10 @@ function App() {
         {/* Student */}
         <Route path="/student" element={<StudentDashboard />} />
         <Route path="/student/problems" element={<ExploreProblems />} />
-        <Route path="/student/problems/:id" element={<ChallengeDetails />} />
+        <Route
+          path="/student/problems/:id"
+          element={<ChallengeDetails />}
+        />
         <Route
           path="/student/problems/:id/submit"
           element={<SubmitSolution />}
@@ -52,12 +54,14 @@ function App() {
         {/* Expert / Industry */}
         <Route path="/expert" element={<ExpertDashboard />} />
         <Route path="/expert/review/:id" element={<ReviewSolution />} />
-
-        {/* Industry alias */}
         <Route path="/industry" element={<ExpertDashboard />} />
 
         {/* Admin */}
         <Route path="/admin" element={<AdminDashboard />} />
+
+        {/* Legacy routes */}
+        <Route path="/problems" element={<CitizenDashboard />} />
+        <Route path="/solutions" element={<StudentDashboard />} />
       </Routes>
     </BrowserRouter>
   );
