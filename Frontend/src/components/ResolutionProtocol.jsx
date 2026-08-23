@@ -3,7 +3,7 @@ import Step from "./Step";
 export default function ResolutionProtocol() {
 
     return (
-        <section className="mx-auto max-w-7xl px-6 py-16 border-t border-slate-200 mt-12">
+        <section className="mx-auto max-w-7xl px-6 py-16 border-t border-[#CCCCCC] mt-12">
 
             <div className="text-center max-w-2xl mx-auto mb-12">
 

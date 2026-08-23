@@ -81,17 +81,17 @@ export default function ProblemForm() {
     <form onSubmit={submit} className="space-y-5 bg-white">
       <div>
         <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">Problem Title / Heading</label>
-        <input name="title" value={form.title} onChange={update} className="w-full rounded-[4px] border border-slate-300 px-4 py-3 text-xs outline-none focus:border-[#D97706]" placeholder="Enter clear summary" required />
+        <input name="title" value={form.title} onChange={update} className="w-full rounded-[2px] border border-[#CCCCCC] px-4 py-3 text-xs outline-none focus:border-[#E65C00]" placeholder="Enter clear summary" required />
       </div>
 
       <div>
         <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">Detailed Description</label>
-        <textarea name="description" value={form.description} onChange={update} rows="5" className="w-full rounded-[4px] border border-slate-300 px-4 py-3 text-xs outline-none focus:border-[#D97706] leading-relaxed" placeholder="Please describe details of the problem..." required />
+        <textarea name="description" value={form.description} onChange={update} rows="5" className="w-full rounded-[2px] border border-[#CCCCCC] px-4 py-3 text-xs outline-none focus:border-[#E65C00] leading-relaxed" placeholder="Please describe details of the problem..." required />
       </div>
 
       <div>
         <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">Department / Category</label>
-        <select name="category" value={form.category} onChange={update} className="w-full rounded-[4px] border border-slate-300 px-4 py-3 text-xs" required>
+        <select name="category" value={form.category} onChange={update} className="w-full rounded-[2px] border border-[#CCCCCC] px-4 py-3 text-xs" required>
           <option value="">Select Department</option>
           {categories.map((category) => <option key={category} value={category}>{category}</option>)}
         </select>
@@ -99,21 +99,21 @@ export default function ProblemForm() {
 
       <div>
         <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">Coordinates / Location Address</label>
-        <div className="flex gap-2">
-          <input name="location" value={form.location} onChange={update} className="min-w-0 flex-1 rounded-[4px] border border-slate-300 px-4 py-3 text-xs outline-none focus:border-[#D97706]" placeholder="Address or GPS coordinates" required />
-          <button type="button" onClick={useLocation} className="rounded-[4px] border border-[#D97706] px-4 py-2 text-xs font-bold text-[#D97706] hover:bg-amber-50 uppercase tracking-wider">Use Current GPS</button>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <input name="location" value={form.location} onChange={update} className="min-w-0 flex-1 rounded-[2px] border border-[#CCCCCC] px-4 py-3 text-xs outline-none focus:border-[#E65C00]" placeholder="Address or GPS coordinates" required />
+          <button type="button" onClick={useLocation} className="rounded-[2px] border border-[#E65C00] px-4 py-2 text-xs font-bold text-[#E65C00] hover:bg-amber-50 uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer">Use Current GPS</button>
         </div>
       </div>
 
       <div>
         <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">Upload Photo Evidence (PDF or Image)</label>
-        <input type="file" name="image" accept="image/*,.pdf" onChange={(event) => setFile(event.target.files?.[0] || null)} className="w-full rounded-[4px] border border-slate-300 p-2.5 text-xs text-slate-500" />
+        <input type="file" name="image" accept="image/*,.pdf" onChange={(event) => setFile(event.target.files?.[0] || null)} className="w-full rounded-[2px] border border-[#CCCCCC] p-2.5 text-xs text-slate-500" />
       </div>
 
-      {error && <p className="rounded-[4px] bg-red-50 p-3 text-xs font-bold text-red-700 border border-red-200">{error}</p>}
-      {message && <p className="rounded-[4px] bg-green-50 p-3 text-xs font-bold text-green-700 border border-green-200">{message}</p>}
+      {error && <p className="rounded-[2px] bg-red-50 p-3 text-xs font-bold text-red-700 border border-red-200">{error}</p>}
+      {message && <p className="rounded-[2px] bg-green-50 p-3 text-xs font-bold text-green-700 border border-green-200">{message}</p>}
 
-      <button disabled={loading} className="w-full rounded-[4px] bg-[#D97706] px-5 py-3 text-xs font-bold text-white hover:bg-[#B45309] disabled:opacity-60 uppercase tracking-widest transition-all">
+      <button disabled={loading} className="w-full rounded-[2px] bg-[#E65C00] px-5 py-3 text-xs font-bold text-white hover:bg-[#C24E00] disabled:opacity-60 uppercase tracking-widest transition-colors">
         {loading ? "REGISTERING GRIEVANCE..." : "REGISTER CIVIC GRIEVANCE"}
       </button>
     </form>

@@ -43,19 +43,19 @@ export default function Register() {
     <div className="min-h-screen bg-[#F8FAFC]">
       <Navbar />
       <main className="mx-auto max-w-md px-6 py-12">
-        <div className="card-gov p-8 bg-white border border-slate-200 shadow-md">
+        <div className="card-gov p-8 bg-white border border-[#CCCCCC] shadow-none">
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-black text-[#0F172A] tracking-tight uppercase">Portal Registration</h2>
+            <h2 className="text-2xl font-black text-[#0B2545] tracking-tight uppercase">Portal Registration</h2>
             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Join the National Civic Action Network</p>
           </div>
 
           {error && (
-            <div className="mb-4 rounded-[4px] bg-red-50 p-3 text-xs font-bold text-red-700 border border-red-200">
+            <div className="mb-4 rounded-[2px] bg-red-50 p-3 text-xs font-bold text-red-700 border border-red-200">
               {error}
             </div>
           )}
           {success && (
-            <div className="mb-4 rounded-[4px] bg-green-50 p-3 text-xs font-bold text-green-700 border border-green-200">
+            <div className="mb-4 rounded-[2px] bg-green-50 p-3 text-xs font-bold text-green-700 border border-green-200">
               {success}
             </div>
           )}
@@ -69,7 +69,7 @@ export default function Register() {
                 value={form.name}
                 onChange={handleUpdate}
                 placeholder="Enter official name"
-                className="w-full rounded-[4px] border border-slate-300 px-4 py-2.5 text-xs outline-none focus:border-[#D97706]"
+                className="w-full rounded-[2px] border border-[#CCCCCC] px-4 py-2.5 text-xs outline-none focus:border-[#E65C00]"
                 required
               />
             </div>
@@ -82,7 +82,7 @@ export default function Register() {
                 value={form.email}
                 onChange={handleUpdate}
                 placeholder="name@agency.gov.in"
-                className="w-full rounded-[4px] border border-slate-300 px-4 py-2.5 text-xs outline-none focus:border-[#D97706]"
+                className="w-full rounded-[2px] border border-[#CCCCCC] px-4 py-2.5 text-xs outline-none focus:border-[#E65C00]"
                 required
               />
             </div>
@@ -95,7 +95,7 @@ export default function Register() {
                 value={form.password}
                 onChange={handleUpdate}
                 placeholder="••••••••"
-                className="w-full rounded-[4px] border border-slate-300 px-4 py-2.5 text-xs outline-none focus:border-[#D97706]"
+                className="w-full rounded-[2px] border border-[#CCCCCC] px-4 py-2.5 text-xs outline-none focus:border-[#E65C00]"
                 required
               />
             </div>
@@ -108,7 +108,7 @@ export default function Register() {
                 value={form.confirmPassword}
                 onChange={handleUpdate}
                 placeholder="••••••••"
-                className="w-full rounded-[4px] border border-slate-300 px-4 py-2.5 text-xs outline-none focus:border-[#D97706]"
+                className="w-full rounded-[2px] border border-[#CCCCCC] px-4 py-2.5 text-xs outline-none focus:border-[#E65C00]"
                 required
               />
             </div>
@@ -119,7 +119,7 @@ export default function Register() {
                 name="role"
                 value={form.role}
                 onChange={handleUpdate}
-                className="w-full rounded-[4px] border border-slate-300 px-4 py-2.5 text-xs focus:border-[#D97706]"
+                className="w-full rounded-[2px] border border-[#CCCCCC] px-4 py-2.5 text-xs focus:border-[#E65C00]"
               >
                 <option value="citizen">Citizen Reporter</option>
                 <option value="student">Academic / Student Team</option>
@@ -130,16 +130,16 @@ export default function Register() {
 
             <button
               type="submit"
-              className="w-full rounded-[4px] bg-[#D97706] py-3 text-xs font-bold text-white hover:bg-[#B45309] uppercase tracking-widest transition-all mt-6"
+              className="w-full rounded-[2px] bg-[#E65C00] py-3 text-xs font-bold text-white hover:bg-[#C24E00] uppercase tracking-widest transition-colors mt-6"
             >
               CREATE NEW ACCOUNT
             </button>
           </form>
 
-          <div className="mt-6 text-center border-t border-slate-100 pt-4">
+          <div className="mt-6 text-center border-t border-[#CCCCCC] pt-4">
             <p className="text-xs text-slate-600">
               Already have an official account?{" "}
-              <Link to="/login" className="font-bold text-[#D97706] hover:underline">
+              <Link to="/login" className="font-bold text-[#E65C00] hover:underline">
                 Sign In
               </Link>
             </p>

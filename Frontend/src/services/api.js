@@ -19,49 +19,38 @@ const getAuthHeaders = () => {
 // ==========================================
 
 // Get all solutions available for expert review
-export const fetchExpertSolutions = async () => {
-  const response = await axios.get(
-    `${API_BASE_URL}/feedback/expert/solutions`,
-    {
-      headers: getAuthHeaders(),
-    },
-  );
-
-  return response.data;
-};
+// 
 
 // Get details of a particular student solution
+export const fetchExpertSolutions = async () => {
+  const response = await axios.get(`${API_BASE_URL}/expert/solutions`);
+
+  return response.data;
+};
 export const fetchSolutionDetails = async (solutionId) => {
   const response = await axios.get(
-    `${API_BASE_URL}/feedback/solution/${solutionId}`,
-    {
-      headers: getAuthHeaders(),
-    },
+    `${API_BASE_URL}/expert/solutions/${solutionId}`,
   );
 
   return response.data;
 };
 
-// Get existing feedback for a solution
+// Get existing reviews for a solution
 export const fetchFeedback = async (solutionId) => {
   const response = await axios.get(
-    `${API_BASE_URL}/feedback/solution/${solutionId}/feedback`,
-    {
-      headers: getAuthHeaders(),
-    },
+    `${API_BASE_URL}/expert/solutions/${solutionId}/reviews`,
   );
 
   return response.data;
 };
 
-// Submit expert feedback
+// Submit expert review
 export const submitFeedback = async (solutionId, feedbackData) => {
   const response = await axios.post(
-    `${API_BASE_URL}/feedback/solution/${solutionId}`,
+    `${API_BASE_URL}/expert/solutions/${solutionId}/reviews`,
     feedbackData,
     {
       headers: {
-        ...getAuthHeaders(),
         "Content-Type": "application/json",
       },
     },
@@ -76,22 +65,31 @@ export const submitFeedback = async (solutionId, feedbackData) => {
 
 export const createProblem = async (problemData, file) => {
   const formData = new FormData();
-  Object.entries(problemData).forEach(([key, value]) => formData.append(key, value));
-  if (file) formData.append("image", file);
+
+  Object.entries(problemData).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+
+  if (file) {
+    formData.append("image", file);
+  }
 
   const response = await axios.post(`${API_BASE_URL}/problems`, formData, {
     headers: getAuthHeaders(),
   });
+
   return response.data.data;
 };
 
 export const fetchProblems = async () => {
   const response = await axios.get(`${API_BASE_URL}/problems`);
+
   return response.data.data;
 };
 
 export const fetchProblem = async (problemId) => {
   const response = await axios.get(`${API_BASE_URL}/problems/${problemId}`);
+
   return response.data.data;
 };
 
@@ -99,6 +97,7 @@ export const deleteProblem = async (problemId) => {
   const response = await axios.delete(`${API_BASE_URL}/problems/${problemId}`, {
     headers: getAuthHeaders(),
   });
+
   return response.data;
 };
 
@@ -142,6 +141,11 @@ export const updateProblemStatus = async (problemId, status, priority) => {
     status,
     priority,
   });
+  return response.data.data;
+};
+
+export const fetchStats = async () => {
+  const response = await axios.get(`${API_BASE_URL}/stats`);
   return response.data.data;
 };
 

@@ -10,6 +10,8 @@ import problemRoutes from "./routes/problemRoutes.js";
 import solutionRoutes from "./routes/solutionRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import feedbackRoutes from "./routes/feedbackRoutes.js";
+import statsRoutes from "./routes/statsRoutes.js";
+import expertRoutes from "./routes/expertRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -27,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 // Uploaded files
 app.use("/uploads", express.static(path.resolve("uploads")));
 
-// Health Check
+// Health check
 app.get("/api/health", (_req, res) => {
   res.json({
     success: true,
@@ -35,7 +37,7 @@ app.get("/api/health", (_req, res) => {
   });
 });
 
-// Root Route
+// Root route
 app.get("/", (_req, res) => {
   res.send("AidNexus Backend is running! Access APIs at /api/*");
 });
@@ -46,6 +48,10 @@ app.use("/api/problems", problemRoutes);
 app.use("/api/solutions", solutionRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/feedback", feedbackRoutes);
+app.use("/api/stats", statsRoutes);
+
+// Industry / Expert module
+app.use("/api/expert", expertRoutes);
 
 // 404 handler
 app.use((_req, res) => {
