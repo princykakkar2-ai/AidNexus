@@ -1,13 +1,12 @@
-const express = require("express");
-const Solution = require("../models/Solution");
+import { Router } from "express";
+import Solution from "../models/Solution.js";
 
-const router = express.Router();
+const router = Router();
 
 // Get all solutions
 router.get("/", async (req, res) => {
     try {
-        const solutions = await Solution.find()
-            .populate("problemId");
+        const solutions = await Solution.find();
 
         res.status(200).json(solutions);
     } catch (error) {
@@ -21,8 +20,7 @@ router.get("/", async (req, res) => {
 // Get one solution
 router.get("/:id", async (req, res) => {
     try {
-        const solution = await Solution.findById(req.params.id)
-            .populate("problemId");
+        const solution = await Solution.findById(req.params.id);
 
         if (!solution) {
             return res.status(404).json({
@@ -56,4 +54,4 @@ router.post("/", async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

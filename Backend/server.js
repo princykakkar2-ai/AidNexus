@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:5173",
-  }),
+  })
 );
 
 app.use(express.json());
@@ -48,14 +48,14 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/feedback", feedbackRoutes);
 
 // 404 handler
-app.use((req, res) => {
+app.use((_req, res) => {
   res.status(404).json({
     success: false,
     message: "Route not found",
   });
 });
 
-// Error Handling Middleware
+// Error handler
 app.use((err, _req, res, _next) => {
   console.error("Unhandled Error:", err);
 
@@ -65,7 +65,7 @@ app.use((err, _req, res, _next) => {
   });
 });
 
-// Connect Database and Start Server
+// Connect DB and start server
 connectDB()
   .then(() => {
     app.listen(PORT, () => {
@@ -74,13 +74,14 @@ connectDB()
   })
   .catch((error) => {
     console.error("MongoDB connection failed:", error.message);
+
     console.log(
-      "Starting server in FALLBACK (offline in-memory) mode...",
+      "Starting server in FALLBACK (offline in-memory) mode..."
     );
 
     app.listen(PORT, () => {
       console.log(
-        `Server running on http://localhost:${PORT} (FALLBACK MODE)`,
+        `Server running on http://localhost:${PORT} (FALLBACK MODE)`
       );
     });
   });
