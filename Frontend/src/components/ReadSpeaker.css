@@ -1,0 +1,148 @@
+/* ==========================================================================
+   ReadSpeaker Enterprise WebReader Government Suite - Styling
+   ========================================================================== */
+
+/* ReadSpeaker Government Button */
+.rspkr-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(180deg, #1B365D 0%, #0B2545 100%);
+  color: #FFFFFF !important;
+  border: 1px solid #3A5F8B;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none !important;
+  user-select: none;
+}
+
+.rspkr-btn:hover {
+  background: linear-gradient(180deg, #24487A 0%, #134074 100%);
+  border-color: #FF9933;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(11, 37, 69, 0.25);
+}
+
+.rspkr-btn:focus-visible {
+  outline: 3px solid #E65C00 !important;
+  outline-offset: 2px !important;
+}
+
+.rspkr-badge {
+  background-color: #E65C00;
+  color: #FFFFFF;
+  font-size: 8.5px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Synchronized Reading Highlight in Page Text */
+.rspkr-sentence-highlight {
+  background-color: #FEF08A !important;
+  color: #0B2545 !important;
+  border-radius: 2px;
+  padding: 1px 2px;
+  box-shadow: 0 0 0 2px #FEF08A;
+  transition: background-color 0.15s ease;
+}
+
+.rspkr-word-highlight {
+  background-color: #38BDF8 !important;
+  color: #07172B !important;
+  border-radius: 2px;
+  padding: 0 2px;
+  font-weight: 800 !important;
+}
+
+/* High Contrast mode adaptations for ReadSpeaker highlights */
+html[data-a11y-contrast="high-contrast-dark"] .rspkr-sentence-highlight {
+  background-color: #1E3A8A !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 0 2px #3B82F6;
+}
+
+html[data-a11y-contrast="high-contrast-dark"] .rspkr-word-highlight {
+  background-color: #F59E0B !important;
+  color: #000000 !important;
+}
+
+html[data-a11y-contrast="high-contrast-yellow"] .rspkr-sentence-highlight {
+  background-color: #FFFF00 !important;
+  color: #000000 !important;
+  box-shadow: 0 0 0 2px #FFFF00;
+}
+
+html[data-a11y-contrast="high-contrast-yellow"] .rspkr-word-highlight {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  text-decoration: underline 2px solid #000000;
+}
+
+/* ReadSpeaker Floating Expanded WebReader Dock */
+.rspkr-dock {
+  position: fixed;
+  top: 105px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999992;
+  background: #0B2545;
+  color: #FFFFFF;
+  border: 2px solid #FF9933;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 95vw;
+  animation: rspkrSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes rspkrSlideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -16px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Hover-to-Listen Highlight Outline */
+.rspkr-hoverable-active {
+  cursor: pointer !important;
+  position: relative;
+}
+
+.rspkr-hoverable-active:hover {
+  outline: 2.5px dashed #E65C00 !important;
+  outline-offset: 4px !important;
+  background-color: rgba(254, 240, 138, 0.15) !important;
+}
+
+/* Enlarged Text Caption Window */
+.rspkr-caption-modal {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999994;
+  width: 90%;
+  max-width: 800px;
+  background: rgba(11, 37, 69, 0.96);
+  color: #FFFFFF;
+  border: 2px solid #FF9933;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}

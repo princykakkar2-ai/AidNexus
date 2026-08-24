@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import { useAccessibility } from '../context/AccessibilityContext';
+import { ReadSpeakerButton } from './ReadSpeakerWidget';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -7,44 +9,108 @@ export default function Navbar() {
     return sessionStorage.getItem("hideSIHBanner") !== "true";
   });
 
+  const {
+    settings,
+    increaseFontSize,
+    decreaseFontSize,
+    resetFontSize,
+    setContrastMode,
+    openToolbar,
+    speakText
+  } = useAccessibility();
+
+  const handleToggleContrast = () => {
+    const modes = ['normal', 'high-contrast-dark', 'high-contrast-yellow', 'grayscale'];
+    const currentIndex = modes.indexOf(settings.contrastMode);
+    const nextIndex = (currentIndex + 1) % modes.length;
+    setContrastMode(modes[nextIndex]);
+  };
+
+  const handleReadSpeakerTrigger = () => {
+    // Read current page using ReadSpeaker / WebReader engine
+    const event = new CustomEvent('open-readspeaker');
+    window.dispatchEvent(event);
+    speakText();
+  };
+
   return (
     <>
       <div className="fixed top-0 left-0 right-0 z-50 w-full shadow-md bg-[#0B2545]">
       {/* Top Banner: Official National Emblem & Initiative Info */}
       {showBanner && (
-        <div className="bg-[#F1F5F9] py-2 px-6 border-b border-[#CCCCCC] text-xs font-semibold text-[#0B2545] flex items-center justify-between transition-all duration-300">
+        <div className="bg-[#F1F5F9] py-1.5 px-4 sm:px-6 border-b border-[#CCCCCC] text-xs font-semibold text-[#0B2545] flex items-center justify-between transition-all duration-300">
           <div className="flex items-center gap-2">
             <span>🇮🇳</span>
-            <span className="tracking-wide text-[10px] sm:text-xs">GOVERNMENT OF INDIA INITIATIVE</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-[#E65C00] font-bold tracking-wide text-[10px] sm:text-xs">SMART INDIA HACKATHON</span>
+            <span className="tracking-wide text-[10px] sm:text-xs font-bold">GOVERNMENT OF INDIA</span>
+            <span className="text-slate-300 hidden sm:inline">|</span>
+            <span className="text-[#E65C00] font-bold tracking-wide text-[10px] sm:text-xs hidden sm:inline">SMART INDIA HACKATHON</span>
           </div>
-          <div className="hidden md:flex items-center gap-4 text-[11px] text-slate-500">
-            <a href="https://www.sih.gov.in/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E65C00] transition-colors">SIH Website</a>
-            <span>•</span>
-            <a href="https://mygov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#E65C00] transition-colors">MyGov</a>
-            <span>•</span>
-            <span className="font-mono text-[10px] bg-slate-200/80 px-2 py-0.5 rounded text-slate-700">SIH-2026</span>
-            <span className="text-slate-300">|</span>
+
+          {/* Quick Accessibility Bar (Government Standard ReadSpeaker, A-, A, A+, Contrast, Panel) */}
+          <div className="flex items-center gap-2 text-[11px]">
+            {/* Official ReadSpeaker Listen Button */}
+            <ReadSpeakerButton onTrigger={handleReadSpeakerTrigger} />
+
+            <div className="flex items-center bg-white border border-slate-300 rounded px-1 py-0.5 shadow-2xs">
+              <button
+                onClick={decreaseFontSize}
+                className="px-1.5 py-0.2 hover:bg-slate-200 text-[#0B2545] font-black text-xs cursor-pointer rounded-xs"
+                title="Decrease Font Size (A-)"
+                aria-label="Decrease Font Size"
+              >
+                A-
+              </button>
+              <span className="text-slate-300 mx-0.5">|</span>
+              <button
+                onClick={resetFontSize}
+                className="px-1.5 py-0.2 hover:bg-slate-200 text-[#0B2545] font-bold text-xs cursor-pointer rounded-xs"
+                title="Reset Font Size (A)"
+                aria-label="Reset Font Size to default"
+              >
+                A
+              </button>
+              <span className="text-slate-300 mx-0.5">|</span>
+              <button
+                onClick={increaseFontSize}
+                className="px-1.5 py-0.2 hover:bg-slate-200 text-[#0B2545] font-black text-xs cursor-pointer rounded-xs"
+                title="Increase Font Size (A+)"
+                aria-label="Increase Font Size"
+              >
+                A+
+              </button>
+            </div>
+
+            {/* Quick Contrast Cycle */}
+            <button
+              onClick={handleToggleContrast}
+              className="bg-white border border-slate-300 hover:bg-slate-100 text-[#0B2545] px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-colors"
+              title="Toggle High Contrast Modes"
+              aria-label="Toggle High Contrast Modes"
+            >
+              <span>🌓</span>
+              <span className="hidden md:inline uppercase text-[9px] font-extrabold">Contrast</span>
+            </button>
+
+            {/* Accessibility Panel Modal Button */}
+            <button
+              onClick={openToolbar}
+              className="bg-[#0B2545] hover:bg-[#134074] text-white px-2.5 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-colors shadow-2xs"
+              title="Open Complete Accessibility Suite (Alt+A)"
+              aria-label="Open Complete Accessibility Suite"
+            >
+              <span>♿</span>
+              <span className="uppercase text-[9px] font-extrabold tracking-wider">Accessibility</span>
+            </button>
+
+            <span className="text-slate-300 hidden md:inline">|</span>
             <button
               onClick={() => {
                 setShowBanner(false);
                 sessionStorage.setItem("hideSIHBanner", "true");
               }}
               className="hover:text-red-600 transition-colors text-xs font-black cursor-pointer ml-1 select-none"
-              title="Dismiss banner"
-            >
-              ✕
-            </button>
-          </div>
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => {
-                setShowBanner(false);
-                sessionStorage.setItem("hideSIHBanner", "true");
-              }}
-              className="hover:text-red-600 transition-colors text-xs font-black cursor-pointer select-none"
-              title="Dismiss banner"
+              title="Dismiss top banner"
+              aria-label="Dismiss top banner"
             >
               ✕
             </button>

@@ -1,4 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AccessibilityProvider } from "./context/AccessibilityContext";
+import AccessibilityToolbar from "./components/AccessibilityToolbar";
+import ReadingGuide from "./components/ReadingGuide";
+import TextToSpeechReader from "./components/TextToSpeechReader";
+import ReadSpeakerWidget from "./components/ReadSpeakerWidget";
 
 import Home from "./pages/Home";
 import SubmitProblem from "./pages/citizen/SubmitProblem";
@@ -22,8 +27,15 @@ import "./index.css";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <AccessibilityProvider>
+      <BrowserRouter>
+        {/* Global Accessibility Visual & Audio Tools */}
+        <ReadSpeakerWidget />
+        <ReadingGuide />
+        <TextToSpeechReader />
+        <AccessibilityToolbar />
+
+        <Routes>
         {/* Home */}
         <Route path="/" element={<Home />} />
 
@@ -63,7 +75,8 @@ function App() {
         <Route path="/problems" element={<CitizenDashboard />} />
         <Route path="/solutions" element={<StudentDashboard />} />
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AccessibilityProvider>
   );
 }
 

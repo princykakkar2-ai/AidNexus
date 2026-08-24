@@ -51,9 +51,7 @@ const inMemoryFeedbacks = [
   }
 ];
 
-function generateId() {
-  return "fb-" + Math.random().toString(16).substring(2, 10);
-}
+import { generateId, makeQueryChain, wrapDocument } from "./fallbackHelper.js";
 
 const FeedbackProxy = {
   create: async function (data) {
@@ -61,30 +59,25 @@ const FeedbackProxy = {
       return await MongooseFeedback.create(data);
     }
     const record = {
-      _id: generateId(),
+      _id: generateId("fb-"),
       ...data,
       createdAt: new Date(),
       updatedAt: new Date()
     };
     inMemoryFeedbacks.push(record);
     console.log("[Fallback DB] Created feedback:", record);
-    return record;
+    return wrapDocument(record, inMemoryFeedbacks);
   },
 
   find: function (query = {}) {
     if (mongoose.connection.readyState === 1) {
       return MongooseFeedback.find(query);
     }
-    return {
-      then: function (resolve) {
-        // filter local inMemoryFeedbacks based on query.solution_id if applicable
-        let results = [...inMemoryFeedbacks];
-        if (query.solution_id) {
-          results = results.filter(f => f.solution_id === query.solution_id);
-        }
-        return resolve(results);
-      }
-    };
+    let results = inMemoryFeedbacks.map(f => wrapDocument(f, inMemoryFeedbacks));
+    if (query.solution_id) {
+      results = results.filter(f => f.solution_id === query.solution_id);
+    }
+    return makeQueryChain(results);
   }
 };
 

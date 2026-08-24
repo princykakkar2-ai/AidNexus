@@ -86,11 +86,7 @@ const inMemoryDb = [
   }
 ];
 
-function generateId() {
-  return Math.random().toString(16).substring(2, 10) + 
-         Math.random().toString(16).substring(2, 10) + 
-         Math.random().toString(16).substring(2, 10);
-}
+import { generateId, makeQueryChain, wrapDocument } from "./fallbackHelper.js";
 
 const ProblemProxy = {
   create: async function (data) {
@@ -98,29 +94,22 @@ const ProblemProxy = {
       return await MongooseProblem.create(data);
     }
     const record = {
-      _id: generateId(),
+      _id: generateId("prob-"),
       ...data,
       createdAt: new Date(),
       updatedAt: new Date()
     };
     inMemoryDb.push(record);
     console.log("[Fallback DB] Created problem:", record);
-    return record;
+    return wrapDocument(record, inMemoryDb);
   },
 
   find: function () {
     if (mongoose.connection.readyState === 1) {
       return MongooseProblem.find();
     }
-    return {
-      sort: function (sortObj) {
-        const sorted = [...inMemoryDb].sort((a, b) => b.createdAt - a.createdAt);
-        return Promise.resolve(sorted);
-      },
-      then: function (resolve) {
-        return resolve([...inMemoryDb]);
-      }
-    };
+    const mapped = inMemoryDb.map(p => wrapDocument(p, inMemoryDb));
+    return makeQueryChain(mapped);
   },
 
   findById: async function (id) {
@@ -128,7 +117,7 @@ const ProblemProxy = {
       return await MongooseProblem.findById(id);
     }
     const record = inMemoryDb.find(r => r._id === id);
-    return record || null;
+    return wrapDocument(record, inMemoryDb);
   },
 
   findByIdAndUpdate: async function (id, update, options = {}) {
@@ -148,7 +137,7 @@ const ProblemProxy = {
       };
       inMemoryDb[index] = updated;
       console.log("[Fallback DB] Updated problem:", updated);
-      return updated;
+      return wrapDocument(updated, inMemoryDb);
     }
     return null;
   },
@@ -160,7 +149,7 @@ const ProblemProxy = {
     const index = inMemoryDb.findIndex(r => r._id === id);
     if (index !== -1) {
       const deleted = inMemoryDb.splice(index, 1)[0];
-      return deleted;
+      return wrapDocument(deleted, inMemoryDb);
     }
     return null;
   }
