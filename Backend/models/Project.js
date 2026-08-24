@@ -63,9 +63,7 @@ const inMemoryProjects = [
   }
 ];
 
-function generateId() {
-  return "proj-" + Math.random().toString(16).substring(2, 10);
-}
+import { generateId, makeQueryChain, wrapDocument } from "./fallbackHelper.js";
 
 const ProjectProxy = {
   create: async function (data) {
@@ -73,25 +71,22 @@ const ProjectProxy = {
       return await MongooseProject.create(data);
     }
     const record = {
-      _id: generateId(),
+      _id: generateId("proj-"),
       ...data,
       createdAt: new Date(),
       updatedAt: new Date()
     };
     inMemoryProjects.push(record);
     console.log("[Fallback DB] Created project:", record);
-    return record;
+    return wrapDocument(record, inMemoryProjects);
   },
 
   find: function () {
     if (mongoose.connection.readyState === 1) {
       return MongooseProject.find();
     }
-    return {
-      then: function (resolve) {
-        return resolve([...inMemoryProjects]);
-      }
-    };
+    const mapped = inMemoryProjects.map(p => wrapDocument(p, inMemoryProjects));
+    return makeQueryChain(mapped);
   },
 
   findById: async function (id) {
@@ -99,7 +94,7 @@ const ProjectProxy = {
       return await MongooseProject.findById(id);
     }
     const record = inMemoryProjects.find(p => p._id === id);
-    return record || null;
+    return wrapDocument(record, inMemoryProjects);
   },
 
   findByIdAndUpdate: async function (id, update, options = {}) {
@@ -119,7 +114,7 @@ const ProjectProxy = {
       };
       inMemoryProjects[index] = updated;
       console.log("[Fallback DB] Updated project:", updated);
-      return updated;
+      return wrapDocument(updated, inMemoryProjects);
     }
     return null;
   }

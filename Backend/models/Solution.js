@@ -82,9 +82,7 @@ const inMemorySolutions = [
   }
 ];
 
-function generateId() {
-  return "sol-" + Math.random().toString(16).substring(2, 10);
-}
+import { generateId, makeQueryChain, wrapDocument } from "./fallbackHelper.js";
 
 const SolutionProxy = {
   create: async function (data) {
@@ -92,25 +90,22 @@ const SolutionProxy = {
       return await MongooseSolution.create(data);
     }
     const record = {
-      _id: generateId(),
+      _id: generateId("sol-"),
       ...data,
       createdAt: new Date(),
       updatedAt: new Date()
     };
     inMemorySolutions.push(record);
     console.log("[Fallback DB] Created solution:", record);
-    return record;
+    return wrapDocument(record, inMemorySolutions);
   },
 
   find: function () {
     if (mongoose.connection.readyState === 1) {
       return MongooseSolution.find();
     }
-    return {
-      then: function (resolve) {
-        return resolve([...inMemorySolutions]);
-      }
-    };
+    const mapped = inMemorySolutions.map(s => wrapDocument(s, inMemorySolutions));
+    return makeQueryChain(mapped);
   },
 
   findById: async function (id) {
@@ -118,7 +113,7 @@ const SolutionProxy = {
       return await MongooseSolution.findById(id);
     }
     const record = inMemorySolutions.find(s => s._id === id);
-    return record || null;
+    return wrapDocument(record, inMemorySolutions);
   },
 
   findByIdAndUpdate: async function (id, update, options = {}) {
@@ -138,7 +133,7 @@ const SolutionProxy = {
       };
       inMemorySolutions[index] = updated;
       console.log("[Fallback DB] Updated solution:", updated);
-      return updated;
+      return wrapDocument(updated, inMemorySolutions);
     }
     return null;
   }
