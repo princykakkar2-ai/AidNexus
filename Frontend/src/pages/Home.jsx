@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
@@ -6,6 +6,8 @@ import Stats from "../components/Stats";
 import EcosystemAnalytics from "../components/EcosystemAnalytics";
 import Step from "../components/Step";
 import Footer from "../components/Footer";
+import { fetchProblems } from "../services/api";
+import InteractiveMap from "../components/InteractiveMap";
 
 // Mock Database of Grievances for Search & Map
 const mockProblems = [
@@ -17,15 +19,6 @@ const mockProblems = [
   { id: "SIH-1260-F", title: "Smart Streetlight Grid Control", category: "Infrastructure", votes: 154, location: "Gachibowli, Hyderabad", status: "Solutions Open", desc: "Streetlights remaining active in broad daylight, waste of grid power. Automated light level sensor arrays." }
 ];
 
-// Mock Map Pins Data
-const mapPins = [
-  { id: "SIH-1260-A", label: "Delhi (Potholes)", x: "30%", y: "45%", color: "bg-[#E65C00]" },
-  { id: "SIH-1260-B", label: "Jaipur (Solar)", x: "25%", y: "55%", color: "bg-blue-600" },
-  { id: "SIH-1260-C", label: "Chennai (Water)", x: "55%", y: "78%", color: "bg-[#E65C00]" },
-  { id: "SIH-1260-D", label: "Noida (E-Waste)", x: "35%", y: "42%", color: "bg-[#E65C00]" },
-  { id: "SIH-1260-E", label: "Palampur (Clinic)", x: "28%", y: "25%", color: "bg-blue-600" },
-  { id: "SIH-1260-F", label: "Hyderabad (Lights)", x: "45%", y: "65%", color: "bg-emerald-600" },
-];
 
 export default function Home() {
   const [selectedDomain, setSelectedDomain] = useState("All");
@@ -37,6 +30,35 @@ export default function Home() {
 
   // Map State
   const [activePinId, setActivePinId] = useState("SIH-1260-A");
+  const [problems, setProblems] = useState(mockProblems);
+
+  useEffect(() => {
+    fetchProblems()
+      .then((data) => {
+        if (data && data.length > 0) {
+          const formattedDbProblems = data.map(p => ({
+            id: p._id || p.id,
+            _id: p._id,
+            title: p.title,
+            category: p.category,
+            votes: p.votes || Math.floor(Math.random() * 50) + 10,
+            location: p.location,
+            status: p.status === "SUBMITTED" || p.status === "UNDER_REVIEW" ? "Under Review" : "Solutions Open",
+            desc: p.description,
+            priority: p.priority || "MEDIUM"
+          }));
+          
+          const combined = [...mockProblems];
+          formattedDbProblems.forEach(p => {
+            if (!combined.some(c => c.id === p.id)) {
+              combined.push(p);
+            }
+          });
+          setProblems(combined);
+        }
+      })
+      .catch((err) => console.warn("Failed to fetch real problems for homepage map, using mocks:", err));
+  }, []);
 
   const domains = [
     { title: "Infrastructure", icon: "🏢", count: 94, desc: "Road work, public facilities, and civil building reports." },
@@ -48,7 +70,7 @@ export default function Home() {
   ];
 
   // Filtering Logic for Grievances list
-  const filteredProblems = mockProblems.filter(prob => {
+  const filteredProblems = problems.filter(prob => {
     const matchesKeyword = searchQuery === "" || 
       prob.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       prob.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -61,7 +83,7 @@ export default function Home() {
     return matchesKeyword && matchesCategory && matchesId;
   });
 
-  const activePinDetail = mockProblems.find(p => p.id === activePinId) || mockProblems[0];
+  const activePinDetail = problems.find(p => p.id === activePinId) || problems[0] || mockProblems[0];
 
   return (
     <div className="min-h-screen bg-[#F0F2F5]">
@@ -128,52 +150,17 @@ export default function Home() {
         <div className="bg-white border border-[#CCCCCC] rounded-[2px] p-5 shadow-none">
           <div className="border-b border-[#CCCCCC] pb-3 mb-4">
             <h3 className="text-sm font-black text-[#0A192F] uppercase tracking-wide">
-              🗺️ National Incident Map Dashboard (Mock)
+              🗺️ National Incident Map Dashboard
             </h3>
             <p className="text-[10px] font-semibold text-slate-600 uppercase mt-0.5">
-              Click pins to review regional reported grievances & student matching statuses
+              Interact with regional reported grievances, filter by department or priority, and review matching statuses
             </p>
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
-            {/* SVG MAP BOX */}
-            <div className="md:col-span-2 relative h-80 bg-slate-100 border border-[#CCCCCC] rounded-[2px] overflow-hidden select-none">
-              {/* Simple background grid map */}
-              <svg className="w-full h-full opacity-60" viewBox="0 0 800 400" fill="none">
-                <rect width="800" height="400" fill="#E8EEF5"/>
-                {/* Simulated administrative zones/roads */}
-                <path d="M 0,100 Q 200,80 400,120 T 800,90" stroke="#FFFFFF" strokeWidth="12"/>
-                <path d="M 0,100 Q 200,80 400,120 T 800,90" stroke="#CCCCCC" strokeWidth="2"/>
-                
-                <path d="M 150,0 Q 250,200 210,400" stroke="#FFFFFF" strokeWidth="12"/>
-                <path d="M 150,0 Q 250,200 210,400" stroke="#CCCCCC" strokeWidth="2"/>
-                
-                <path d="M 600,0 Q 550,150 630,400" stroke="#FFFFFF" strokeWidth="8"/>
-                <path d="M 600,0 Q 550,150 630,400" stroke="#CCCCCC" strokeWidth="1.5"/>
-
-                {/* Simulated Green Parks */}
-                <rect x="50" y="220" width="120" height="90" fill="#C2E2C4" stroke="#A3D4A6" strokeWidth="1"/>
-                <rect x="420" y="50" width="90" height="80" fill="#C2E2C4" stroke="#A3D4A6" strokeWidth="1"/>
-                
-                {/* Boundary labels */}
-                <text x="50" y="30" fill="#777777" fontSize="10" fontWeight="bold">NORTHERN ZONE</text>
-                <text x="650" y="380" fill="#777777" fontSize="10" fontWeight="bold">EASTERN WARD</text>
-              </svg>
-
-              {/* Map Pins */}
-              {mapPins.map((pin) => (
-                <button
-                  key={pin.id}
-                  onClick={() => setActivePinId(pin.id)}
-                  style={{ left: pin.x, top: pin.y }}
-                  className={`absolute -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border border-white flex items-center justify-center cursor-pointer shadow-md ${pin.color} ${
-                    activePinId === pin.id ? "ring-4 ring-offset-1 ring-[#0A192F] scale-125" : ""
-                  } transition-all`}
-                  title={pin.label}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                </button>
-              ))}
+            {/* REAL MAP ENGINE BOX */}
+            <div className="md:col-span-2 h-96 relative z-0">
+              <InteractiveMap problems={problems} onPinClick={setActivePinId} />
             </div>
 
             {/* DETAIL SIDE PANEL */}

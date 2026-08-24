@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { fetchProblems, updateProblemStatus } from "../../services/api";
 import EcosystemAnalytics from "../../components/EcosystemAnalytics";
+import InteractiveMap from "../../components/InteractiveMap";
 
 export default function AdminDashboard() {
   const [problems, setProblems] = useState([]);
@@ -163,52 +164,16 @@ export default function AdminDashboard() {
 
             {/* Map and domains */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-              {/* Interactive SVG map with rectangular tags */}
+              {/* Interactive Geolocated Map Visualization */}
               <div className="lg:col-span-2 bg-white border border-slate-300 rounded-[2px] p-6 shadow-none">
                 <h2 className="text-sm font-black text-[#0B2545] border-b border-[#CCCCCC] pb-3 uppercase tracking-wide">
                   National Geolocated Map Visualization
                 </h2>
-
-                <div className="relative mt-6 h-80 rounded-[2px] border border-slate-300 bg-[#E2E8F0] overflow-hidden flex items-center justify-center">
-                  <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#0B2545_1px,transparent_1px)] [background-size:16px_16px]"></div>
-
-                  <svg className="absolute w-full h-full text-slate-300" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <path d="M10,20 Q30,10 50,25 T90,20 T80,80 T40,90 Z" fill="currentColor" />
-                    <path d="M5,40 Q25,30 45,55 T85,50" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                  </svg>
-
-                  {problems.map((prob, i) => {
-                    const [lat, lng] = prob.location.split(",").map(Number);
-                    const hasValidCoords = !isNaN(lat) && !isNaN(lng);
-                    const x = hasValidCoords ? Math.abs((lng % 2) * 50) : (i * 27) % 80 + 10;
-                    const y = hasValidCoords ? Math.abs((lat % 2) * 50) : (i * 19) % 60 + 20;
-
-                    let markerColor = "bg-blue-600 shadow-blue-600/50";
-                    if (prob.status === "RESOLVED") markerColor = "bg-[#059669] shadow-emerald-500/50";
-                    if (prob.status === "IN_PROGRESS") markerColor = "bg-indigo-600 shadow-indigo-500/50";
-
-                    return (
-                      <div
-                        key={prob._id}
-                        style={{ left: `${x}%`, top: `${y}%` }}
-                        className="absolute group -translate-x-1/2 -translate-y-1/2 cursor-pointer"
-                      >
-                        <div className={`h-4.5 w-4.5 rounded-[2px] border-2 border-white shadow-none ${markerColor}`}></div>
-
-                        <div className="absolute left-1/2 bottom-full mb-2.5 hidden group-hover:flex flex-col -translate-x-1/2 bg-[#0B2545] text-white text-[9px] font-bold rounded p-2.5 z-20 w-44 text-left pointer-events-none border border-slate-600 shadow-lg gap-1 animate-fadeIn">
-                          <span className="text-[8px] text-slate-400 font-extrabold uppercase leading-none">{prob.category}</span>
-                          <p className="font-extrabold text-white leading-normal uppercase truncate">{prob.title}</p>
-                          <div className="flex items-center justify-between mt-1 text-[7.5px] uppercase">
-                            <span className="text-[#E65C00]">{prob.status.replace("_", " ")}</span>
-                            <span className="text-slate-300">({prob.priority || "MEDIUM"})</span>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                  <p className="absolute bottom-4 left-4 bg-white/90 border border-slate-300 rounded-[2px] px-2.5 py-1 text-[9px] text-slate-800 font-bold uppercase tracking-wide shadow-none">
-                    🌐 Administrative Reports Grid (Simulation)
-                  </p>
+                <div className="mt-6 h-96 relative z-0">
+                  <InteractiveMap problems={problems} onPinClick={(id) => {
+                    const prob = problems.find(p => p._id === id || p.id === id);
+                    if (prob) setSelectedProblem(prob);
+                  }} />
                 </div>
               </div>
 

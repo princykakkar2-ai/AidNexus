@@ -99,3 +99,9 @@ body {
   padding: 0.125rem 0.625rem;
   border-width: 1px;
 }
+
+/* Custom Leaflet Marker Reset */
+.leaflet-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
