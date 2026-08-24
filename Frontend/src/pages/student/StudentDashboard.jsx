@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import EmptyState from "../../components/EmptyState";
 import { fetchProblems, fetchProjects, createProject, updateProjectProgress } from "../../services/api";
+import { CANONICAL_PROBLEMS } from "../../data/canonicalProblems";
 
 export default function StudentDashboard() {
   const [problems, setProblems] = useState([]);
@@ -22,15 +23,23 @@ export default function StudentDashboard() {
       setLoading(true);
       const problemsData = await fetchProblems();
       const projectsData = await fetchProjects();
+
+      const combinedProblems = [...(problemsData || [])];
+      CANONICAL_PROBLEMS.forEach((cp) => {
+        if (!combinedProblems.some((p) => (p._id || p.id) === (cp._id || cp.id))) {
+          combinedProblems.push(cp);
+        }
+      });
       
-      const acceptedProblemIds = projectsData.map((p) => p.problemId);
-      const availableProblems = problemsData.filter((p) => !acceptedProblemIds.includes(p._id));
+      const acceptedProblemIds = (projectsData || []).map((p) => p.problemId);
+      const availableProblems = combinedProblems.filter((p) => !acceptedProblemIds.includes(p._id || p.id));
       
       setProblems(availableProblems);
-      setProjects(projectsData);
+      setProjects(projectsData || []);
       setLoading(false);
     } catch (err) {
-      setError("Failed to load student dashboard data.");
+      console.warn("Failed to load student dashboard data, fallback to canonical:", err);
+      setProblems(CANONICAL_PROBLEMS);
       setLoading(false);
     }
   };

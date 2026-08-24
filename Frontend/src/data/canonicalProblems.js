@@ -1,0 +1,80 @@
+export const CANONICAL_PROBLEMS = [
+  {
+    id: "SIH-1260-A",
+    _id: "SIH-1260-A",
+    title: "Pothole Detection & Rapid Patch System",
+    category: "Infrastructure",
+    location: "Ward 12, New Delhi",
+    priority: "HIGH",
+    status: "IN_PROGRESS",
+    votes: 342,
+    submittedBy: "Citizen (Ward 12 Resident Welfare)",
+    description: "Multiple deep potholes on Main Ring Road causing severe traffic congestion, damage to public transit vehicles, and minor accidents daily during rush hour. Awaiting rapid asphalt patch & AI road scan prototype.",
+    desc: "Multiple deep potholes on Main Ring Road causing severe traffic congestion, damage to public transit vehicles, and minor accidents daily during rush hour. Awaiting rapid asphalt patch & AI road scan prototype."
+  },
+  {
+    id: "SIH-1260-B",
+    _id: "SIH-1260-B",
+    title: "Solar Micro-Grid for Rural Schools",
+    category: "Electricity",
+    location: "Ward 3, Pune District",
+    priority: "MEDIUM",
+    status: "UNDER_REVIEW",
+    votes: 289,
+    submittedBy: "School Management Committee",
+    description: "Rural primary school lacking continuous electricity supply, disrupting digital classrooms and computer lab operations. Proposal for smart microgrid battery storage system.",
+    desc: "Rural primary school lacking continuous electricity supply, disrupting digital classrooms and computer lab operations. Proposal for smart microgrid battery storage system."
+  },
+  {
+    id: "SIH-1260-C",
+    _id: "SIH-1260-C",
+    title: "AI Water Leak Detection Network",
+    category: "Environment",
+    location: "Zone B, Bengaluru South",
+    priority: "MEDIUM",
+    status: "SUBMITTED",
+    votes: 210,
+    submittedBy: "South Bengaluru Citizen Forum",
+    description: "Main pipeline leakage leading to wastage of thousands of liters of clean drinking water daily. AI acoustic sensor network and pressure logging suggested for rapid pinpointing.",
+    desc: "Main pipeline leakage leading to wastage of thousands of liters of clean drinking water daily. AI acoustic sensor network suggested for rapid pinpointing."
+  },
+  {
+    id: "SIH-1260-D",
+    _id: "SIH-1260-D",
+    title: "E-Waste Disposal Smart Bin Network",
+    category: "Waste Management",
+    location: "Sector 62, Noida",
+    priority: "LOW",
+    status: "SUBMITTED",
+    votes: 195,
+    submittedBy: "Sector 62 Green Committee",
+    description: "Lack of dedicated e-waste recycling bins leading to hazardous disposal of mercury and lithium batteries in municipal waste streams. Smart bin sensor and collection route optimization required.",
+    desc: "Lack of dedicated e-waste recycling bins leading to hazardous disposal of mercury-containing devices."
+  },
+  {
+    id: "SIH-1260-E",
+    _id: "SIH-1260-E",
+    title: "Rural Clinic Telemedicine System",
+    category: "Healthcare",
+    location: "Village Palampur, HP",
+    priority: "HIGH",
+    status: "UNDER_REVIEW",
+    votes: 180,
+    submittedBy: "Community Health Center",
+    description: "No specialist doctor visits in remote hilly terrain. High-bandwidth digital diagnostic telemetry terminal needed to connect primary clinics with AIIMS specialists.",
+    desc: "No specialist doctor visits. High-bandwidth digital diagnostic telemetry terminal needed to connect with AIIMS."
+  },
+  {
+    id: "SIH-1260-F",
+    _id: "SIH-1260-F",
+    title: "Smart Streetlight Grid Control",
+    category: "Infrastructure",
+    location: "Gachibowli, Hyderabad",
+    priority: "LOW",
+    status: "SUBMITTED",
+    votes: 154,
+    submittedBy: "Cyberabad Civic Association",
+    description: "Streetlights remaining active in broad daylight, causing significant grid energy waste. Need automated ambient light level sensor arrays and central timer dashboard.",
+    desc: "Streetlights remaining active in broad daylight, waste of grid power. Automated light level sensor arrays."
+  }
+];

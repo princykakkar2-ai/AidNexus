@@ -136,19 +136,23 @@
   border-radius: 20px;
 }
 
-.priority-badge.high {
+.priority-badge.high,
+.priority-badge.critical {
   background: #fff1f1;
   color: #df4c4c;
+  border: 1px solid #fecaca;
 }
 
 .priority-badge.medium {
-  background: #fff7e5;
-  color: #d58b00;
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #fed7aa;
 }
 
 .priority-badge.low {
-  background: #edf9f0;
-  color: #30914c;
+  background: #fefce8;
+  color: #ca8a04;
+  border: 1px solid #fef08a;
 }
 
 .category-badge {

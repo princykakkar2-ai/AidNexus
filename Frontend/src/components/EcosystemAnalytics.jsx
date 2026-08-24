@@ -116,10 +116,10 @@ export default function EcosystemAnalytics({ problems = [] }) {
               <div className="bg-rose-500 hover:bg-rose-600 transition-colors text-white flex items-center justify-center text-[9px] font-black shrink-0" style={{ width: `${highPct}%` }}>
                 {highPct > 15 ? `HIGH (${highPct}%)` : 'H'}
               </div>
-              <div className="bg-amber-400 hover:bg-amber-500 transition-colors text-[#0B2545] flex items-center justify-center text-[9px] font-black shrink-0" style={{ width: `${medPct}%` }}>
+              <div className="bg-orange-500 hover:bg-orange-600 transition-colors text-white flex items-center justify-center text-[9px] font-black shrink-0" style={{ width: `${medPct}%` }}>
                 {medPct > 15 ? `MED (${medPct}%)` : 'M'}
               </div>
-              <div className="bg-slate-300 hover:bg-slate-400 transition-colors text-slate-700 flex items-center justify-center text-[9px] font-black shrink-0" style={{ width: `${lowPct}%` }}>
+              <div className="bg-yellow-400 hover:bg-yellow-500 transition-colors text-yellow-950 flex items-center justify-center text-[9px] font-black shrink-0" style={{ width: `${lowPct}%` }}>
                 {lowPct > 15 ? `LOW (${lowPct}%)` : 'L'}
               </div>
             </div>
@@ -130,13 +130,13 @@ export default function EcosystemAnalytics({ problems = [] }) {
                 <span className="text-red-800 uppercase block tracking-wider">High</span>
                 <p className="text-base font-black text-red-700 mt-1">{highCount}</p>
               </div>
-              <div className="bg-amber-50 p-2.5 rounded border border-amber-200">
-                <span className="text-amber-800 uppercase block tracking-wider">Medium</span>
-                <p className="text-base font-black text-amber-700 mt-1">{mediumCount}</p>
+              <div className="bg-orange-50 p-2.5 rounded border border-orange-200">
+                <span className="text-orange-800 uppercase block tracking-wider">Medium</span>
+                <p className="text-base font-black text-orange-700 mt-1">{mediumCount}</p>
               </div>
-              <div className="bg-slate-50 p-2.5 rounded border border-slate-200">
-                <span className="text-slate-700 uppercase block tracking-wider">Low</span>
-                <p className="text-base font-black text-slate-800 mt-1">{lowCount}</p>
+              <div className="bg-yellow-50 p-2.5 rounded border border-yellow-200">
+                <span className="text-yellow-800 uppercase block tracking-wider">Low</span>
+                <p className="text-base font-black text-yellow-700 mt-1">{lowCount}</p>
               </div>
             </div>
           </div>

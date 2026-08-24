@@ -3,9 +3,10 @@ import Navbar from "../../components/Navbar";
 import { fetchProblems, updateProblemStatus } from "../../services/api";
 import EcosystemAnalytics from "../../components/EcosystemAnalytics";
 import InteractiveMap from "../../components/InteractiveMap";
+import { CANONICAL_PROBLEMS } from "../../data/canonicalProblems";
 
 export default function AdminDashboard() {
-  const [problems, setProblems] = useState([]);
+  const [problems, setProblems] = useState(CANONICAL_PROBLEMS);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -26,10 +27,21 @@ export default function AdminDashboard() {
     try {
       setLoading(true);
       const data = await fetchProblems();
-      setProblems(data);
+      if (data && data.length > 0) {
+        const combined = [...data];
+        CANONICAL_PROBLEMS.forEach((cp) => {
+          if (!combined.some((p) => (p._id || p.id) === (cp._id || cp.id))) {
+            combined.push(cp);
+          }
+        });
+        setProblems(combined);
+      } else {
+        setProblems(CANONICAL_PROBLEMS);
+      }
       setLoading(false);
     } catch (err) {
-      setError("Failed to load problems.");
+      console.warn("Using canonical problems for admin dashboard:", err);
+      setProblems(CANONICAL_PROBLEMS);
       setLoading(false);
     }
   };
@@ -279,9 +291,9 @@ export default function AdminDashboard() {
                             {prob.category}
                           </td>
                           <td className="px-4 py-3 border border-slate-300 whitespace-nowrap">
-                            <span className={`px-2 py-0.5 rounded-[2px] text-[9px] font-bold border ${prob.priority === "CRITICAL" ? "bg-red-50 text-red-700 border-red-200" :
-                              prob.priority === "HIGH" ? "bg-amber-50 text-amber-700 border-amber-200" :
-                                prob.priority === "MEDIUM" ? "bg-blue-50 text-blue-700 border-blue-200" :
+                            <span className={`px-2 py-0.5 rounded-[2px] text-[9px] font-bold border ${prob.priority === "CRITICAL" || prob.priority === "HIGH" ? "bg-red-50 text-red-700 border-red-200" :
+                              prob.priority === "MEDIUM" ? "bg-orange-50 text-orange-700 border-orange-200" :
+                                prob.priority === "LOW" ? "bg-yellow-50 text-yellow-800 border-yellow-300" :
                                   "bg-slate-50 text-slate-700 border-[#CCCCCC]"
                               }`}>
                               {prob.priority || "NOT GRADED"}

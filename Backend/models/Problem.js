@@ -61,28 +61,82 @@ const MongooseProblem = mongoose.model("Problem", problemSchema);
 // In-memory fallback database for when MongoDB is offline
 const inMemoryDb = [
   {
-    _id: "mock-1",
-    title: "Damaged Pothole on Main Street",
-    description: "Large pothole causing traffic issues and potential vehicle damage near intersection.",
-    category: "Roads",
-    location: "Main Street & 5th Ave",
+    _id: "SIH-1260-A",
+    title: "Pothole Detection & Rapid Patch System",
+    description: "Multiple deep potholes on Main Ring Road causing severe traffic congestion, damage to public transit vehicles, and minor accidents daily during rush hour. Awaiting rapid asphalt patch & AI road scan prototype.",
+    category: "Infrastructure",
+    location: "Ward 12, New Delhi",
     priority: "HIGH",
     status: "IN_PROGRESS",
-    createdBy: "citizen1",
-    createdAt: new Date(Date.now() - 3600000 * 24),
+    createdBy: "Ward 12 Resident Welfare",
+    votes: 342,
+    createdAt: new Date(Date.now() - 3600000 * 48),
     updatedAt: new Date(Date.now() - 3600000 * 24)
   },
   {
-    _id: "mock-2",
-    title: "Broken Streetlight on Elm Road",
-    description: "The streetlight near house 42 has been flickering and is now completely out.",
+    _id: "SIH-1260-B",
+    title: "Solar Micro-Grid for Rural Schools",
+    description: "Rural primary school lacking continuous electricity supply, disrupting digital classrooms and computer lab operations. Proposal for smart microgrid battery storage system.",
     category: "Electricity",
-    location: "42 Elm Road",
+    location: "Ward 3, Pune District",
+    priority: "MEDIUM",
+    status: "UNDER_REVIEW",
+    createdBy: "School Management Committee",
+    votes: 289,
+    createdAt: new Date(Date.now() - 3600000 * 36),
+    updatedAt: new Date(Date.now() - 3600000 * 18)
+  },
+  {
+    _id: "SIH-1260-C",
+    title: "AI Water Leak Detection Network",
+    description: "Main pipeline leakage leading to wastage of thousands of liters of clean drinking water daily. AI acoustic sensor network and pressure logging suggested for rapid pinpointing.",
+    category: "Environment",
+    location: "Zone B, Bengaluru South",
     priority: "MEDIUM",
     status: "SUBMITTED",
-    createdBy: "citizen2",
-    createdAt: new Date(Date.now() - 3600000 * 2),
-    updatedAt: new Date(Date.now() - 3600000 * 2)
+    createdBy: "South Bengaluru Citizen Forum",
+    votes: 210,
+    createdAt: new Date(Date.now() - 3600000 * 24),
+    updatedAt: new Date(Date.now() - 3600000 * 12)
+  },
+  {
+    _id: "SIH-1260-D",
+    title: "E-Waste Disposal Smart Bin Network",
+    description: "Lack of dedicated e-waste recycling bins leading to hazardous disposal of mercury and lithium batteries in municipal waste streams. Smart bin sensor and collection route optimization required.",
+    category: "Waste Management",
+    location: "Sector 62, Noida",
+    priority: "LOW",
+    status: "SUBMITTED",
+    createdBy: "Sector 62 Green Committee",
+    votes: 195,
+    createdAt: new Date(Date.now() - 3600000 * 16),
+    updatedAt: new Date(Date.now() - 3600000 * 8)
+  },
+  {
+    _id: "SIH-1260-E",
+    title: "Rural Clinic Telemedicine System",
+    description: "No specialist doctor visits in remote hilly terrain. High-bandwidth digital diagnostic telemetry terminal needed to connect primary clinics with AIIMS specialists.",
+    category: "Healthcare",
+    location: "Village Palampur, HP",
+    priority: "HIGH",
+    status: "UNDER_REVIEW",
+    createdBy: "Community Health Center",
+    votes: 180,
+    createdAt: new Date(Date.now() - 3600000 * 10),
+    updatedAt: new Date(Date.now() - 3600000 * 4)
+  },
+  {
+    _id: "SIH-1260-F",
+    title: "Smart Streetlight Grid Control",
+    description: "Streetlights remaining active in broad daylight, causing significant grid energy waste. Need automated ambient light level sensor arrays and central timer dashboard.",
+    category: "Infrastructure",
+    location: "Gachibowli, Hyderabad",
+    priority: "LOW",
+    status: "SUBMITTED",
+    createdBy: "Cyberabad Civic Association",
+    votes: 154,
+    createdAt: new Date(Date.now() - 3600000 * 4),
+    updatedAt: new Date(Date.now() - 3600000 * 1)
   }
 ];
 

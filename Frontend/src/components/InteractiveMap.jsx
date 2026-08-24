@@ -50,12 +50,17 @@ export default function InteractiveMap({ problems = [], onPinClick = null }) {
       });
     }
 
-    // High/Critical = Red, Medium/Low = Yellow, Resolved = Green
+    // High/Critical = Red, Medium = Orange, Low = Yellow, Resolved = Green
+    const priUpper = (priority || "").toUpperCase();
     let markerColor = "bg-rose-500 border-rose-200 shadow-rose-500/50";
     if (status === "RESOLVED") {
       markerColor = "bg-emerald-500 border-emerald-200 shadow-emerald-500/50";
-    } else if (priority === "LOW" || priority === "MEDIUM") {
-      markerColor = "bg-amber-500 border-amber-200 shadow-amber-500/50";
+    } else if (priUpper === "MEDIUM") {
+      markerColor = "bg-orange-500 border-orange-200 shadow-orange-500/50";
+    } else if (priUpper === "LOW") {
+      markerColor = "bg-yellow-400 border-yellow-200 shadow-yellow-400/50";
+    } else if (priUpper === "HIGH" || priUpper === "CRITICAL") {
+      markerColor = "bg-rose-500 border-rose-200 shadow-rose-500/50";
     }
 
     return L.divIcon({
@@ -228,13 +233,21 @@ export default function InteractiveMap({ problems = [], onPinClick = null }) {
         });
 
         // Detailed issue popup card
+        const priUpper = (prob.priority || "MEDIUM").toUpperCase();
+        let priorityBadgeClass = "text-orange-700 bg-orange-50 border-orange-200";
+        if (priUpper === "CRITICAL" || priUpper === "HIGH") {
+          priorityBadgeClass = "text-rose-700 bg-rose-50 border-rose-200";
+        } else if (priUpper === "LOW") {
+          priorityBadgeClass = "text-yellow-800 bg-yellow-50 border-yellow-300";
+        }
+
         const popupContent = `
           <div class="p-2.5 max-w-[210px] text-[#0B2545] font-sans">
             <span class="text-[8px] font-black uppercase text-slate-400 block tracking-wider">${prob.category}</span>
             <h4 class="font-extrabold text-[11px] mt-1 leading-tight text-[#0B2545] uppercase">${prob.title}</h4>
             <p class="text-[9.5px] text-slate-500 mt-1.5 leading-relaxed line-clamp-3">${prob.description || prob.desc || 'No description provided.'}</p>
             <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-100 text-[8px] font-black uppercase tracking-wide">
-              <span class="text-rose-600 bg-rose-50 border border-rose-100 px-1.5 py-0.5 rounded font-black">${prob.priority || 'MEDIUM'}</span>
+              <span class="${priorityBadgeClass} border px-1.5 py-0.5 rounded font-black">${prob.priority || 'MEDIUM'}</span>
               <span class="text-blue-600 bg-blue-50 border border-blue-100 px-1.5 py-0.5 rounded font-bold">${prob.status.replace("_", " ")}</span>
             </div>
             <a href="/problems/${prob._id || prob.id}" class="block text-center mt-3 bg-[#0B2545] hover:bg-[#134074] text-white text-[8.5px] font-extrabold py-1.5 rounded uppercase tracking-wider transition-colors shadow-xs">
@@ -280,7 +293,7 @@ export default function InteractiveMap({ problems = [], onPinClick = null }) {
       <div ref={mapContainerRef} className="flex-1 w-full h-full z-10" />
 
       {/* FLOATING LEGEND (Bottom Left Corner) */}
-      <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-xs border border-slate-200 rounded-md p-3 z-[1000] shadow-md select-none text-left max-w-40 animate-fadeIn">
+      <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-xs border border-slate-200 rounded-md p-3 z-[1000] shadow-md select-none text-left max-w-44 animate-fadeIn">
         <h5 className="text-[9px] font-black text-slate-800 uppercase tracking-wider border-b border-slate-100 pb-1.5 mb-1.5">
           🗺️ Map Legend
         </h5>
@@ -290,8 +303,12 @@ export default function InteractiveMap({ problems = [], onPinClick = null }) {
             <span>High / Critical</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 border border-amber-200 flex-shrink-0"></span>
-            <span>Medium / Low</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-orange-500 border border-orange-200 flex-shrink-0"></span>
+            <span>Medium</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 border border-yellow-300 flex-shrink-0"></span>
+            <span>Low</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 border border-emerald-200 flex-shrink-0"></span>

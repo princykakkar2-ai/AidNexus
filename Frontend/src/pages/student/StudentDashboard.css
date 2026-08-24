@@ -138,14 +138,23 @@
   border-radius: 20px;
 }
 
-.priority.high {
+.priority.high,
+.priority.critical {
   background: #fff1f1;
   color: #e14d4d;
+  border: 1px solid #fecaca;
 }
 
 .priority.medium {
-  background: #fff8e6;
-  color: #d98b00;
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #fed7aa;
+}
+
+.priority.low {
+  background: #fefce8;
+  color: #ca8a04;
+  border: 1px solid #fef08a;
 }
 
 .problem-preview-card h3 {

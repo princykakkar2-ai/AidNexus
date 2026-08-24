@@ -3,20 +3,32 @@ import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import EmptyState from "../../components/EmptyState";
 import { fetchProblems } from "../../services/api";
+import { CANONICAL_PROBLEMS } from "../../data/canonicalProblems";
 
 export default function CitizenDashboard() {
-  const [problems, setProblems] = useState([]);
+  const [problems, setProblems] = useState(CANONICAL_PROBLEMS);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     fetchProblems()
       .then((data) => {
-        setProblems(data);
+        if (data && data.length > 0) {
+          const combined = [...data];
+          CANONICAL_PROBLEMS.forEach((cp) => {
+            if (!combined.some((p) => (p._id || p.id) === (cp._id || cp.id))) {
+              combined.push(cp);
+            }
+          });
+          setProblems(combined);
+        } else {
+          setProblems(CANONICAL_PROBLEMS);
+        }
         setLoading(false);
       })
       .catch((err) => {
-        setError("Failed to load reported problems.");
+        console.warn("Using canonical problems for citizen dashboard:", err);
+        setProblems(CANONICAL_PROBLEMS);
         setLoading(false);
       });
   }, []);
@@ -95,9 +107,20 @@ export default function CitizenDashboard() {
                   <span className="bg-slate-100 border border-[#CCCCCC] px-2 py-0.5 rounded-[2px] text-slate-700 uppercase">
                     {problem.category}
                   </span>
-                  <span className="text-slate-500">
-                    PRIORITY: <strong className="text-slate-800 uppercase">{problem.priority}</strong>
-                  </span>
+                  <div className="flex items-center gap-1.5 uppercase text-slate-500">
+                    <span>PRIORITY:</span>
+                    <span className={`px-2 py-0.5 rounded-[2px] text-[9px] font-bold border ${
+                      (problem.priority || "").toUpperCase() === "CRITICAL" || (problem.priority || "").toUpperCase() === "HIGH"
+                        ? "bg-red-50 text-red-700 border-red-200"
+                        : (problem.priority || "").toUpperCase() === "MEDIUM"
+                          ? "bg-orange-50 text-orange-700 border-orange-200"
+                          : (problem.priority || "").toUpperCase() === "LOW"
+                            ? "bg-yellow-50 text-yellow-800 border-yellow-300"
+                            : "bg-slate-50 text-slate-700 border-slate-200"
+                    }`}>
+                      {problem.priority || "MEDIUM"}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}

@@ -8,17 +8,7 @@ import Step from "../components/Step";
 import Footer from "../components/Footer";
 import { fetchProblems } from "../services/api";
 import InteractiveMap from "../components/InteractiveMap";
-
-// Mock Database of Grievances for Search & Map
-const mockProblems = [
-  { id: "SIH-1260-A", title: "Pothole Detection & Rapid Patch System", category: "Infrastructure", votes: 342, location: "Ward 12, Delhi", status: "Solutions Open", desc: "Multiple deep potholes on Main Ring Road causing severe traffic congestion and minor accidents daily. Awaiting team matching." },
-  { id: "SIH-1260-B", title: "Solar Micro-Grid for Rural Schools", category: "Electricity", votes: 289, location: "Ward 3, Jaipur", status: "Under Review", desc: "Rural primary school lacking continuous electricity supply, hampering digital classes. Proposal for smart microgrid." },
-  { id: "SIH-1260-C", title: "AI Water Leak Detection Network", category: "Environment", votes: 210, location: "Zone B, Chennai", status: "Solutions Open", desc: "Main pipeline leakage leading to wastage of thousands of liters of clean drinking water. AI acoustic sensor network suggested." },
-  { id: "SIH-1260-D", title: "E-Waste Disposal Smart Bin Network", category: "Waste Management", votes: 195, location: "Sector 62, Noida", status: "Solutions Open", desc: "Lack of dedicated e-waste recycling bins leading to hazardous disposal of mercury-containing devices." },
-  { id: "SIH-1260-E", title: "Rural Clinic Telemedicine System", category: "Healthcare", votes: 180, location: "Village Palampur, HP", status: "Under Review", desc: "No specialist doctor visits. High-bandwidth digital diagnostic telemetry terminal needed to connect with AIIMS." },
-  { id: "SIH-1260-F", title: "Smart Streetlight Grid Control", category: "Infrastructure", votes: 154, location: "Gachibowli, Hyderabad", status: "Solutions Open", desc: "Streetlights remaining active in broad daylight, waste of grid power. Automated light level sensor arrays." }
-];
-
+import { CANONICAL_PROBLEMS } from "../data/canonicalProblems";
 
 export default function Home() {
   const [selectedDomain, setSelectedDomain] = useState("All");
@@ -30,7 +20,7 @@ export default function Home() {
 
   // Map State
   const [activePinId, setActivePinId] = useState("SIH-1260-A");
-  const [problems, setProblems] = useState(mockProblems);
+  const [problems, setProblems] = useState(CANONICAL_PROBLEMS);
 
   useEffect(() => {
     fetchProblems()
@@ -44,13 +34,16 @@ export default function Home() {
             votes: p.votes || Math.floor(Math.random() * 50) + 10,
             location: p.location,
             status: p.status === "SUBMITTED" || p.status === "UNDER_REVIEW" ? "Under Review" : "Solutions Open",
-            desc: p.description,
+            desc: p.description || p.desc,
             priority: p.priority || "MEDIUM"
           }));
           
-          const combined = [...mockProblems];
+          const combined = [...CANONICAL_PROBLEMS];
           formattedDbProblems.forEach(p => {
-            if (!combined.some(c => c.id === p.id)) {
+            const existingIndex = combined.findIndex(c => (c.id || c._id) === p.id);
+            if (existingIndex !== -1) {
+              combined[existingIndex] = { ...combined[existingIndex], ...p };
+            } else {
               combined.push(p);
             }
           });

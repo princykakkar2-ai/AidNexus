@@ -1,111 +1,82 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchProblems } from "../../services/api";
+import { CANONICAL_PROBLEMS } from "../../data/canonicalProblems";
 import "./ExploreProblems.css";
-
-const problems = [
-  {
-    id: 1,
-    title: "Garbage Management",
-    description:
-      "Develop an efficient solution for improving garbage collection in residential areas.",
-    category: "Waste Management",
-    priority: "High",
-    location: "Noida",
-  },
-  {
-    id: 2,
-    title: "Water Leakage",
-    description:
-      "Develop a solution to identify and reduce water leakage in public pipelines.",
-    category: "Water",
-    priority: "Medium",
-    location: "Ghaziabad",
-  },
-  {
-    id: 3,
-    title: "Street Light Monitoring",
-    description:
-      "Create a smart system to detect faulty street lights and report them automatically.",
-    category: "Infrastructure",
-    priority: "High",
-    location: "Delhi",
-  },
-  {
-    id: 4,
-    title: "Traffic Congestion",
-    description:
-      "Find an intelligent approach to reduce traffic congestion near busy intersections.",
-    category: "Transportation",
-    priority: "Medium",
-    location: "Noida",
-  },
-  {
-    id: 5,
-    title: "Public Park Maintenance",
-    description:
-      "Suggest a technology-based solution for monitoring cleanliness and maintenance of parks.",
-    category: "Environment",
-    priority: "Low",
-    location: "Ghaziabad",
-  },
-  {
-    id: 6,
-    title: "Air Quality Monitoring",
-    description:
-      "Build a system that can help citizens monitor air quality in different areas.",
-    category: "Environment",
-    priority: "High",
-    location: "Delhi",
-  },
-];
 
 function ExploreProblems() {
   const navigate = useNavigate();
 
+  const [problems, setProblems] = useState(CANONICAL_PROBLEMS);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [priority, setPriority] = useState("All");
 
+  useEffect(() => {
+    fetchProblems()
+      .then((data) => {
+        if (data && data.length > 0) {
+          const combined = [...data];
+          CANONICAL_PROBLEMS.forEach((cp) => {
+            if (!combined.some((p) => (p._id || p.id) === (cp._id || cp.id))) {
+              combined.push(cp);
+            }
+          });
+          setProblems(combined);
+        } else {
+          setProblems(CANONICAL_PROBLEMS);
+        }
+      })
+      .catch((err) => {
+        console.warn("Using canonical problems:", err);
+        setProblems(CANONICAL_PROBLEMS);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   const filteredProblems = problems.filter((problem) => {
-    const matchesSearch =
-      problem.title.toLowerCase().includes(search.toLowerCase()) ||
-      problem.description.toLowerCase().includes(search.toLowerCase());
+    const title = (problem.title || "").toLowerCase();
+    const desc = (problem.description || problem.desc || "").toLowerCase();
+    const loc = (problem.location || "").toLowerCase();
+    const q = search.toLowerCase();
+
+    const matchesSearch = q === "" || title.includes(q) || desc.includes(q) || loc.includes(q);
 
     const matchesCategory =
-      category === "All" || problem.category === category;
+      category === "All" || (problem.category || "").toLowerCase() === category.toLowerCase();
 
+    const probPri = (problem.priority || "MEDIUM").toUpperCase();
+    const filterPri = priority.toUpperCase();
     const matchesPriority =
-      priority === "All" || problem.priority === priority;
+      filterPri === "ALL" ||
+      (filterPri === "HIGH" && (probPri === "HIGH" || probPri === "CRITICAL")) ||
+      (filterPri === "MEDIUM" && probPri === "MEDIUM") ||
+      (filterPri === "LOW" && probPri === "LOW");
 
     return matchesSearch && matchesCategory && matchesPriority;
   });
 
   return (
     <div className="explore-problems">
-
-    <button onClick={() => navigate(-1)} className="back-button">← Back</button>
+      <button onClick={() => navigate(-1)} className="back-button">← Back</button>
 
       {/* Header */}
       <section className="explore-header">
         <p className="section-label">DISCOVER</p>
-
         <h1>Explore Problems</h1>
-
         <p>
-          Discover real-world problems and use your skills to create
-          meaningful solutions.
+          Discover real-world verified grievances and use your technical skills to build meaningful prototypes.
         </p>
       </section>
 
       {/* Search and Filters */}
       <section className="filters">
-
         <div className="search-box">
           <span>🔍</span>
-
           <input
             type="text"
-            placeholder="Search problems..."
+            placeholder="Search problems by keyword or location..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -116,11 +87,12 @@ function ExploreProblems() {
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="All">All Categories</option>
-          <option value="Waste Management">Waste Management</option>
-          <option value="Water">Water</option>
           <option value="Infrastructure">Infrastructure</option>
-          <option value="Transportation">Transportation</option>
+          <option value="Electricity">Electricity</option>
           <option value="Environment">Environment</option>
+          <option value="Waste Management">Waste Management</option>
+          <option value="Healthcare">Healthcare</option>
+          <option value="Transportation">Transportation</option>
         </select>
 
         <select
@@ -132,66 +104,62 @@ function ExploreProblems() {
           <option value="Medium">Medium</option>
           <option value="Low">Low</option>
         </select>
-
       </section>
 
       {/* Number of results */}
       <div className="results-count">
         <p>
-          Showing <strong>{filteredProblems.length}</strong> problems
+          Showing <strong>{filteredProblems.length}</strong> {filteredProblems.length === 1 ? "problem" : "problems"}
         </p>
       </div>
 
       {/* Problem Cards */}
       <section className="problems-grid">
+        {loading ? (
+          <div className="no-results">
+            <p>Loading grievances...</p>
+          </div>
+        ) : filteredProblems.length > 0 ? (
+          filteredProblems.map((problem) => {
+            const probId = problem._id || problem.id;
+            const priLower = (problem.priority || "medium").toLowerCase();
+            return (
+              <div className="problem-card" key={probId}>
+                <div className="problem-card-top">
+                  <span className={`priority-badge ${priLower}`}>
+                    {problem.priority || "MEDIUM"} Priority
+                  </span>
 
-        {filteredProblems.length > 0 ? (
-          filteredProblems.map((problem) => (
-            <div className="problem-card" key={problem.id}>
+                  <span className="category-badge">
+                    {problem.category}
+                  </span>
+                </div>
 
-              <div className="problem-card-top">
-                <span
-                  className={`priority-badge ${problem.priority.toLowerCase()}`}
+                <h2>{problem.title}</h2>
+
+                <p className="problem-description">
+                  {problem.description || problem.desc}
+                </p>
+
+                <div className="problem-location">
+                  📍 {problem.location}
+                </div>
+
+                <button
+                  onClick={() => navigate(`/student/problems/${probId}`)}
                 >
-                  {problem.priority} Priority
-                </span>
-
-                <span className="category-badge">
-                  {problem.category}
-                </span>
+                  View Challenge →
+                </button>
               </div>
-
-              <h2>{problem.title}</h2>
-
-              <p className="problem-description">
-                {problem.description}
-              </p>
-
-              <div className="problem-location">
-                📍 {problem.location}
-              </div>
-
-              <button
-                onClick={() =>
-                  navigate(`/student/problems/${problem.id}`)
-                }
-              >
-                View Challenge →
-              </button>
-
-            </div>
-          ))
+            );
+          })
         ) : (
           <div className="no-results">
             <h2>No problems found</h2>
-            <p>
-              Try changing your search or filter.
-            </p>
+            <p>Try adjusting your search query or filter criteria.</p>
           </div>
         )}
-
       </section>
-
     </div>
   );
 }

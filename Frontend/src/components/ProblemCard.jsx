@@ -22,9 +22,20 @@ export default function ProblemCard({ problem }) {
         <span className="rounded-[2px] bg-[#FFFBEB] text-[#E65C00] border border-amber-200 px-3 py-1 uppercase">
           {problem.category}
         </span>
-        <span className="text-slate-500 uppercase">
-          PRIORITY: <strong className="text-[#0B2545]">{problem.priority}</strong>
-        </span>
+        <div className="flex items-center gap-1.5 uppercase text-slate-500">
+          <span>PRIORITY:</span>
+          <span className={`px-2 py-0.5 rounded-[2px] text-[9px] font-bold border ${
+            (problem.priority || "").toUpperCase() === "CRITICAL" || (problem.priority || "").toUpperCase() === "HIGH"
+              ? "bg-red-50 text-red-700 border-red-200"
+              : (problem.priority || "").toUpperCase() === "MEDIUM"
+                ? "bg-orange-50 text-orange-700 border-orange-200"
+                : (problem.priority || "").toUpperCase() === "LOW"
+                  ? "bg-yellow-50 text-yellow-800 border-yellow-300"
+                  : "bg-slate-50 text-slate-700 border-slate-200"
+          }`}>
+            {problem.priority || "MEDIUM"}
+          </span>
+        </div>
       </div>
     </article>
   );
