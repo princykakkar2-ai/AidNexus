@@ -1,9 +1,10 @@
 import { Router } from "express";
+
 import {
-  getProjects,
-  createProject,
-  updateProjectProgress,
-  offerIndustrySupport,
+    getProjects,
+    createProject,
+    updateProjectProgress,
+    offerIndustrySupport
 } from "../controllers/projectController.js";
 
 const router = Router();

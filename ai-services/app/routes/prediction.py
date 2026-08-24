@@ -5,6 +5,8 @@ from app.services.categorizer import categorize_problem
 from app.services.priority import detect_priority
 from app.services.summarizer import generate_summary
 from app.services.duplicate import check_duplicate
+from app.services.skill_extractor import extract_required_skills
+from app.services.team_matcher import match_teams
 
 router = APIRouter()
 
@@ -22,7 +24,7 @@ existing_problems = [
 
 
 @router.post("/analyze")
-def analyze_problem(problem: Problem):
+async def analyze_problem(problem: Problem):
 
     category = categorize_problem(
         problem.title,
@@ -45,10 +47,21 @@ def analyze_problem(problem: Problem):
         text,
         existing_problems
     )
+    
+    required_skills = extract_required_skills(
+        problem.title,
+        problem.description
+    )
+    recommended_teams = await match_teams(
+        required_skills,
+        category
+    )
 
     return {
         "category": category,
         "priority": priority,
         "summary": summary,
-        "duplicate": duplicate
+        "duplicate": duplicate,
+        "requiredSkills": required_skills,
+        "recommendedTeams": recommended_teams
     }
