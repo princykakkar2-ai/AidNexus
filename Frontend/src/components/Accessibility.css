@@ -1,0 +1,266 @@
+/* ==========================================================================
+   AidNexus Website Accessibility Suite - CSS Styles
+   Compliant with WCAG 2.1 AA / AAA Guidelines
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Typography: Dyslexia-Friendly Font (OpenDyslexic Fallback Stack)
+   -------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+html[data-a11y-dyslexic="true"] body,
+html[data-a11y-dyslexic="true"] input,
+html[data-a11y-dyslexic="true"] textarea,
+html[data-a11y-dyslexic="true"] select,
+html[data-a11y-dyslexic="true"] button {
+  font-family: 'Atkinson Hyperlegible', 'Lexend', 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif !important;
+  letter-spacing: 0.05em !important;
+  word-spacing: 0.1em !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. Line Spacing & Letter Spacing
+   -------------------------------------------------------------------------- */
+html[data-a11y-line-spacing="relaxed"] body {
+  line-height: 1.8 !important;
+}
+html[data-a11y-line-spacing="loose"] body {
+  line-height: 2.2 !important;
+}
+
+html[data-a11y-letter-spacing="wide"] body {
+  letter-spacing: 0.08em !important;
+}
+html[data-a11y-letter-spacing="wider"] body {
+  letter-spacing: 0.16em !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Highlight & Enforce Link Visuals
+   -------------------------------------------------------------------------- */
+html[data-a11y-highlight-links="true"] a {
+  text-decoration: underline 2.5px solid #E65C00 !important;
+  text-underline-offset: 4px !important;
+  font-weight: 700 !important;
+  background-color: rgba(230, 92, 0, 0.08) !important;
+  border-radius: 2px !important;
+  padding: 0 3px !important;
+  transition: all 0.15s ease !important;
+}
+
+html[data-a11y-highlight-links="true"] a:hover {
+  background-color: #E65C00 !important;
+  color: #FFFFFF !important;
+  text-decoration-color: #FFFFFF !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. High Contrast & Visual Themes (WCAG AAA Compliance)
+   -------------------------------------------------------------------------- */
+
+/* High Contrast: Dark Theme */
+html[data-a11y-contrast="high-contrast-dark"] {
+  filter: contrast(115%);
+  color-scheme: dark;
+}
+
+html[data-a11y-contrast="high-contrast-dark"] body {
+  background-color: #0D1117 !important;
+  color: #F0F6FC !important;
+}
+
+html[data-a11y-contrast="high-contrast-dark"] .card-gov,
+html[data-a11y-contrast="high-contrast-dark"] .bg-white,
+html[data-a11y-contrast="high-contrast-dark"] .bg-slate-50 {
+  background-color: #161B22 !important;
+  color: #F0F6FC !important;
+  border-color: #30363D !important;
+}
+
+html[data-a11y-contrast="high-contrast-dark"] input,
+html[data-a11y-contrast="high-contrast-dark"] select,
+html[data-a11y-contrast="high-contrast-dark"] textarea {
+  background-color: #0D1117 !important;
+  color: #FFFFFF !important;
+  border-color: #8B949E !important;
+}
+
+html[data-a11y-contrast="high-contrast-dark"] .text-slate-600,
+html[data-a11y-contrast="high-contrast-dark"] .text-slate-700,
+html[data-a11y-contrast="high-contrast-dark"] .text-slate-500 {
+  color: #C9D1D9 !important;
+}
+
+html[data-a11y-contrast="high-contrast-dark"] .text-\[\#0A192F\],
+html[data-a11y-contrast="high-contrast-dark"] .text-\[\#0B2545\] {
+  color: #58A6FF !important;
+}
+
+/* High Contrast: Yellow on Black (Standard Govt High Visibility Mode) */
+html[data-a11y-contrast="high-contrast-yellow"] body {
+  background-color: #000000 !important;
+  color: #FFFF00 !important;
+}
+
+html[data-a11y-contrast="high-contrast-yellow"] * {
+  background-color: #000000 !important;
+  color: #FFFF00 !important;
+  border-color: #FFFF00 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+html[data-a11y-contrast="high-contrast-yellow"] a,
+html[data-a11y-contrast="high-contrast-yellow"] button,
+html[data-a11y-contrast="high-contrast-yellow"] input,
+html[data-a11y-contrast="high-contrast-yellow"] select {
+  background-color: #000000 !important;
+  color: #FFFF00 !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+html[data-a11y-contrast="high-contrast-yellow"] a:hover,
+html[data-a11y-contrast="high-contrast-yellow"] button:hover {
+  background-color: #FFFF00 !important;
+  color: #000000 !important;
+}
+
+/* Grayscale / Monochromatic */
+html[data-a11y-contrast="grayscale"] {
+  filter: grayscale(100%) !important;
+}
+
+/* Inverted Mode */
+html[data-a11y-contrast="inverted"] {
+  filter: invert(100%) hue-rotate(180deg) !important;
+}
+html[data-a11y-contrast="inverted"] img,
+html[data-a11y-contrast="inverted"] video,
+html[data-a11y-contrast="inverted"] .leaflet-container {
+  filter: invert(100%) hue-rotate(180deg) !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. Pause Animations & Reduced Motion
+   -------------------------------------------------------------------------- */
+html[data-a11y-reduced-motion="true"] *,
+html[data-a11y-reduced-motion="true"] *::before,
+html[data-a11y-reduced-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. Custom Large Cursor
+   -------------------------------------------------------------------------- */
+html[data-a11y-large-cursor="true"] *,
+html[data-a11y-large-cursor="true"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 24 24' fill='%230B2545' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 3l7 18 3-7 7-3L3 3z'/%3E%3C/svg%3E"), auto !important;
+}
+
+html[data-a11y-large-cursor="true"] a,
+html[data-a11y-large-cursor="true"] button,
+html[data-a11y-large-cursor="true"] [role="button"],
+html[data-a11y-large-cursor="true"] input[type="submit"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 24 24' fill='%23E65C00' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/%3E%3C/svg%3E"), pointer !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. High Visibility Focus Rings (WCAG 2.4.7 & 2.4.11)
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 3px solid #E65C00 !important;
+  outline-offset: 3px !important;
+  border-radius: 2px !important;
+}
+
+/* --------------------------------------------------------------------------
+   8. Reading Guide Ruler Elements
+   -------------------------------------------------------------------------- */
+.a11y-reading-guide-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999990;
+  overflow: hidden;
+}
+
+.a11y-reading-guide-mask-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  transition: height 0.04s linear;
+}
+
+.a11y-reading-guide-aperture {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  border-top: 2.5px solid #FF9933;
+  border-bottom: 2.5px solid #FF9933;
+  background: rgba(255, 255, 0, 0.12);
+  box-shadow: 0 0 15px rgba(255, 153, 51, 0.4);
+  transition: top 0.04s linear;
+}
+
+.a11y-reading-guide-mask-bottom {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  transition: top 0.04s linear;
+}
+
+/* --------------------------------------------------------------------------
+   9. Screen Reader / Accessibility Toolbar UI Enhancements
+   -------------------------------------------------------------------------- */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Smooth Floating Toolbar Animations */
+@keyframes a11yFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.a11y-panel-animate {
+  animation: a11yFadeInUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Scrollbar for Accessibility Dialog */
+.a11y-custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.a11y-custom-scrollbar::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+.a11y-custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+.a11y-custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
