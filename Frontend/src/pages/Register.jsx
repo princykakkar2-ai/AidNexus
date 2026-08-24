@@ -14,6 +14,19 @@ export default function Register() {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
+  const getPasswordCriteria = (pwd) => {
+    return {
+      minLength: pwd.length >= 8,
+      hasLower: /[a-z]/.test(pwd),
+      hasUpper: /[A-Z]/.test(pwd),
+      hasNumber: /[0-9]/.test(pwd),
+      hasSpecial: /[^A-Za-z0-9]/.test(pwd),
+    };
+  };
+
+  const criteria = getPasswordCriteria(form.password);
+  const metCount = Object.values(criteria).filter(Boolean).length;
+
   const handleUpdate = (e) => {
     setForm((current) => ({ ...current, [e.target.name]: e.target.value }));
   };
@@ -25,6 +38,11 @@ export default function Register() {
 
     if (!form.name || !form.email || !form.password || !form.confirmPassword) {
       setError("Please fill all required registration details.");
+      return;
+    }
+
+    if (metCount < 5) {
+      setError("Password does not meet the strength requirements. It must satisfy all five complexity criteria.");
       return;
     }
 
@@ -98,6 +116,79 @@ export default function Register() {
                 className="w-full rounded-[2px] border border-[#CCCCCC] px-4 py-2.5 text-xs outline-none focus:border-[#E65C00]"
                 required
               />
+              {form.password && (
+                <div className="mt-3 space-y-2">
+                  <div className="flex items-center justify-between text-[11px] font-bold uppercase">
+                    <span className="text-slate-500">Strength:</span>
+                    <span className={
+                      metCount <= 1 ? "text-red-600" :
+                      metCount === 2 ? "text-orange-500" :
+                      metCount === 3 ? "text-yellow-600" :
+                      metCount === 4 ? "text-emerald-500" :
+                      "text-emerald-600"
+                    }>
+                      {metCount <= 1 && "Very Weak"}
+                      {metCount === 2 && "Weak"}
+                      {metCount === 3 && "Fair"}
+                      {metCount === 4 && "Good"}
+                      {metCount === 5 && "Strong"}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-5 gap-1">
+                    {[1, 2, 3, 4, 5].map((index) => {
+                      const isActive = index <= metCount;
+                      let barColor = "bg-slate-200";
+                      if (isActive) {
+                        if (metCount <= 1) barColor = "bg-red-500";
+                        else if (metCount === 2) barColor = "bg-orange-400";
+                        else if (metCount === 3) barColor = "bg-yellow-400";
+                        else if (metCount === 4) barColor = "bg-emerald-400";
+                        else barColor = "bg-emerald-500";
+                      }
+                      return (
+                        <div
+                          key={index}
+                          className={`h-1 rounded-sm transition-all duration-300 ${barColor}`}
+                        />
+                      );
+                    })}
+                  </div>
+
+                  <ul className="mt-2 space-y-1 text-[11px] font-medium text-slate-500">
+                    <li className="flex items-center gap-1.5">
+                      <span className={`text-[12px] ${criteria.minLength ? "text-emerald-500" : "text-slate-300"}`}>
+                        {criteria.minLength ? "✓" : "○"}
+                      </span>
+                      <span className={criteria.minLength ? "text-slate-800 font-semibold" : ""}>At least 8 characters</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className={`text-[12px] ${criteria.hasLower ? "text-emerald-500" : "text-slate-300"}`}>
+                        {criteria.hasLower ? "✓" : "○"}
+                      </span>
+                      <span className={criteria.hasLower ? "text-slate-800 font-semibold" : ""}>At least 1 lowercase letter</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className={`text-[12px] ${criteria.hasUpper ? "text-emerald-500" : "text-slate-300"}`}>
+                        {criteria.hasUpper ? "✓" : "○"}
+                      </span>
+                      <span className={criteria.hasUpper ? "text-slate-800 font-semibold" : ""}>At least 1 uppercase letter</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className={`text-[12px] ${criteria.hasNumber ? "text-emerald-500" : "text-slate-300"}`}>
+                        {criteria.hasNumber ? "✓" : "○"}
+                      </span>
+                      <span className={criteria.hasNumber ? "text-slate-800 font-semibold" : ""}>At least 1 number</span>
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className={`text-[12px] ${criteria.hasSpecial ? "text-emerald-500" : "text-slate-300"}`}>
+                        {criteria.hasSpecial ? "✓" : "○"}
+                      </span>
+                      <span className={criteria.hasSpecial ? "text-slate-800 font-semibold" : ""}>At least 1 special character</span>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
 
             <div>

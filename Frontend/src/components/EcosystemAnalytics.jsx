@@ -1,38 +1,44 @@
 import React from "react";
 
-export default function EcosystemAnalytics() {
-  // 1. Department-wise Problem Classifications
-  const categories = [
-    { label: "Environment & Pollution Control", count: 41, percentage: "32%", ministry: "Ministry of Environment" },
-    { label: "Infrastructure Development", count: 36, percentage: "28%", ministry: "Ministry of Road Transport" },
-    { label: "Healthcare Services & Sanitation", count: 20, percentage: "16%", ministry: "Ministry of Health & Family Welfare" },
-    { label: "Education & Digital Literacy", count: 15, percentage: "12%", ministry: "Ministry of Education" },
-    { label: "Water Resource Management", count: 10, percentage: "8%", ministry: "Ministry of Jal Shakti" },
-    { label: "Other Civic Demands", count: 6, percentage: "4%", ministry: "Department of Local Governance" },
-  ];
+export default function EcosystemAnalytics({ problems = [] }) {
+  // Reconcile stats dynamically by adding dynamic data to the baseline seed values
+  const sanitationCount = 20 + problems.filter(p => p.category === "Sanitation").length;
+  const infrastructureCount = 36 + problems.filter(p => p.category === "Infrastructure" || p.category === "Transportation").length;
+  const environmentCount = 41 + problems.filter(p => p.category === "Environment" || p.category === "Waste Management").length;
+  const educationCount = 15 + problems.filter(p => p.category === "Education").length;
+  const otherCount = 16 + problems.filter(p => !["Sanitation", "Infrastructure", "Transportation", "Environment", "Waste Management", "Education"].includes(p.category)).length;
 
-  // 2. Priority / Severity Metric
-  const priorities = [
-    { label: "High Priority", count: 35, percentage: "27%", action: "Immediate matching required (within 24h)", color: "text-red-700 font-bold" },
-    { label: "Medium Priority", count: 68, percentage: "53%", action: "Standard match sequence (within 3 days)", color: "text-amber-700 font-bold" },
-    { label: "Low Priority", count: 25, percentage: "20%", action: "Routine review (within 7 days)", color: "text-slate-700 font-bold" },
-  ];
+  const totalCat = sanitationCount + infrastructureCount + environmentCount + educationCount + otherCount;
 
-  // 3. Status Tracking Logs
-  const statuses = [
-    { label: "Open (Unassigned)", count: 45, percentage: "35%", actionRequired: "Awaiting student team assignment" },
-    { label: "Under Expert Review", count: 32, percentage: "25%", actionRequired: "Awaiting mentor verification feedback" },
-    { label: "Solution Submitted", count: 26, percentage: "20%", actionRequired: "Awaiting sponsor review & funding" },
-    { label: "In Progress", count: 15, percentage: "12%", actionRequired: "Team building prototype milestone" },
-    { label: "Resolved & Closed", count: 10, percentage: "8%", actionRequired: "Grievance successfully addressed" },
-  ];
+  // Category Percentages
+  const envPct = Math.max(1, Math.round((environmentCount / totalCat) * 100));
+  const infrPct = Math.max(1, Math.round((infrastructureCount / totalCat) * 100));
+  const saniPct = Math.max(1, Math.round((sanitationCount / totalCat) * 100));
+  const eduPct = Math.max(1, Math.round((educationCount / totalCat) * 100));
+  const otherPct = 100 - envPct - infrPct - saniPct - eduPct;
+
+  // Priorities
+  const highCount = 35 + problems.filter(p => p.priority === "CRITICAL" || p.priority === "HIGH").length;
+  const mediumCount = 68 + problems.filter(p => p.priority === "MEDIUM").length;
+  const lowCount = 22 + problems.filter(p => p.priority === "LOW" || !p.priority).length;
+
+  const totalPri = highCount + mediumCount + lowCount;
+  const highPct = Math.max(1, Math.round((highCount / totalPri) * 100));
+  const medPct = Math.max(1, Math.round((mediumCount / totalPri) * 100));
+  const lowPct = 100 - highPct - medPct;
+
+  // Lifecycle logs
+  const openCount = 45 + problems.filter(p => p.status === "SUBMITTED").length;
+  const reviewCount = 32 + problems.filter(p => p.status === "UNDER_REVIEW").length;
+  const activeCount = 26 + problems.filter(p => p.status === "IN_PROGRESS").length;
+  const resolvedCount = 22 + problems.filter(p => p.status === "RESOLVED" || p.status === "REJECTED").length;
 
   return (
     <div className="w-full bg-white border border-[#CCCCCC] rounded-[2px] p-6 shadow-none">
       {/* Header Block */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b-2 border-[#0A192F] pb-4 mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 pb-4 mb-6">
         <div>
-          <h3 className="text-base font-black text-[#0A192F] uppercase tracking-wide">
+          <h3 className="text-base font-black text-[#0B2545] uppercase tracking-wide">
             Ecosystem Analytics & Case Distribution Summary
           </h3>
           <p className="text-xs text-slate-600 mt-1 font-semibold">
@@ -42,111 +48,142 @@ export default function EcosystemAnalytics() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Table 1: Category Classification */}
-        <div className="border border-[#CCCCCC] p-4 rounded-[2px] bg-slate-50/50">
-          <h4 className="text-xs font-black uppercase text-[#0A192F] border-b border-[#CCCCCC] pb-2 mb-3 tracking-wider">
+        {/* Chart 1: Donut ring for department distribution */}
+        <div className="border border-slate-200 p-5 rounded-lg bg-slate-50/50 flex flex-col justify-between min-h-[300px]">
+          <h4 className="text-xs font-black uppercase text-[#0B2545] border-b border-slate-100 pb-2 mb-4 tracking-wider">
             1. Classification by Department
           </h4>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-[11px] border-collapse">
-              <thead>
-                <tr className="bg-slate-200 border-b border-[#CCCCCC] text-slate-800 font-bold">
-                  <th className="p-2 border border-[#CCCCCC]">Domain / Category</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Cases</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Share</th>
-                </tr>
-              </thead>
-              <tbody>
-                {categories.map((cat, idx) => (
-                  <tr key={idx} className="hover:bg-white border-b border-[#CCCCCC] font-semibold text-slate-700">
-                    <td className="p-2 border border-[#CCCCCC]">
-                      <div>{cat.label}</div>
-                      <div className="text-[9px] text-slate-400 font-normal uppercase mt-0.5">{cat.ministry}</div>
-                    </td>
-                    <td className="p-2 border border-[#CCCCCC] text-center font-mono font-bold text-slate-900 bg-white">{cat.count}</td>
-                    <td className="p-2 border border-[#CCCCCC] text-center font-mono text-slate-600">{cat.percentage}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Table 2: Priority Distribution */}
-        <div className="border border-[#CCCCCC] p-4 rounded-[2px] bg-slate-50/50">
-          <h4 className="text-xs font-black uppercase text-[#0A192F] border-b border-[#CCCCCC] pb-2 mb-3 tracking-wider">
-            2. Priority & Severity Distribution
-          </h4>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-[11px] border-collapse">
-              <thead>
-                <tr className="bg-slate-200 border-b border-[#CCCCCC] text-slate-800 font-bold">
-                  <th className="p-2 border border-[#CCCCCC]">Severity Level</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Cases</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Share</th>
-                </tr>
-              </thead>
-              <tbody>
-                {priorities.map((prio, idx) => (
-                  <tr key={idx} className="hover:bg-white border-b border-[#CCCCCC] font-semibold text-slate-700">
-                    <td className="p-2 border border-[#CCCCCC]">
-                      <div className={prio.color}>{prio.label}</div>
-                      <div className="text-[9px] text-slate-500 font-normal mt-0.5">{prio.action}</div>
-                    </td>
-                    <td className="p-2 border border-[#CCCCCC] text-center font-mono font-bold text-slate-900 bg-white">{prio.count}</td>
-                    <td className="p-2 border border-[#CCCCCC] text-center font-mono text-slate-600">{prio.percentage}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
           
-          <div className="mt-4 border-t border-[#CCCCCC] pt-4">
-            <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-bold">
-              <div className="bg-red-50 p-2 rounded-[2px] border border-red-200">
-                <span className="text-red-800 uppercase block">High</span>
-                <p className="text-sm font-black text-red-700 mt-1">35</p>
+          <div className="flex items-center justify-center gap-6 my-auto">
+            {/* Donut Chart */}
+            <div className="relative flex items-center justify-center">
+              <svg className="w-28 h-28 transform -rotate-90" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#E2E8F0" strokeWidth="4.5" />
+                
+                {/* Environment */}
+                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#10B981" strokeWidth="4.5" strokeDasharray={`${envPct} 100`} strokeDashoffset="0" />
+                {/* Infrastructure */}
+                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#3B82F6" strokeWidth="4.5" strokeDasharray={`${infrPct} 100`} strokeDashoffset={`-${envPct}`} />
+                {/* Sanitation */}
+                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#6366F1" strokeWidth="4.5" strokeDasharray={`${saniPct} 100`} strokeDashoffset={`-${envPct + infrPct}`} />
+                {/* Education */}
+                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#F59E0B" strokeWidth="4.5" strokeDasharray={`${eduPct} 100`} strokeDashoffset={`-${envPct + infrPct + saniPct}`} />
+                {/* Others */}
+                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#64748B" strokeWidth="4.5" strokeDasharray={`${otherPct} 100`} strokeDashoffset={`-${envPct + infrPct + saniPct + eduPct}`} />
+              </svg>
+              <div className="absolute flex flex-col items-center">
+                <span className="text-[10px] font-black text-[#0B2545]">TOTAL</span>
+                <span className="text-base font-black text-slate-800">{totalCat}</span>
               </div>
-              <div className="bg-amber-50 p-2 rounded-[2px] border border-amber-200">
-                <span className="text-amber-800 uppercase block">Med</span>
-                <p className="text-sm font-black text-amber-700 mt-1">68</p>
+            </div>
+
+            {/* Legend */}
+            <div className="space-y-1.5 text-[9px] font-bold text-slate-600 uppercase">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-xs bg-[#10B981] shrink-0"></span>
+                <span>Env ({envPct}%)</span>
               </div>
-              <div className="bg-slate-50 p-2 rounded-[2px] border border-[#CCCCCC]">
-                <span className="text-slate-700 uppercase block">Low</span>
-                <p className="text-sm font-black text-slate-800 mt-1">25</p>
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-xs bg-[#3B82F6] shrink-0"></span>
+                <span>Infr ({infrPct}%)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-xs bg-[#6366F1] shrink-0"></span>
+                <span>Sani ({saniPct}%)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-xs bg-[#F59E0B] shrink-0"></span>
+                <span>Edu ({eduPct}%)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-xs bg-[#64748B] shrink-0"></span>
+                <span>Other ({otherPct}%)</span>
               </div>
             </div>
           </div>
+          <div className="mt-4 text-[9px] text-center font-bold text-slate-400 uppercase tracking-wide">Case distribution by domain</div>
         </div>
 
-        {/* Table 3: Status Logs */}
-        <div className="border border-[#CCCCCC] p-4 rounded-[2px] bg-slate-50/50">
-          <h4 className="text-xs font-black uppercase text-[#0A192F] border-b border-[#CCCCCC] pb-2 mb-3 tracking-wider">
+        {/* Chart 2: Priority Severity Index (Stacked Bar Chart) */}
+        <div className="border border-slate-200 p-5 rounded-lg bg-slate-50/50 flex flex-col justify-between min-h-[300px]">
+          <h4 className="text-xs font-black uppercase text-[#0B2545] border-b border-slate-100 pb-2 mb-4 tracking-wider">
+            2. Priority & Severity Distribution
+          </h4>
+
+          <div className="space-y-6 my-auto">
+            {/* Horizontal Stacked Bar */}
+            <div className="w-full h-8 rounded-lg overflow-hidden flex border border-slate-200/80 shadow-xs">
+              <div className="bg-rose-500 hover:bg-rose-600 transition-colors text-white flex items-center justify-center text-[9px] font-black shrink-0" style={{ width: `${highPct}%` }}>
+                {highPct > 15 ? `HIGH (${highPct}%)` : 'H'}
+              </div>
+              <div className="bg-amber-400 hover:bg-amber-500 transition-colors text-[#0B2545] flex items-center justify-center text-[9px] font-black shrink-0" style={{ width: `${medPct}%` }}>
+                {medPct > 15 ? `MED (${medPct}%)` : 'M'}
+              </div>
+              <div className="bg-slate-300 hover:bg-slate-400 transition-colors text-slate-700 flex items-center justify-center text-[9px] font-black shrink-0" style={{ width: `${lowPct}%` }}>
+                {lowPct > 15 ? `LOW (${lowPct}%)` : 'L'}
+              </div>
+            </div>
+
+            {/* List breakdown */}
+            <div className="grid grid-cols-3 gap-3 text-center text-[10px] font-bold">
+              <div className="bg-red-50 p-2.5 rounded border border-red-200">
+                <span className="text-red-800 uppercase block tracking-wider">High</span>
+                <p className="text-base font-black text-red-700 mt-1">{highCount}</p>
+              </div>
+              <div className="bg-amber-50 p-2.5 rounded border border-amber-200">
+                <span className="text-amber-800 uppercase block tracking-wider">Medium</span>
+                <p className="text-base font-black text-amber-700 mt-1">{mediumCount}</p>
+              </div>
+              <div className="bg-slate-50 p-2.5 rounded border border-slate-200">
+                <span className="text-slate-700 uppercase block tracking-wider">Low</span>
+                <p className="text-base font-black text-slate-800 mt-1">{lowCount}</p>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 text-[9px] text-center font-bold text-slate-400 uppercase tracking-wide">Case severity and resolution index</div>
+        </div>
+
+        {/* Chart 3: Pipeline life tracking */}
+        <div className="border border-slate-200 p-5 rounded-lg bg-slate-50/50 flex flex-col justify-between min-h-[300px]">
+          <h4 className="text-xs font-black uppercase text-[#0B2545] border-b border-slate-100 pb-2 mb-4 tracking-wider">
             3. Case Lifecycle & Resolution Log
           </h4>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-[11px] border-collapse">
-              <thead>
-                <tr className="bg-slate-200 border-b border-[#CCCCCC] text-slate-800 font-bold">
-                  <th className="p-2 border border-[#CCCCCC]">Resolution Stage</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Cases</th>
-                  <th className="p-2 border border-[#CCCCCC] text-center w-14">Share</th>
-                </tr>
-              </thead>
-              <tbody>
-                {statuses.map((stat, idx) => (
-                  <tr key={idx} className="hover:bg-white border-b border-[#CCCCCC] font-semibold text-slate-700">
-                    <td className="p-2 border border-[#CCCCCC]">
-                      <div className="text-slate-900 font-bold">{stat.label}</div>
-                      <div className="text-[9px] text-slate-500 font-normal mt-0.5">{stat.actionRequired}</div>
-                    </td>
-                    <td className="p-2 border border-[#CCCCCC] text-center font-mono font-bold text-slate-900 bg-white">{stat.count}</td>
-                    <td className="p-2 border border-[#CCCCCC] text-center font-mono text-slate-600">{stat.percentage}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+
+          <div className="space-y-4 pl-3 relative before:absolute before:left-7.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200 my-auto">
+            {/* Step 1 */}
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="h-9 w-9 rounded-full bg-amber-500 text-white flex items-center justify-center font-black text-xs shadow-sm ring-4 ring-amber-100">1</div>
+              <div>
+                <span className="block text-[8.5px] font-black text-slate-400 uppercase">Awaiting Action</span>
+                <span className="block text-xs font-extrabold text-[#0B2545] uppercase">{openCount} Cases Logged</span>
+              </div>
+            </div>
+            {/* Step 2 */}
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="h-9 w-9 rounded-full bg-blue-500 text-white flex items-center justify-center font-black text-xs shadow-sm ring-4 ring-blue-100">2</div>
+              <div>
+                <span className="block text-[8.5px] font-black text-slate-400 uppercase">Under Review</span>
+                <span className="block text-xs font-extrabold text-[#0B2545] uppercase">{reviewCount} In Verification</span>
+              </div>
+            </div>
+            {/* Step 3 */}
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="h-9 w-9 rounded-full bg-indigo-500 text-white flex items-center justify-center font-black text-xs shadow-sm ring-4 ring-indigo-100">3</div>
+              <div>
+                <span className="block text-[8.5px] font-black text-slate-400 uppercase">Active Workspace</span>
+                <span className="block text-xs font-extrabold text-[#0B2545] uppercase">{activeCount} Developing Solutions</span>
+              </div>
+            </div>
+            {/* Step 4 */}
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="h-9 w-9 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-xs shadow-sm ring-4 ring-emerald-100">✓</div>
+              <div>
+                <span className="block text-[8.5px] font-black text-slate-400 uppercase">Resolved & Closed</span>
+                <span className="block text-xs font-extrabold text-[#0B2545] uppercase">{resolvedCount} Completed Archives</span>
+              </div>
+            </div>
           </div>
+          <div className="mt-4 text-[9px] text-center font-bold text-slate-400 uppercase tracking-wide">Dynamic workflow pipeline tracking</div>
         </div>
       </div>
     </div>

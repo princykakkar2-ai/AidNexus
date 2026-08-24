@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import EmptyState from "../../components/EmptyState";
 import { fetchProblems } from "../../services/api";
 
 export default function CitizenDashboard() {
@@ -23,17 +24,16 @@ export default function CitizenDashboard() {
   const getStatusColor = (status) => {
     switch (status) {
       case "SUBMITTED":
-        return "bg-blue-50 text-blue-700 border-blue-200";
       case "UNDER_REVIEW":
-        return "bg-amber-50 text-amber-700 border-amber-200";
+        return "bg-amber-100 text-amber-800 border-amber-200";
       case "IN_PROGRESS":
-        return "bg-indigo-50 text-indigo-700 border-indigo-200";
+        return "bg-blue-100 text-blue-800 border-blue-200";
       case "RESOLVED":
-        return "bg-emerald-50 text-emerald-700 border-emerald-200";
+        return "bg-emerald-100 text-emerald-800 border-emerald-200";
       case "REJECTED":
-        return "bg-rose-50 text-rose-700 border-rose-200";
+        return "bg-rose-100 text-rose-800 border-rose-200";
       default:
-        return "bg-slate-50 text-slate-700 border-[#CCCCCC]";
+        return "bg-slate-100 text-slate-800 border-slate-200";
     }
   };
 
@@ -63,17 +63,13 @@ export default function CitizenDashboard() {
         {loading ? (
           <div className="mt-12 text-center text-slate-600 text-sm font-semibold">Loading logged reports from database...</div>
         ) : problems.length === 0 ? (
-          <div className="mt-12 text-center rounded-[2px] border border-dashed border-[#CCCCCC] p-12 bg-white shadow-none">
-            <span className="text-4xl">📝</span>
-            <h3 className="mt-4 text-base font-bold text-[#0B2545]">No grievances registered</h3>
-            <p className="mt-2 text-xs text-slate-500">Report public service issues, road blockages, or infrastructure failures directly to officials.</p>
-            <Link
-              to="/submit-problem"
-              className="mt-6 inline-flex rounded-[2px] bg-[#E65C00] px-5 py-2.5 text-xs font-bold text-white hover:bg-[#C24E00]"
-            >
-              REGISTER NOW
-            </Link>
-          </div>
+          <EmptyState
+            iconType="grievance"
+            title="No grievances registered yet"
+            description="Report public service issues, road blockages, or infrastructure failures directly to administration officials to get started."
+            actionText="Register Now"
+            actionLink="/submit-problem"
+          />
         ) : (
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {problems.map((problem) => (
@@ -84,7 +80,7 @@ export default function CitizenDashboard() {
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold text-slate-500 uppercase">📍 Location: {problem.location}</span>
                   <span
-                    className={`badge-gov border ${getStatusColor(problem.status)}`}
+                    className={`rounded-full px-2.5 py-0.5 text-[9px] font-black uppercase border tracking-wider shrink-0 ${getStatusColor(problem.status)}`}
                   >
                     {problem.status.replace("_", " ")}
                   </span>

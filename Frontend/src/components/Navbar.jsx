@@ -3,25 +3,54 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showBanner, setShowBanner] = useState(() => {
+    return sessionStorage.getItem("hideSIHBanner") !== "true";
+  });
 
   return (
-    <div className="sticky top-0 z-50 w-full shadow-none">
+    <>
+      <div className="fixed top-0 left-0 right-0 z-50 w-full shadow-md bg-[#0B2545]">
       {/* Top Banner: Official National Emblem & Initiative Info */}
-      <div className="bg-[#F8FAFC] py-2 px-6 border-b border-[#CCCCCC] text-xs font-semibold text-[#0B2545] flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span>🇮🇳</span>
-          <span className="tracking-wide text-[10px] sm:text-xs">GOVERNMENT OF INDIA INITIATIVE</span>
-          <span className="text-slate-300">|</span>
-          <span className="text-[#E65C00] font-bold tracking-wide text-[10px] sm:text-xs">SMART INDIA HACKATHON</span>
+      {showBanner && (
+        <div className="bg-[#F1F5F9] py-2 px-6 border-b border-[#CCCCCC] text-xs font-semibold text-[#0B2545] flex items-center justify-between transition-all duration-300">
+          <div className="flex items-center gap-2">
+            <span>🇮🇳</span>
+            <span className="tracking-wide text-[10px] sm:text-xs">GOVERNMENT OF INDIA INITIATIVE</span>
+            <span className="text-slate-300">|</span>
+            <span className="text-[#E65C00] font-bold tracking-wide text-[10px] sm:text-xs">SMART INDIA HACKATHON</span>
+          </div>
+          <div className="hidden md:flex items-center gap-4 text-[11px] text-slate-500">
+            <a href="https://www.sih.gov.in/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E65C00] transition-colors">SIH Website</a>
+            <span>•</span>
+            <a href="https://mygov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#E65C00] transition-colors">MyGov</a>
+            <span>•</span>
+            <span className="font-mono text-[10px] bg-slate-200/80 px-2 py-0.5 rounded text-slate-700">SIH-2026</span>
+            <span className="text-slate-300">|</span>
+            <button
+              onClick={() => {
+                setShowBanner(false);
+                sessionStorage.setItem("hideSIHBanner", "true");
+              }}
+              className="hover:text-red-600 transition-colors text-xs font-black cursor-pointer ml-1 select-none"
+              title="Dismiss banner"
+            >
+              ✕
+            </button>
+          </div>
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => {
+                setShowBanner(false);
+                sessionStorage.setItem("hideSIHBanner", "true");
+              }}
+              className="hover:text-red-600 transition-colors text-xs font-black cursor-pointer select-none"
+              title="Dismiss banner"
+            >
+              ✕
+            </button>
+          </div>
         </div>
-        <div className="hidden md:flex items-center gap-4 text-[11px] text-slate-500">
-          <a href="https://www.sih.gov.in/" target="_blank" rel="noopener noreferrer" className="hover:text-[#E65C00] transition-colors">SIH Website</a>
-          <span>•</span>
-          <a href="https://mygov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#E65C00] transition-colors">MyGov</a>
-          <span>•</span>
-          <span className="font-mono text-[10px] bg-slate-200/80 px-2 py-0.5 rounded text-slate-700">SIH-2026</span>
-        </div>
-      </div>
+      )}
 
       {/* Main Gov Header Navigation */}
       <nav className="bg-[#0B2545] text-white py-3.5 px-6">
@@ -154,6 +183,8 @@ export default function Navbar() {
         </div>
         <div className="h-full bg-[#138808] flex-1"></div>
       </div>
-    </div>
+      </div>
+      <div className={showBanner ? "h-[101px]" : "h-[64px]"} />
+    </>
   );
 }

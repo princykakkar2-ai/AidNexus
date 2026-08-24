@@ -157,8 +157,8 @@ export default function Stats() {
                 </div>
               </div>
             ))
-            : stats.map(stat => (
-              <StatCard key={stat.key} {...stat} />
+            : stats.map(({ key, ...statProps }) => (
+              <StatCard key={key} {...statProps} />
             ))
           }
         </div>
