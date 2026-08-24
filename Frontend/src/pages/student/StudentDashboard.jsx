@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
+import EmptyState from "../../components/EmptyState";
 import { fetchProblems, fetchProjects, createProject, updateProjectProgress } from "../../services/api";
 
 export default function StudentDashboard() {
@@ -154,11 +155,11 @@ export default function StudentDashboard() {
 
                 <div className="mt-6 space-y-6">
                   {projects.filter(p => p.teamName === teamName).length === 0 ? (
-                    <div className="text-center py-12 text-slate-500 bg-slate-50 rounded-[2px] border border-dashed border-[#CCCCCC]">
-                      <span className="text-3xl">🚀</span>
-                      <p className="mt-2 text-xs font-bold text-slate-600 uppercase tracking-wider">No active projects registered</p>
-                      <p className="text-[10px] text-slate-400 mt-1">Accept a grievance request on the left to start collaborating.</p>
-                    </div>
+                    <EmptyState
+                      iconType="project"
+                      title="No active projects yet"
+                      description="Browse open civic problems on the left recommendation panel to accept a grievance and start collaborating."
+                    />
                   ) : (
                     projects
                       .filter((p) => p.teamName === teamName)

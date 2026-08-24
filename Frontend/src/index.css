@@ -7,7 +7,7 @@
   --color-gov-saffron: #E65C00;
   --color-gov-saffron-light: #FF9933;
   --color-gov-emerald: #138808;
-  --color-gov-bg: #F8FAFC;
+  --color-gov-bg: #F1F5F9;
   --color-gov-border: #E2E8F0;
 }
 
@@ -16,7 +16,7 @@
   --gov-navy-light: #134074;
   --gov-saffron: #E65C00;
   --gov-emerald: #138808;
-  --gov-bg: #F8FAFC;
+  --gov-bg: #F1F5F9;
   --gov-border: #E2E8F0;
 }
 
@@ -78,15 +78,16 @@ body {
 
 .card-gov {
   background-color: white;
-  border: 1px solid var(--gov-border);
-  border-radius: 6px !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease;
 }
 
 .card-gov:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  transform: translateY(-2.5px);
+  border-color: rgba(226, 232, 240, 1);
+  box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
 }
 
 .badge-gov {
